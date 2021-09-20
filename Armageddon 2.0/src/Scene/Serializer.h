@@ -1,0 +1,23 @@
+#pragma once
+#include "../Macros.h"
+#include <filesystem>
+#include <fstream>
+#include "yaml-cpp/yaml.h"
+#include "../Material/AssetManager.h"
+#include "../Material/Material.h"
+#include "Components.h"
+#include "Scene.h"
+
+class DECL Serializer
+{
+public:
+	Serializer() = default;
+	Serializer(Scene* Scene) : m_Scene(Scene) {};
+	void SerializeMaterial(const std::filesystem::path& FilePath, Armageddon::Material& mat);
+	void SerializeScene(const std::filesystem::path& FilePath, Entity& ent, entt::registry& ere);
+	void DeserializeScene(const std::filesystem::path& FilePath);
+	Armageddon::Material DeserializeMaterial(const std::filesystem::path& FilePath);
+private:
+	Scene* m_Scene;
+};
+
