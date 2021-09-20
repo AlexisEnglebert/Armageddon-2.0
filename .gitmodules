@@ -1,0 +1,9 @@
+[submodule "DirectXTex"]
+	path = DirectXTex
+	url = https://github.com/microsoft/DirectXTex
+[submodule "Armageddon 2.0/includes/DirectXTex"]
+	path = Armageddon 2.0/includes/DirectXTex
+	url = https://github.com/microsoft/DirectXTex
+[submodule "Armageddon 2.0/includes/ImGuizmo"]
+	path = Armageddon 2.0/includes/ImGuizmo
+	url = https://github.com/CedricGuillemet/ImGuizmo
