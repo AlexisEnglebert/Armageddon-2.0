@@ -13,6 +13,9 @@
 [submodule "Armageddon 2.0/includes/yaml-cpp"]
 	path = Armageddon 2.0/includes/yaml-cpp
 	url = https://github.com/jbeder/yaml-cpp
-[submodule "Armageddon 2.0/includes/imgui"]
-	path = Armageddon 2.0/includes/imgui
-	url = https://github.com/ocornut/imgui
+[submodule "Armageddon Editor/includes/ImGuiFileDialog"]
+	path = Armageddon Editor/includes/ImGuiFileDialog
+	url = https://github.com/aiekick/ImGuiFileDialog
+[submodule "Armageddon Editor/includes/ImGuizmo"]
+	path = Armageddon Editor/includes/ImGuizmo
+	url = https://github.com/CedricGuillemet/ImGuizmo
