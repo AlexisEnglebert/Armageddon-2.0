@@ -4,3 +4,9 @@
 [submodule "Armageddon 2.0/includes/ImGuizmo"]
 	path = Armageddon 2.0/includes/ImGuizmo
 	url = https://github.com/CedricGuillemet/ImGuizmo
+[submodule "Armageddon 2.0/includes/spdlog"]
+	path = Armageddon 2.0/includes/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "Armageddon 2.0/includes/assimp"]
+	path = Armageddon 2.0/includes/assimp
+	url = https://github.com/assimp/assimp
