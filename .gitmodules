@@ -10,3 +10,9 @@
 [submodule "Armageddon 2.0/includes/assimp"]
 	path = Armageddon 2.0/includes/assimp
 	url = https://github.com/assimp/assimp
+[submodule "Armageddon 2.0/includes/yaml-cpp"]
+	path = Armageddon 2.0/includes/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp
+[submodule "Armageddon 2.0/includes/imgui"]
+	path = Armageddon 2.0/includes/imgui
+	url = https://github.com/ocornut/imgui
