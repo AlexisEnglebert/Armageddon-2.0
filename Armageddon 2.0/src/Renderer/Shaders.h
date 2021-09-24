@@ -8,10 +8,10 @@
 #include <d3dcompiler.h>
 #include <filesystem>
 #include "Interface.h"
-
+#include <d3d11shader.h>
 #pragma comment(lib,"D3DCompiler.lib")
 #pragma comment(lib,"d3d11.lib")
-
+#pragma comment(lib,"dxguid.lib")
 namespace Armageddon
 {
 	class DECL VertexShaders

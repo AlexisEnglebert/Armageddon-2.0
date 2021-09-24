@@ -140,7 +140,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Armageddon 2.0\src;$(SolutionDir)Armageddon 2.0\includes\spdlog\include;$(SolutionDir)Armageddon Editor\includes\imgui-docking;$(SolutionDir)Armageddon 2.0\includes\assimp\include;$(SolutionDir)Armageddon 2.0\includes\assimp\build\include;$(SolutionDir)Armageddon 2.0\includes\DirectXTex;$(SolutionDir)Armageddon 2.0\includes\entt\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Armageddon 2.0\src;$(SolutionDir)Armageddon 2.0\includes\spdlog\include;$(SolutionDir)Armageddon Editor\includes\imgui-docking;$(SolutionDir)Armageddon 2.0\includes\assimp\include;$(SolutionDir)Armageddon 2.0\includes\assimp\build\include;$(SolutionDir)Armageddon 2.0\includes\DirectXTex;$(SolutionDir)Armageddon 2.0\includes\entt\src;$(SolutionDir)Armageddon Editor\includes\ImGuizmo;$(SolutionDir)Armageddon 2.0\includes\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

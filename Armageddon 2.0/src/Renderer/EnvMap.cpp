@@ -4,20 +4,16 @@
 EnvMap::EnvMap(const std::filesystem::path& HDRPath)
 {
 	m_Cube = Armageddon::Primitives::GenerateCube();
-
-	/*D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-	   {"POSITION",0,DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0},
-	};*/
+ 
 
 	
 	m_Cube.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\SkyBoxPixel.cso");
 	m_Cube.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\SkyBoxVertex.cso");
 
 	m_envMapTexture.CreateCubeMap(HDRPath);
-	m_convEnvMapTexture.CreateIrradiancedMap(m_envMapTexture.GetRessourceViewPtr());
+	//m_convEnvMapTexture.CreateIrradiancedMap(m_envMapTexture.GetRessourceViewPtr());
 	m_BRFLutTexture.Create(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\ibl_brdf_lut.png");
-	m_PreFilteredEnvMap.CreatePreFilteredMap(m_envMapTexture.GetRessourceViewPtr());
+	//m_PreFilteredEnvMap.CreatePreFilteredMap(m_envMapTexture.GetRessourceViewPtr());
 	D3D11_RASTERIZER_DESC rDesc;
  	ZeroMemory(&rDesc, sizeof(D3D11_RASTERIZER_DESC));
 	rDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
@@ -42,7 +38,7 @@ void EnvMap::Render(Armageddon::Camera* m_camera)
 	Armageddon::Renderer::g_TransformCBuffer.BindPS();
 	Armageddon::Renderer::g_TransformCBuffer.BindVS();
 	
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(17,1, m_PreFilteredEnvMap.GetRessourceViewPtr());
+	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(17,1, m_envMapTexture.GetRessourceViewPtr());
 	Armageddon::Interface::GetDeviceContext()->PSSetSamplers(0, 1, Armageddon::Interface::GetSamplerState().GetAddressOf());
 
 	m_Cube.v_SubMeshes[0].BindVertexBuffer();

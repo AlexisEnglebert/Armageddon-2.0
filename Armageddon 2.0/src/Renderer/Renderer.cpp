@@ -169,7 +169,7 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
 
     style->DisplaySafeAreaPadding = ImVec2(4, 4);
     //..\\Armageddon Editor\\Assets\\Texture\\Skybox\\HDR\\Arches_E_PineTree\\Arches_E_PineTree_3k.hdr
-	io.FontDefault =  io.Fonts->AddFontFromFileTTF("..\\Armageddon 2.0\\Assets\\fonts\\Roboto-Medium.ttf", 14.0f);
+	//io.FontDefault =  io.Fonts->AddFontFromFileTTF("..\\Armageddon 2.0\\Assets\\fonts\\Roboto-Medium.ttf", 14.0f);
 
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX11_Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetDeviceContext().Get());
@@ -281,10 +281,14 @@ bool Armageddon::Renderer::InitSwapChain(HWND& hwnd)
 
     D3D_FEATURE_LEVEL featureLevel;
     const D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
+    int flags = D3D11_CREATE_DEVICE_DISABLE_GPU_TIMEOUT;
+#if _DEBUG
+    flags = D3D11_CREATE_DEVICE_DISABLE_GPU_TIMEOUT | D3D11_CREATE_DEVICE_DEBUG;
+#endif
     HRESULT result = D3D11CreateDeviceAndSwapChain(Adaptater[0].ptrAdaptater,
         D3D_DRIVER_TYPE_UNKNOWN,
         NULL,
-        D3D11_CREATE_DEVICE_DEBUG,
+        flags,
         featureLevelArray,
         2,
         D3D11_SDK_VERSION,
@@ -391,6 +395,7 @@ void Armageddon::Renderer::CreateRenderTargetView(float width, float height)
         Armageddon::Log::GetLogger()->error("FAILED CREATING THE RENDERTARGETVIEW {0}", result);
 
     }
+    Armageddon::Log::GetLogger()->info("Render TargetView a bien été créé");
     pBackBuffer->Release();
 }
 
@@ -453,6 +458,9 @@ void Armageddon::Renderer::RenderFrame()
     //ICI
     Armageddon::Application::GetApplicationInsatnce()->ImGuiRender();
 
+    ImGui::Begin("TEST");
+    ImGui::Text("ceci est un test ");
+    ImGui::End();
 	Armageddon::Application::GetApplicationInsatnce()->OnRender();
 
     ImGui::Render();
@@ -464,7 +472,6 @@ void Armageddon::Renderer::RenderFrame()
     Armageddon::Interface::GetDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
   
 
-    
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
     if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)

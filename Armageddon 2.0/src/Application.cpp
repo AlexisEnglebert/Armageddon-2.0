@@ -17,6 +17,7 @@ namespace Armageddon
 	}
 	void Armageddon::Application::ImGuiBegin()
 	{
+		ImGui_ImplDX11_InvalidateDeviceObjects();
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();	

@@ -243,7 +243,7 @@ bool Armageddon::Window::ProcessMessage()
 }
 std::wstring Armageddon::Window::OpenDialog(const char* filter /*= "All Files (*.*)\0*.*\0"*/, HWND owner /*= NULL*/)
  {
-	Armageddon::Log::GetLogger()->trace(filter);
+	/*Armageddon::Log::GetLogger()->trace(filter);
 	OPENFILENAME ofn;
 	wchar_t fileName[255] = L"";
 	ZeroMemory(&ofn, sizeof(ofn));
@@ -257,10 +257,11 @@ std::wstring Armageddon::Window::OpenDialog(const char* filter /*= "All Files (*
 	ofn.lpstrDefExt = { 0 };
 
 
-	std::wstring fileNameStr;
 
 	if (GetOpenFileName(&ofn))
 		fileNameStr = fileName;
+		*/
+	std::wstring fileNameStr;
 
 	return fileNameStr;
 }

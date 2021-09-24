@@ -148,14 +148,14 @@ xcopy "$(SolutionDir)bin\$(Configuration)-$(Platform)\$(Projectname)\Armageddon 
       <PreprocessorDefinitions>NOMINMAX;ARMAGEDDON_BUILD_DLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Armageddon 2.0\includes\imgui-docking;$(SolutionDir)Armageddon 2.0\includes\spdlog\include;$(SolutionDir)Armageddon 2.0\includes\assimp\include;$(SolutionDir)Armageddon 2.0\includes\assimp\build\include;$(SolutionDir)Armageddon 2.0\includes\entt\src;$(SolutionDir)Armageddon 2.0\includes\DirectXTex</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Armageddon 2.0\includes\imgui-docking;$(SolutionDir)Armageddon 2.0\includes\spdlog\include;$(SolutionDir)Armageddon 2.0\includes\assimp\include;$(SolutionDir)Armageddon 2.0\includes\assimp\build\include;$(SolutionDir)Armageddon 2.0\includes\entt\src;$(SolutionDir)Armageddon 2.0\includes\DirectXTex;$(SolutionDir)Armageddon 2.0\includes\ImGuizmo;$(SolutionDir)Armageddon 2.0\includes\yaml-cpp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;d3d11.lib;DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;D3DCompiler.lib;d3d11.lib;dxguid.lib;DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;yaml-cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Armageddon 2.0\lib\release</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>

@@ -117,8 +117,8 @@ bool Armageddon::VertexShaders::CreateVertexShader()
 
 	ShaderReflexion->GetDesc(&ShaderDescription);
 
-	Armageddon::Log::GetLogger()->trace("Input: {0} ", ShaderDescription.InputParameters);
-	Armageddon::Log::GetLogger()->trace(" Constant Buffer: {0}", ShaderDescription.ConstantBuffers);
+	//Armageddon::Log::GetLogger()->trace("Input: {0} ", ShaderDescription.InputParameters);
+	//Armageddon::Log::GetLogger()->trace(" Constant Buffer: {0}", ShaderDescription.ConstantBuffers);
 	std::vector< D3D11_INPUT_ELEMENT_DESC> v_ElementDesc;
 	for (UINT i = 0; i < ShaderDescription.InputParameters; i++)
 	{
@@ -131,8 +131,8 @@ bool Armageddon::VertexShaders::CreateVertexShader()
 		InputDesc.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 		InputDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 		InputDesc.InstanceDataStepRate = 0;
-		Armageddon::Log::GetLogger()->trace(SignatureDesc.Mask);
-		Armageddon::Log::GetLogger()->trace(SignatureDesc.ComponentType);
+		//Armageddon::Log::GetLogger()->trace(SignatureDesc.Mask);
+		//Armageddon::Log::GetLogger()->trace(SignatureDesc.ComponentType);
 		if (SignatureDesc.Mask == 1)
 		{
 			if (SignatureDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) InputDesc.Format = DXGI_FORMAT_R32_UINT;
@@ -158,7 +158,7 @@ bool Armageddon::VertexShaders::CreateVertexShader()
 			if (SignatureDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) InputDesc.Format = DXGI_FORMAT_R32G32B32A32_SINT;
 		}
 		v_ElementDesc.push_back(InputDesc);
-		Armageddon::Log::GetLogger()->trace("Semantics: {0}", SignatureDesc.SemanticName);
+		//Armageddon::Log::GetLogger()->trace("Semantics: {0}", SignatureDesc.SemanticName);
 
 	}
 
@@ -168,7 +168,7 @@ bool Armageddon::VertexShaders::CreateVertexShader()
 		Armageddon::Log::GetLogger()->error("FAILED  CREATING INPUT LAYOUT : {0}", hr);
 
 	}
-	Armageddon::Log::GetLogger()->trace("FINISHED");
+	//Armageddon::Log::GetLogger()->trace("FINISHED");
 }
 
 ID3D11PixelShader* Armageddon::PixelShaders::GetShader()

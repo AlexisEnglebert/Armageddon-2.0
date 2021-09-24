@@ -151,14 +151,7 @@ float CalculatePointLightAttenuation(float distance,float radius)
 
 }
 
-float3 ReinhardToneMap(float3 color,float max_white)
-{
-    float White2 = max_white * max_white;
-    float3 numerator = color * (1.0f + (color / float3(White2, White2, White2))); 
-    float denominator = (color + 1.0f);
-    return numerator / denominator;
 
-}
 
 float3 uncharted2_tonemap_partial(float3 x)
 {
@@ -288,7 +281,7 @@ float4 main(PSinput input) : SV_TARGET
    // color = pow(color, float3(1.0f / 2.2f, 1.0f / 2.2f, 1.0f / 2.2f));
 	
     color = uncharted2_filmic(color);
-    color = pow(color, 1 / 2.22);
+    color = pow(abs(color), 1 / 2.22);
     
     
     

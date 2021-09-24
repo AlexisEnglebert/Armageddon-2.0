@@ -36,7 +36,7 @@ public:
 
 	Editor()
 	{
-        m_Envmap = EnvMap(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\HDR\\WoodenDoor_Ref.hdr");
+        m_Envmap = EnvMap(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\HDR\\hilly_terrain_01_1k.hdr");
 	}
 
 	~Editor()
@@ -242,7 +242,6 @@ void Editor::OnRender()
 static float i; 
 void Editor::ImGuiRender()
 {
-   
      CreateDockSpace();
      DrawImGuiScene();
     m_ContentBrowser.ImGuiDraw();
@@ -513,9 +512,9 @@ void Editor::DrawImGuiScene()
 		const ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
       //  if (viewportPanelSize.x / viewportPanelSize.y > 0.0f) {
             /* on resize que le offscreen render target view*/
-            Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().ResizeRenderTargetView(
+           /*  Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().ResizeRenderTargetView(
                 vMax.x - vMin.x, vMax.y - vMin.y,
-                nullptr);
+                nullptr);*/
        
 		    Armageddon::Application::GetWindow()->GetRenderer().m_camera.SetProjectionValues(90.0f, viewportPanelSize.x / viewportPanelSize.y, 0.1f, 10000.0f);
 
