@@ -1,4 +1,9 @@
-# Armageddon
+# Armageddo n 2.0
+Armageddon 2.0 is a free 3D/2D game engine under DirectX11. 
+
+
+## Features
+* PBR ( need to be fixed)
 
 
 ## Submodules
