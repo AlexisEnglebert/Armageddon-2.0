@@ -133,7 +133,8 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)bin\$(Configuration)-$(Platform)\$(Projectname)\Armageddon 2.0.dll" "$(Solutiondir)bin\Debug-x64\Armageddon Editor" /Y /I
-xcopy "$(SolutionDir)bin\$(Configuration)-$(Platform)\$(Projectname)\Armageddon 2.0.lib" "$(Solutiondir)Armageddon Editor\lib\debug" /Y /I</Command>
+xcopy "$(SolutionDir)bin\$(Configuration)-$(Platform)\$(Projectname)\Armageddon 2.0.lib" "$(Solutiondir)Armageddon Editor\lib\debug" /Y /I
+xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-vc142-mtd.dll" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Armageddon Editor\" /Y /I</Command>
     </PostBuildEvent>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -160,7 +161,8 @@ xcopy "$(SolutionDir)bin\$(Configuration)-$(Platform)\$(Projectname)\Armageddon 
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)bin\$(Configuration)-$(Platform)\$(Projectname)\Armageddon 2.0.dll" "$(Solutiondir)bin\Release-x64\Armageddon Editor" /Y /I
-xcopy "$(SolutionDir)bin\$(Configuration)-$(Platform)\$(Projectname)\Armageddon 2.0.lib" "$(Solutiondir)Armageddon Editor\lib\release" /Y /I</Command>
+xcopy "$(SolutionDir)bin\$(Configuration)-$(Platform)\$(Projectname)\Armageddon 2.0.lib" "$(Solutiondir)Armageddon Editor\lib\release" /Y /I
+xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-vc142-mt.dll" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Armageddon Editor\" /Y /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

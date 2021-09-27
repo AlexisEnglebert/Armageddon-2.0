@@ -131,7 +131,7 @@ void Texture::CreateCubeMap(const std::filesystem::path& path)
 	Subressource.pSysMem = image.GetPixels();
 	Subressource.SysMemPitch = image.GetImages()->rowPitch;
 	Subressource.SysMemSlicePitch = image.GetImages()->slicePitch;
-
+		
 	HRESULT hr = Armageddon::Interface::GetDevice()->CreateTexture2D(&desc, &Subressource, &pTexture);
 	if (FAILED(hr))
 	{
