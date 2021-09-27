@@ -1,0 +1,26 @@
+Scene: Assets/Scenes/TestScene.mat
+Entities:
+    -   Entity: 0
+        Tag: Entity
+        Mesh: Assets\Models\scene.gltf
+        Transform:
+            [0, 0, 0,
+        0, 0, 0,
+        10, 1, 33]
+
+    -   Entity: 1
+        Tag: Entity
+        Mesh: Assets\Models\scene.gltf
+        Transform:
+            [0, 5.50403309, 0,
+        0, 0, 0,
+        1, 4.9000001, 1]
+
+    -   Entity: 2
+        Tag: DirectionalLight
+        Mesh: ""
+        Light:
+            Type: 1
+            Color: [1, 0.999989986, 0.999989986]
+            Direction: [0.100000001, 3.0999999, 1]
+            Intensity: 1

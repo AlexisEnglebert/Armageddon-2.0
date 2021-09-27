@@ -1,0 +1,71 @@
+Scene: Assets/Scenes/TestScene.mat
+Entities:
+    -   Entity: 0
+        Tag: Entity
+        Mesh: Assets\Models\scene.gltf
+        Transform:
+            [0, 0, 0,
+        0, 0, 0,
+        9.10000038, 1, 15.3999996]
+
+    -   Entity: 1
+        Tag: "Helme\x00"
+        Mesh: Assets\Models\DamagedHelmet\DamagedHelmet.gltf
+        Transform:
+            [3.37282467, 2.51919961, 0,
+        -1.5, 0, 0,
+        1, 1, 1]
+
+    -   Entity: 2
+        Tag: PointLight
+        Mesh: ""
+        Light:
+            Type: 0
+            Color: [1, 0, 0]
+            Position: [0, 1.79999995, 0]
+            Intensity: 96
+            Radius: 1
+    -   Entity: 3
+        Tag: PointLight
+        Mesh: ""
+        Light:
+            Type: 0
+            Color: [0, 1, 0.176744223]
+            Position: [0, 2.0999999, 2.4000001]
+            Intensity: 37
+            Radius: 1
+    -   Entity: 4
+        Tag: PointLight
+        Mesh: ""
+        Light:
+            Type: 0
+            Color: [1, 0.47727257, 0]
+            Position: [0, 1.79999995, -2.70000005]
+            Intensity: 122
+            Radius: 1
+    -   Entity: 5
+        Tag: PointLight
+        Mesh: ""
+        Light:
+            Type: 0
+            Color: [0.852263927, 0, 1]
+            Position: [-3.9000001, 1.60000002, 0]
+            Intensity: 99.5
+            Radius: 1
+    -   Entity: 6
+        Tag: PointLight
+        Mesh: ""
+        Light:
+            Type: 0
+            Color: [0, 0.113642693, 1]
+            Position: [0, 7.19999981, 0]
+            Intensity: 8.5
+            Radius: 15.5
+    -   Entity: 7
+        Tag: DirectionalLight
+        Mesh: ""
+        Light:
+            Type: 1
+            Color: [1, 0.999989986, 0.999989986]
+            Direction: [1, 1, 4.30000019]
+            Intensity: 0
