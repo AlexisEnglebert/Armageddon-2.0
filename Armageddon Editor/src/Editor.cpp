@@ -32,6 +32,7 @@ public:
 	void ImGuiRender() override;
 	void OnInit() override;
     void onMouseEvent(MouseEvent::MEventType e, float x, float y);
+    void onKeyBoardEvent(const unsigned char keyCode);
     void RenderScene(bool BindMat);
 
 	Editor()
@@ -119,6 +120,7 @@ void Editor::OnUpdate()
     }
 	if (Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_escape))
 		EntityList::Seleceted = entt::null;
+   
 
 }
 
@@ -182,7 +184,7 @@ void Editor::OnRender()
 			if (ent.HasComponent<TransformComponent>())
 			{
 				auto& transform = ent.GetComponent<TransformComponent>();
-                comp.m_mesh.GetTransform()->WorldMat *= transform.GetTransformMatrix();
+               // comp.m_mesh.GetTransform()->WorldMat *= transform.GetTransformMatrix();
 
 			}
             
@@ -258,10 +260,12 @@ void Editor::ImGuiRender()
     ImGui::End();
 }
 
+//TODO : OnKeyPressed
 void Editor::OnInit()
 {
 	Armageddon::Log::GetLogger()->trace("OnInit Event Reached");
     Armageddon::Application::GetWindow()->SetMouseCallBack(std::bind(&Editor::onMouseEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    Armageddon::Application::GetWindow()->setKeyBoardCallBack(std::bind(&Editor::onKeyBoardEvent, this, std::placeholders::_1));
   
     Armageddon::Application::GetWindow()->GetRenderer().m_camera.SetPosition(0.0f,0.0f,-1.0f);
     Armageddon::Application::GetWindow()->GetRenderer().m_camera.SetProjectionValues(90.0f,Armageddon::Application::GetWindow()->GetAspectRatio(),0.1f,10000.0f);
@@ -312,6 +316,21 @@ void Editor::onMouseEvent(MouseEvent::MEventType e, float x, float y)
             Armageddon::Application::GetWindow()->GetRenderer().m_camera.AdjustRotation(y * 0.01f, x * 0.01f, 0.0f);
             break;
         }
+    }
+}
+
+void Editor::onKeyBoardEvent(const unsigned char keyCode)
+{
+
+    if (Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_ctrl))
+    {
+        if (!Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_D) && keyCode == AG_KEY_D)
+        {
+            if (EntityList::Seleceted != entt::null)
+            {// m_Scene.DuplicateEntity(m_Scene.GetEntityByID(EntityList::Seleceted));
+            }
+        }
+
     }
 }
 

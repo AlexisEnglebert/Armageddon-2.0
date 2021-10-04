@@ -15,8 +15,9 @@ namespace Armageddon
 		static Microsoft::WRL::ComPtr <IDXGISwapChain>& GetSwapChain();
 		static Microsoft::WRL::ComPtr<ID3D11SamplerState>& GetSamplerState();
 		static Microsoft::WRL::ComPtr<ID3D11SamplerState>& GetTrilinearSampler();
+		static Microsoft::WRL::ComPtr<ID3D11SamplerState>& GetClampSampler();
 		static Microsoft::WRL::ComPtr <ID3D11RenderTargetView>& GetRenderTargetView();
-
+		
 	
 	private:
 		static Microsoft::WRL::ComPtr <ID3D11Device> Device;
@@ -24,6 +25,7 @@ namespace Armageddon
 		static Microsoft::WRL::ComPtr <IDXGISwapChain> Swapchain;
 		static Microsoft::WRL::ComPtr<ID3D11SamplerState> SamplerState;
 		static Microsoft::WRL::ComPtr<ID3D11SamplerState> TrilinearSampler;
+		static Microsoft::WRL::ComPtr<ID3D11SamplerState> ClampSamplerState;
 		static Microsoft::WRL::ComPtr <ID3D11RenderTargetView> RenderTargetView;
 
 		

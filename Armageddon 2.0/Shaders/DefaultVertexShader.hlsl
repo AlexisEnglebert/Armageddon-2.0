@@ -72,6 +72,8 @@ PSinput main(VSinput input)
     output.Tangent = mul(input.Tangent, (float3x3) WorldMat);
     output.Binormal = mul(input.Binormal, (float3x3) WorldMat);
     output.WorldPos = mul(input.position, (float3x3) WorldMat);
-    output.LightPosition = mul(float4(output.WorldPos, 1.0f), LightViewProjection);
+    
+    float4x4 mat = mul(WorldMat, LightViewProjection);
+    output.LightPosition = mul(float4(input.position.xyz, 1.0f), mat); // X Y Z W
     return output;
 }

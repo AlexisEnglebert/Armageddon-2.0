@@ -9,6 +9,23 @@
 #define AG_RENDERMODE_TRANSPARENT = 1
 namespace Armageddon 
 {
+	struct Property
+	{};
+
+	struct MaterialProperty
+	{
+		MaterialProperty() = default;
+		void AddProperty(std::unique_ptr<Property> p)
+		{	
+			m_vProperty.push_back(p);
+		};
+		std::string name;
+		std::vector<std::unique_ptr<Property>> m_vProperty;
+	};
+
+
+
+
 	class DECL Material
 	{
 	public:
@@ -41,8 +58,42 @@ namespace Armageddon
 		Texture m_ambiantOcclusionMap;
 		Texture m_EmissiveMap;
 
+		MaterialProperty m_MaterialProperty;
+
 		MaterialBuffer m_PBRBUFFER;
 	private:
 		
+	};
+
+	
+
+	struct TextureProperty : Property
+	{
+		TextureProperty() = default;
+	};
+	struct BoolProperty : Property
+	{
+		BoolProperty() = default;
+
+	};
+	struct FloatProperty : Property
+	{
+		FloatProperty() = default;
+
+	};
+	struct Float2Property : Property
+	{
+		Float2Property() = default;
+
+	};
+	struct Float3Property : Property
+	{
+		DirectX::XMFLOAT3 f3;
+		Float3Property() = default;
+		Float3Property(Float3Property& copy)
+		{
+			copy.f3 = f3;
+		};
+		Float3Property(float x, float y, float z) : f3(x, y, z) {};
 	};
 }

@@ -13,6 +13,9 @@ Armageddon::Material::Material(const std::string& MaterialName) : m_name(Materia
 	 m_VertexShader					 = AssetManager::GetOrCreateVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\DefaultVertexShader.cso");
 	 m_PixelShader					 = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\PBR.cso");
 	 m_EmissiveMap					 = AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultAlbedo.png");
+
+	 //m_MaterialProperty.AddProperty(std::make_unique<Float3Property>(1.0f, 5.0f, 0.0f));
+	 
 	Texture m_metalicMap;
 
 }
@@ -99,6 +102,8 @@ void Armageddon::Material::Bind()
 
 	Armageddon::Interface::GetDeviceContext()->IASetInputLayout(m_VertexShader.GetInputLayout());
 	Armageddon::Interface::GetDeviceContext()->PSSetSamplers(0, 1, Armageddon::Interface::GetSamplerState().GetAddressOf());
+	Armageddon::Interface::GetDeviceContext()->PSSetSamplers(1, 1, Armageddon::Interface::GetClampSampler().GetAddressOf());
+
 	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 1, m_albedoMap.GetRessourceViewPtr());
 	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(1, 1, m_normalMap.GetRessourceViewPtr());
 	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(2, 1, m_specularMap.GetRessourceViewPtr());

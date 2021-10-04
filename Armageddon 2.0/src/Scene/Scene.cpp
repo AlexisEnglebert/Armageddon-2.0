@@ -33,3 +33,31 @@ void Scene::LoadScene(const std::filesystem::path& path)
     ClearScene();
    // m_serialzer.DeserializeScene(path);
 }
+
+void Scene::DuplicateEntity(Entity& RefEntity)
+{
+    auto entity = CreateEntity();
+    if(RefEntity.HasComponent<TagComponent>())
+    {
+        auto& component = RefEntity.GetComponent<TagComponent>();
+        entity.AddComponent<TagComponent>(component.Tag);
+    }
+    if (RefEntity.HasComponent<MeshComponent>())
+    {
+        auto& component = RefEntity.GetComponent<MeshComponent>();
+        entity.AddComponent<MeshComponent>(component.m_mesh, component.m_path);
+
+    }
+    if (RefEntity.HasComponent<LightComponent>())
+    {
+        auto& component = RefEntity.GetComponent<LightComponent>();
+
+    }
+    if (RefEntity.HasComponent<TransformComponent>())
+    {
+        auto& component = RefEntity.GetComponent<TransformComponent>();
+        entity.AddComponent<TransformComponent>(component);
+
+    }
+}
+

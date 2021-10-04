@@ -35,6 +35,7 @@ namespace Armageddon
 		float GetAspectRatio()		   { return(w_width / w_height); };
 
 		void SetMouseCallBack(const std::function<void(MouseEvent::MEventType e, float x, float y)>& callbackfunc) { MouseCallBack = callbackfunc; };
+		void setKeyBoardCallBack(const std::function<void(const unsigned char Key)>& CallbackFunc) { KeyBoardCallBack = CallbackFunc; };
 		std::wstring OpenDialog(const char* filter = "All Files (*.*)\0*.*\0", HWND owner = NULL);
 		int w_height, w_width;
 
@@ -44,6 +45,7 @@ namespace Armageddon
 		std::wstring w_title , w_class = L"";
 		
 		std::function<void(MouseEvent::MEventType e, float x, float y)> MouseCallBack;
+		std::function<void(const unsigned char Key)> KeyBoardCallBack;
 
 
 		static Window* WindowInstance;

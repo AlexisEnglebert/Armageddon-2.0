@@ -58,22 +58,23 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
         Armageddon::Log::GetLogger()->error("Failed Creating Default Sampler State");
     }
 
+    sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 
-	D3D11_SAMPLER_DESC trisDesc;
-	ZeroMemory(&trisDesc, sizeof(D3D11_SAMPLER_DESC));
-    trisDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-    trisDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    trisDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    trisDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-    trisDesc.MaxAnisotropy = D3D11_REQ_MAXANISOTROPY;
-    trisDesc.MipLODBias = 0.0f;
-    trisDesc.MinLOD = 0.0f;
-    trisDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	hr = Armageddon::Interface::GetDevice()->CreateSamplerState(&sDesc, Armageddon::Interface::GetTrilinearSampler().GetAddressOf());
-	if (FAILED(hr))
-	{
-		Armageddon::Log::GetLogger()->error("Failed Creating Trilinear Sampler State");
-	}
+    hr = Armageddon::Interface::GetDevice()->CreateSamplerState(&sDesc, Armageddon::Interface::GetTrilinearSampler().GetAddressOf());
+    if (FAILED(hr))
+    {
+        Armageddon::Log::GetLogger()->error("Failed Creating Trilinear Sampler State");
+    }
+    sDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+    sDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+    sDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+
+     hr = Armageddon::Interface::GetDevice()->CreateSamplerState(&sDesc, Armageddon::Interface::GetClampSampler().GetAddressOf());
+
+     if (FAILED(hr))
+     {
+         Armageddon::Log::GetLogger()->error("Failed Creating Clamp Sampler State");
+     }
 
     CreateAlphaBlendState();
     CreateDefaultBlendState();

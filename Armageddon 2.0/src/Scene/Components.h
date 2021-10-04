@@ -27,7 +27,12 @@ struct MeshComponent
 	Mesh m_mesh;
 	std::string m_path = "";
 	MeshComponent() = default;
-	MeshComponent(Mesh mesh) : m_mesh(mesh) 
+	MeshComponent(Mesh mesh) : m_mesh(mesh)
+	{
+		Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().SubmitMesh(mesh);
+
+	};
+	MeshComponent(Mesh mesh, std::string path) : m_mesh(mesh), m_path(path)
 	{
 		Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().SubmitMesh(mesh);
 
@@ -49,6 +54,14 @@ struct TransformComponent
 	DirectX::XMFLOAT3 Rotation = { 0.0f, 0.0f, 0.0f };
 	DirectX::XMFLOAT3 Scale = { 1.0f, 1.0f, 1.0f };
 	TransformComponent() = default;
+	TransformComponent(DirectX::XMFLOAT3& Transform, DirectX::XMFLOAT3& Rotation, DirectX::XMFLOAT3& Scale) : Translation(Transform), Rotation(Rotation), Scale(Scale)
+	{};
+	/*TransformComponent(TransformComponent& Transform)
+	{
+		Translation = Transform.Translation;
+		Rotation = Transform.Rotation;
+		Scale = Transform.Scale;
+	};*/
 	TransformComponent(float x, float y, float z, float rx , float ry , float rz , float sx, float sy, float sz)
 	{
 		Translation = { x,y,z };

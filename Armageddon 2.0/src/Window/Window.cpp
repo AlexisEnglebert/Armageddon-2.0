@@ -86,6 +86,7 @@ LRESULT Armageddon::Window::WindowProc(HWND hwnd, UINT uMsg, WPARAM wparam, LPAR
 
 
 		unsigned char keytype = static_cast<unsigned char>(wparam);
+		KeyBoardCallBack(keytype);
 		m_KeyBoard.OnKeyPressed(keytype);
 
 

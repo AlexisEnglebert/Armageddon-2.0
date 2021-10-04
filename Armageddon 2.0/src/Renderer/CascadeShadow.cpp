@@ -4,8 +4,7 @@
 Armageddon::CascadeShadow::CascadeShadow(Camera* m_cam,Scene& m_scene) : m_pCamera(m_cam) , m_scene(m_scene)
 {
 	//TODO texture depht buffer ou  cascade 
-	m_CascadeLightTex.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), Armageddon::Application::GetApplicationInsatnce()->GetWindow()->w_width, Armageddon::Application::GetApplicationInsatnce()->GetWindow()->w_height
-		);
+	m_CascadeLightTex.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), 1920,1080);
 
 	px = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\ShadowMapPixel.cso");
     vx = AssetManager::GetOrCreateVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\ShadowMapVertex.cso");
@@ -84,11 +83,29 @@ void Armageddon::CascadeShadow::Update()
 {
 	if (Armageddon::Renderer::g_DirectLightsVector.size() > 0) 
 	{
-		DirectX::XMVECTOR InvLightDir = -DirectX::XMVectorSet(Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.x, Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.y, Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.z, 0.0f);
+		DirectX::XMVECTOR InvLightDir = DirectX::XMVectorSet(Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.x, Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.y, Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.z, 0.0f);
+		LightView = DirectX::XMMatrixLookAtLH( InvLightDir ,DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+		LightProjection = DirectX::XMMatrixOrthographicLH(100, 100, 1.0f, 100.5);
+
+
 		DirectX::XMVECTOR Position = DirectX::XMVectorSet(Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.GetPos().x, Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.GetPos().y, Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.GetPos().z, 0.0f);
-		LightView = DirectX::XMMatrixLookAtLH( DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f),InvLightDir, DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+		//	DirectX::XMVECTOR InvLightDir = -DirectX::XMVectorSet(-2.0f, 4.0f,-1.0f, 0.0f);
+
+
+		/*LightView.r[3].m128_f32[2] = -LightView.r[3].m128_f32[2];
+		LightView.r[2].m128_f32[2] = -LightView.r[2].m128_f32[2];
+		LightView.r[1].m128_f32[2] = -LightView.r[1].m128_f32[2];
+		LightView.r[0].m128_f32[2] = -LightView.r[0].m128_f32[2];
+
+		LightView.r[3].m128_f32[1] = -2.98023224e-08;
+
+		LightView.r[0].m128_f32[0] = -LightView.r[0].m128_f32[0];
+		LightView.r[1].m128_f32[0] = -LightView.r[1].m128_f32[0];
+		LightView.r[2].m128_f32[0] = -LightView.r[2].m128_f32[0];
+		LightView.r[3].m128_f32[0] = -LightView.r[3].m128_f32[0];*/
+
+
 		//LightView = Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.GetViewMatrix();
-		LightProjection = DirectX::XMMatrixOrthographicLH(100.0f,100.0f, 1.0f, 7.5f);
 		//LightProjection = Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.GetProjectionMatrix();
 
 	}

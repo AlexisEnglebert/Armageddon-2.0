@@ -67,7 +67,7 @@ TextureCube irradianceMap : register(t6);
 TextureCube Prefiltered : register(t7);
 Texture2D   BRDFIntegration : register(t8);
 SamplerState Sampler : register(s0);
-
+SamplerState ClampSampler : register(s1);
 
 
 static const float PI = 3.1415926535897932384626433832795f;
@@ -80,13 +80,22 @@ https://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_ep
 
 float CalculateShadow(float4 LightPosition)
 {
-    float3 ProjectedCoords = LightPosition.xyz / LightPosition.w;
-    ProjectedCoords = ProjectedCoords * 0.5 + 0.5;
-    float ClosestDepth = ShadowMap.Sample(Sampler, ProjectedCoords.xy).r;
-    
-    float currentDepth = ProjectedCoords.z;
+    float3 ProjectedCoords = 0;
+    float bias = 0.001f;
 
-    float shadow = currentDepth > ClosestDepth ? 1.0f : 0.5f;
+    
+    ProjectedCoords.x = LightPosition.x / LightPosition.w / 2.0f + 0.5f;
+    ProjectedCoords.y = -LightPosition.y / LightPosition.w / 2.0f + 0.5f;
+    float shadow = 0.0f;
+    if ((saturate(ProjectedCoords.x) == ProjectedCoords.x) && (saturate(ProjectedCoords.y) == ProjectedCoords.y))
+    {
+        float ClosestDepth = ShadowMap.Sample(Sampler, ProjectedCoords.xy).r;
+        float lightDepthValue = LightPosition.z / LightPosition.w;
+        lightDepthValue = lightDepthValue - bias;
+        
+        shadow = ClosestDepth;
+
+    }
     
     return shadow;
 
@@ -244,9 +253,44 @@ float4 main(PSinput input) : SV_TARGET
         float3 Light = normalize(DirectionalLights[j].Direction);   
         float3 radiance = DirectionalLights[j].Color * DirectionalLights[j].Intensity;
         float3 spec = CalculateBRDF(input, View, AlbedoTex, Normal, RoughnessTex, AmbiantOclusionTex, MetalicTex, Light, F0);
-        float Shadow = CalculateShadow(input.LightPosition);
+        //float Shadow = CalculateShadow(input.LightPosition.xyzw);
+         
+      	// Calculate the projected texture coordinates.
+        float2 projectTexCoord = 0;
+        float depthValue = 0;
+        float lightDepthValue = 0;
+        float bias = 0.001f;
+        float shadows = 1.0f;
 
-        LightOut += (spec * radiance) + (1.0 - Shadow);
+        projectTexCoord.x = input.LightPosition.x / input.LightPosition.w / 2.0f + 0.5f;
+        projectTexCoord.y = -input.LightPosition.y / input.LightPosition.w / 2.0f + 0.5f;
+
+	    // Determine if the projected coordinates are in the 0 to 1 range.  If so then this pixel is in the view of the light.
+        if ((saturate(projectTexCoord.x) == projectTexCoord.x) && (saturate(projectTexCoord.y) == projectTexCoord.y))
+        {
+            lightDepthValue = input.LightPosition.z / input.LightPosition.w;
+            depthValue = ShadowMap.Sample(ClampSampler, projectTexCoord).r;
+
+		// Sample the shadow map depth value from the depth texture using the sampler at the projected texture coordinate location.
+
+		// Calculate the depth of the light.
+
+		// Subtract the bias from the lightDepthValue.
+            lightDepthValue = lightDepthValue - bias;
+
+		// Compare the depth of the shadow map value and the depth of the light to determine whether to shadow or to light this pixel.
+		// If the light is in front of the object then light the pixel, if not then shadow this pixel since an object (occluder) is casting a shadow on it.
+            if (lightDepthValue > depthValue && depthValue != 1 )
+            {
+                shadows = 0.0f;
+
+            }
+        }
+        
+           
+        LightOut += (spec * radiance) + shadows;
+        
+        
         //spec * radiance + (1 - Shadow);
 
     }
@@ -286,6 +330,34 @@ float4 main(PSinput input) : SV_TARGET
     
     
     /*Debug cascade : get the depht = posZ/posW * 0.5 + 0.5*/
+    
+           
+  
+
+   /* float2 projectTexCoord = 0;
+    float depthValue = 0;
+    float lightDepthValue = 0;
+    float bias = 0.001f;
+    float shadows = 1.0f;
+
+    projectTexCoord.x = input.LightPosition.x / input.LightPosition.w / 2.0f + 0.5f;
+    projectTexCoord.y = -input.LightPosition.y / input.LightPosition.w / 2.0f + 0.5f;
+    depthValue = ShadowMap.Sample(ClampSampler, projectTexCoord).r;
+
+	    // Determine if the projected coordinates are in the 0 to 1 range.  If so then this pixel is in the view of the light.
+    if ((saturate(projectTexCoord.x) == projectTexCoord.x) && (saturate(projectTexCoord.y) == projectTexCoord.y))
+    {
+        lightDepthValue = input.LightPosition.z / input.LightPosition.w;
+        lightDepthValue = lightDepthValue - bias;
+
+        if (lightDepthValue > depthValue)
+        {
+            shadows = 0.0f;
+
+        }
+    
+    }*/
  
+    
     return float4(color, AlbedoTex.a);
 }

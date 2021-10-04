@@ -4,15 +4,15 @@ Entities:
         Tag: Entity
         Mesh: Assets\Models\scene.gltf
         Transform:
-            [0, 0, 0,
+            [0, -27.080307, 0,
         0, 0, 0,
-        10, 1, 33]
+        50, 1, 50]
 
     -   Entity: 1
         Tag: Entity
         Mesh: Assets\Models\scene.gltf
         Transform:
-            [0, 5.50403309, 0,
+            [-19.0594177, -108.55056, 0,
         0, 0, 0,
         1, 4.9000001, 1]
 
@@ -22,5 +22,28 @@ Entities:
         Light:
             Type: 1
             Color: [1, 0.999989986, 0.999989986]
-            Direction: [0.100000001, 3.0999999, 1]
+            Direction: [4, 4.5, -5.30000019]
             Intensity: 1
+    -   Entity: 3
+        Tag: Entity
+        Mesh: Assets\Models\Cube.fbx
+        Transform:
+            [0, 4.81502438, 0,
+        0, 0, 0,
+        1, 1, 1]
+
+    -   Entity: 4
+        Tag: Entity
+        Mesh: Assets\Models\Cube.fbx
+        Transform:
+            [-2.40494227, 2, -1.49946833,
+        1, 0, 0,
+        0.5, 0.5, 0.5]
+
+    -   Entity: 5
+        Tag: "Entit\x00"
+        Mesh: Assets\Models\Cube.fbx
+        Transform:
+            [0.0563899279, 2, 2.85618305,
+        0, 0, 0,
+        1, 1, 1]

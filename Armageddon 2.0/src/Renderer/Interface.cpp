@@ -5,6 +5,8 @@ Microsoft::WRL::ComPtr <ID3D11DeviceContext>  Armageddon::Interface::DeviceConte
 Microsoft::WRL::ComPtr <IDXGISwapChain>  Armageddon::Interface::Swapchain = nullptr;
 Microsoft::WRL::ComPtr<ID3D11SamplerState>  Armageddon::Interface::SamplerState = nullptr;
 Microsoft::WRL::ComPtr<ID3D11SamplerState>  Armageddon::Interface::TrilinearSampler = nullptr;
+Microsoft::WRL::ComPtr<ID3D11SamplerState>  Armageddon::Interface::ClampSamplerState = nullptr;
+
  Microsoft::WRL::ComPtr <ID3D11RenderTargetView> Armageddon::Interface::RenderTargetView = nullptr;
 
 Microsoft::WRL::ComPtr<ID3D11Device>& Armageddon::Interface::GetDevice()
@@ -30,6 +32,11 @@ Microsoft::WRL::ComPtr<ID3D11SamplerState>& Armageddon::Interface::GetSamplerSta
 Microsoft::WRL::ComPtr<ID3D11SamplerState>& Armageddon::Interface::GetTrilinearSampler()
 {
 	return Armageddon::Interface::TrilinearSampler;
+}
+
+Microsoft::WRL::ComPtr<ID3D11SamplerState>& Armageddon::Interface::GetClampSampler()
+{
+    return Armageddon::Interface::ClampSamplerState;
 }
 
 Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& Armageddon::Interface::GetRenderTargetView()

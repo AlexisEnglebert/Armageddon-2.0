@@ -27,9 +27,21 @@ void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Armage
 
 	emitter << YAML::Key << "AOMap";
 	emitter << YAML::Value << mat.m_ambiantOcclusionMap.TexturePath.string();
-
-	emitter << YAML::Key << "MetalMap";
-	emitter << YAML::Value << mat.m_metalicMap.TexturePath.string();
+	
+	emitter << YAML::Key << "UseMetal";
+	emitter << YAML::Value << mat.m_PBRBUFFER.UseMetalMap;
+	if (mat.m_PBRBUFFER.UseMetalMap)
+	{
+		emitter << YAML::Key << "MetalMap";
+		emitter << YAML::Value << mat.m_metalicMap.TexturePath.string();
+	}
+	emitter << YAML::Key << "UseEmisive";
+	emitter << YAML::Value << mat.m_PBRBUFFER.UseEmisive;
+	if (mat.m_PBRBUFFER.UseEmisive)
+	{
+		emitter << YAML::Key << "EmisiveMap";
+		emitter << YAML::Value << mat.m_metalicMap.TexturePath.string();
+	}
 
 	std::ofstream fileOut(FilePath);
 	fileOut << emitter.c_str();
