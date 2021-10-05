@@ -37,7 +37,7 @@ public:
 
 	Editor()
 	{
-        m_Envmap = EnvMap(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\HDR\\orbita_4k.hdr");
+        m_Envmap = EnvMap(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\HDR\\hilly_terrain_01_1k.hdr");
 	}
 
 	~Editor()

@@ -14,7 +14,9 @@ Armageddon::Material::Material(const std::string& MaterialName) : m_name(Materia
 	 m_PixelShader					 = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\PBR.cso");
 	 m_EmissiveMap					 = AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultAlbedo.png");
 
-	 //m_MaterialProperty.AddProperty(std::make_unique<Float3Property>(1.0f, 5.0f, 0.0f));
+	 auto f3 = Float3Property(1.0f, 5.0f, 0.0f);
+	 m_MaterialProperty.AddProperty(&f3, 4);
+	 m_MaterialProperty.GetFloat3Property();
 	 
 	Texture m_metalicMap;
 

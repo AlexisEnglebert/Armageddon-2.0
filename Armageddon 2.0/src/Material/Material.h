@@ -4,23 +4,78 @@
 #include "../Renderer/Shaders.h"
 #include "../Renderer/ConstantBufferTypes.h"
 
+#include <map>
 
 #define AG_RENDERMODE_OPAQUE = 0
 #define AG_RENDERMODE_TRANSPARENT = 1
-namespace Armageddon 
+namespace Armageddon
 {
+	/*
+	* Par convention dans l'engine , les Property des materials ont un ID , 
+	* il faudrait trouver un moyen d'assigner un id automatiquement mais pour
+	* l'instant on le fait à la main.
+	* 
+	* TextureProperty  ->  0 
+	* BoolProperty     ->  1 
+	* FloatProperty    -> 2
+	* Float2Property    -> 3
+	* Float3Property    -> 4
+	*/
 	struct Property
-	{};
+	{
+		std::string name;
+	};
+
+
+
+	struct TextureProperty : Property
+	{
+		TextureProperty() = default;
+	};
+	struct BoolProperty : Property
+	{
+		BoolProperty() = default;
+
+	};
+	struct FloatProperty : Property
+	{
+		FloatProperty() = default;
+
+	};
+	struct Float2Property : Property
+	{
+		Float2Property() = default;
+
+	};
+	struct Float3Property : Property
+	{
+		DirectX::XMFLOAT3 f3 = DirectX::XMFLOAT3(0.0f,0.0f,0.0f);
+		Float3Property() = default;
+		Float3Property(Float3Property& copy)
+		{
+			copy.f3 = f3;
+		};
+		Float3Property(float x, float y, float z) : f3(x, y, z) {};
+	};
 
 	struct MaterialProperty
 	{
 		MaterialProperty() = default;
-		void AddProperty(std::unique_ptr<Property> p)
-		{	
-			m_vProperty.push_back(p);
-		};
 		std::string name;
-		std::vector<std::unique_ptr<Property>> m_vProperty;
+		
+		std::map<int,Property*> m_vProperties;  //Une map avec un indice pour savoir quel type c'est 
+		
+		void AddProperty(Property* pProperty, uint32_t PropertyType)
+		{
+
+			m_vProperties.emplace(PropertyType, reinterpret_cast<Float3Property*>(pProperty));
+		};
+		void GetFloat3Property()
+		{
+			auto itterator = m_vProperties.find(4);
+			Float3Property* test = reinterpret_cast<Float3Property*>(itterator->first);
+			//auto test = m_vProperties.find(4);
+		};
 	};
 
 
@@ -51,7 +106,7 @@ namespace Armageddon
 		std::string m_name;
 		std::string m_usedMaterialName;
 
-		Texture m_albedoMap;	
+		Texture m_albedoMap;
 		Texture m_normalMap;
 		Texture m_specularMap;
 		Texture m_metalicMap;
@@ -62,38 +117,7 @@ namespace Armageddon
 
 		MaterialBuffer m_PBRBUFFER;
 	private:
-		
-	};
-
-	
-
-	struct TextureProperty : Property
-	{
-		TextureProperty() = default;
-	};
-	struct BoolProperty : Property
-	{
-		BoolProperty() = default;
 
 	};
-	struct FloatProperty : Property
-	{
-		FloatProperty() = default;
 
-	};
-	struct Float2Property : Property
-	{
-		Float2Property() = default;
-
-	};
-	struct Float3Property : Property
-	{
-		DirectX::XMFLOAT3 f3;
-		Float3Property() = default;
-		Float3Property(Float3Property& copy)
-		{
-			copy.f3 = f3;
-		};
-		Float3Property(float x, float y, float z) : f3(x, y, z) {};
-	};
 }

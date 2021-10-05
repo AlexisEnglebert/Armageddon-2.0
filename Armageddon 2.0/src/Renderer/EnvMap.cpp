@@ -11,7 +11,7 @@ EnvMap::EnvMap(const std::filesystem::path& HDRPath)
 	m_Cube.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\SkyBoxVertex.cso");
 
 	m_envMapTexture.CreateCubeMap(HDRPath);
-	m_convEnvMapTexture.CreateIrradiancedMap(m_envMapTexture.GetRessourceViewPtr());
+	//m_convEnvMapTexture.CreateIrradiancedMap(m_envMapTexture.GetRessourceViewPtr());
 	m_BRFLutTexture.Create(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\ibl_brdf_lut.png");
 	m_PreFilteredEnvMap.CreatePreFilteredMap(m_envMapTexture.GetRessourceViewPtr());
 	D3D11_RASTERIZER_DESC rDesc;
