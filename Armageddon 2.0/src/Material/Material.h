@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "../Renderer/Shaders.h"
 #include "../Renderer/ConstantBufferTypes.h"
-
+#include <atomic>
 #include <map>
 
 #define AG_RENDERMODE_OPAQUE = 0
@@ -11,49 +11,75 @@
 namespace Armageddon
 {
 	/*
-	* Par convention dans l'engine , les Property des materials ont un ID , 
+	* Par convention dans l'engine , les Property des materials ont un ID ,
 	* il faudrait trouver un moyen d'assigner un id automatiquement mais pour
 	* l'instant on le fait à la main.
-	* 
-	* TextureProperty  ->  0 
-	* BoolProperty     ->  1 
+	*
+	* TextureProperty  ->  0
+	* BoolProperty     ->  1
 	* FloatProperty    -> 2
 	* Float2Property    -> 3
 	* Float3Property    -> 4
 	*/
-	struct Property
+	struct  Property
 	{
-		std::string name;
+		uint32_t ID;
+		static uint32_t PropertyID;
+		Property() : ID(PropertyID++)
+		{};
 	};
 
 
 
 	struct TextureProperty : Property
 	{
-		TextureProperty() = default;
+		std::string m_name;
+		Texture m_Texture;
+		TextureProperty(std::string name) : m_name(name) {};
+		TextureProperty(const TextureProperty& copy) 
+		{
+			m_name = copy.m_name;
+			m_Texture = copy.m_Texture;
+		};
+
 	};
 	struct BoolProperty : Property
 	{
+		bool boolean;
 		BoolProperty() = default;
+		BoolProperty(const BoolProperty& copy) {};
+		BoolProperty(bool value) : boolean(value) {};
 
 	};
 	struct FloatProperty : Property
 	{
+		float x;
 		FloatProperty() = default;
+		FloatProperty(const FloatProperty& copy)
+		{};
+		FloatProperty(float x) : x(x) {};
 
 	};
 	struct Float2Property : Property
 	{
+		DirectX::XMFLOAT2 f2 = DirectX::XMFLOAT2(0.0f, 0.0f);
+
 		Float2Property() = default;
+		Float2Property(const Float2Property& copy)
+		{
+			f2 = copy.f2;
+		};
+
+		Float2Property(float x, float y) :f2(x, y) {};
 
 	};
 	struct Float3Property : Property
 	{
-		DirectX::XMFLOAT3 f3 = DirectX::XMFLOAT3(0.0f,0.0f,0.0f);
+		DirectX::XMFLOAT3 f3 = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
 		Float3Property() = default;
-		Float3Property(Float3Property& copy)
+		Float3Property(const Float3Property& copy)
 		{
-			copy.f3 = f3;
+			f3 = copy.f3;
 		};
 		Float3Property(float x, float y, float z) : f3(x, y, z) {};
 	};
@@ -62,20 +88,36 @@ namespace Armageddon
 	{
 		MaterialProperty() = default;
 		std::string name;
-		
-		std::map<int,Property*> m_vProperties;  //Une map avec un indice pour savoir quel type c'est 
-		
-		void AddProperty(Property* pProperty, uint32_t PropertyType)
-		{
 
-			m_vProperties.emplace(PropertyType, reinterpret_cast<Float3Property*>(pProperty));
-		};
-		void GetFloat3Property()
+		void AddFloat3Property(float x, float y, float z)
 		{
-			auto itterator = m_vProperties.find(4);
-			Float3Property* test = reinterpret_cast<Float3Property*>(itterator->first);
-			//auto test = m_vProperties.find(4);
+			m_Vfloat3.push_back(Float3Property(x, y, z));
 		};
+		void AddFloat2Property(float x, float y)
+		{
+			m_Vfloat2.push_back(Float2Property(x, y));
+		};
+		void AddFloatProperty(float x)
+		{
+			m_Vfloat.push_back(FloatProperty(x));
+		};
+		void AddTextureProperty(std::string name)
+		{
+			m_VTexure.push_back(TextureProperty(name));
+		};
+		std::size_t GetSize()
+		{
+			return m_Vfloat3.size();
+		};
+		template<class T>
+		bool HasPropery(T& value);
+
+		std::vector<Float3Property> m_Vfloat3;
+		std::vector<Float2Property> m_Vfloat2;
+		std::vector<FloatProperty> m_Vfloat;
+		std::vector<BoolProperty> m_Vbool;
+		std::vector<TextureProperty> m_VTexure;
+
 	};
 
 
@@ -119,5 +161,12 @@ namespace Armageddon
 	private:
 
 	};
+
+	template<class T>
+	inline bool MaterialProperty::HasPropery(T& value)
+	{
+
+		return false;
+	}
 
 }

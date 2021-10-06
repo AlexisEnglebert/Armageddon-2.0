@@ -7,14 +7,21 @@ void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Armage
 	YAML::Emitter emitter;
 	emitter << YAML::BeginMap;
 
-	emitter << YAML::Key << "MATname";
-	emitter << YAML::Value << mat.m_name;
-	
-	emitter << YAML::Key << "PixelShader";
-	emitter << YAML::Value << mat.m_PixelShader.ShaderPath.string();
+	emitter << YAML::Key << "Name" << YAML::Value << mat.m_name;
+	emitter << YAML::Key << "PixelShader" << YAML::Value << mat.m_PixelShader.ShaderPath.string();
+	emitter << YAML::Key << "VertexShader" << YAML::Value << mat.m_VertexShader.ShaderPath.string();
 
-	emitter << YAML::Key << "VertexShader";
-	emitter << YAML::Value << mat.m_VertexShader.ShaderPath.string();
+	emitter << YAML::Key << "Materials" << YAML::Value << YAML::BeginSeq;
+
+	for (UINT i = 0; i < mat.m_MaterialProperty.m_VTexure.size(); i++)
+	{
+		emitter << YAML::BeginMap;
+
+		emitter << YAML::Key << mat.m_MaterialProperty.m_VTexure[i].m_name << YAML::Value << mat.m_MaterialProperty.m_VTexure[i].ID;
+		emitter << YAML::Key << "Texture" << mat.m_MaterialProperty.m_VTexure[i].m_Texture.TexturePath.string();
+		emitter << YAML::EndMap;
+
+	}
 
 	emitter << YAML::Key << "AlbedoMap";
 	emitter << YAML::Value << mat.m_albedoMap.TexturePath.string();
@@ -43,6 +50,7 @@ void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Armage
 		emitter << YAML::Value << mat.m_metalicMap.TexturePath.string();
 	}
 
+	emitter << YAML::EndMap;
 	std::ofstream fileOut(FilePath);
 	fileOut << emitter.c_str();
 }
@@ -153,13 +161,13 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 		{
 			
 			if (ent["Entity"]) {
-				Armageddon::Log::GetLogger()->trace("Entity {0}", ent["Entity"].as<std::string>().c_str());
-				Armageddon::Log::GetLogger()->trace("Tag {0}", ent["Tag"].as<std::string>().c_str());
+				//Armageddon::Log::GetLogger()->trace("Entity {0}", ent["Entity"].as<std::string>().c_str());
+				///Armageddon::Log::GetLogger()->trace("Tag {0}", ent["Tag"].as<std::string>().c_str());
 				auto n_entity = m_Scene->CreateEntity();
 				n_entity.AddComponent<TagComponent>(ent["Tag"].as<std::string>());
 				if (ent["Mesh"] && ent["Mesh"].as<std::string>() != "")
 				{
-					Armageddon::Log::GetLogger()->trace("Mesh {0}", ent["Mesh"].as<std::string>().c_str());
+					//Armageddon::Log::GetLogger()->trace("Mesh {0}", ent["Mesh"].as<std::string>().c_str());
 					n_entity.AddComponent<MeshComponent>(ent["Mesh"].as<std::string>());
 				}
 
@@ -212,9 +220,9 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 				if (ent["Transform"])
 				{
 					auto a = ent["Transform"];
-					Armageddon::Log::GetLogger()->trace("Transform {0} {1} {2}", a[0].as<std::string>().c_str(), a[1].as<std::string>().c_str(), a[2].as<std::string>().c_str());
-					Armageddon::Log::GetLogger()->trace("Rotation {0} {1} {2}" , a[3].as<std::string>().c_str(), a[4].as<std::string>().c_str(), a[5].as<std::string>().c_str());
-					Armageddon::Log::GetLogger()->trace("Scale {0} {1} {2}"    , a[6].as<std::string>().c_str(), a[7].as<std::string>().c_str(), a[8].as<std::string>().c_str());
+					//Armageddon::Log::GetLogger()->trace("Transform {0} {1} {2}", a[0].as<std::string>().c_str(), a[1].as<std::string>().c_str(), a[2].as<std::string>().c_str());
+					//Armageddon::Log::GetLogger()->trace("Rotation {0} {1} {2}" , a[3].as<std::string>().c_str(), a[4].as<std::string>().c_str(), a[5].as<std::string>().c_str());
+					//Armageddon::Log::GetLogger()->trace("Scale {0} {1} {2}"    , a[6].as<std::string>().c_str(), a[7].as<std::string>().c_str(), a[8].as<std::string>().c_str());
 					n_entity.AddComponent<TransformComponent>(a[0].as<float>(), a[1].as<float>(), a[2].as<float>() ,
 															  a[3].as<float>(), a[4].as<float>(), a[5].as<float>(),
 															  a[6].as<float>(), a[7].as<float>(), a[8].as<float>());

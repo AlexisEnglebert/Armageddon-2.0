@@ -246,5 +246,15 @@ void MaterialEditor::DrawTextureTree(Armageddon::Material& mat)
 		ImGui::Columns();
 	}
 
+	for (auto& Texture : mat.m_MaterialProperty.m_VTexure)
+	{
+		ImGui::Columns(2, 0, true);
+		ImGui::Image(Texture.m_Texture.GetRessourceView(), { 50,50 });
+		ImGui::SameLine();
+		ImGui::Text(Texture.m_name.c_str());
+		ImGui::NextColumn();
+		ImGui::InputText(""+Texture.ID, Texture.m_Texture.TexturePath.string().data(), sizeof(char) * 255, ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_ReadOnly);
+		ImGui::Columns();
 
+	}
 }

@@ -288,7 +288,7 @@ float4 main(PSinput input) : SV_TARGET
         }
         
            
-        LightOut += (spec * radiance) + shadows;
+        LightOut += (spec * radiance) ;
         
         
         //spec * radiance + (1 - Shadow);

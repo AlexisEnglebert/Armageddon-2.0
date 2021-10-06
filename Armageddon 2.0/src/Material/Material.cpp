@@ -2,6 +2,9 @@
 #include "AssetManager.h"
 #include "../Renderer/Renderer.h"
 
+uint32_t Armageddon::Property::PropertyID;
+
+
 Armageddon::Material::Material(const std::string& MaterialName) : m_name(MaterialName) , m_usedMaterialName(m_usedMaterialName)
 {
 	Armageddon::Log::GetLogger()->error("POUF");
@@ -14,10 +17,8 @@ Armageddon::Material::Material(const std::string& MaterialName) : m_name(Materia
 	 m_PixelShader					 = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\PBR.cso");
 	 m_EmissiveMap					 = AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultAlbedo.png");
 
-	 auto f3 = Float3Property(1.0f, 5.0f, 0.0f);
-	 m_MaterialProperty.AddProperty(&f3, 4);
-	 m_MaterialProperty.GetFloat3Property();
-	 
+	 m_MaterialProperty.AddTextureProperty("test Texture");
+	 m_MaterialProperty.AddTextureProperty("test Texture2");
 	Texture m_metalicMap;
 
 }
@@ -112,6 +113,12 @@ void Armageddon::Material::Bind()
 	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(3, 1, m_metalicMap.GetRessourceViewPtr());
 	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(4, 1, m_ambiantOcclusionMap.GetRessourceViewPtr());
 	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(5, 1, m_EmissiveMap.GetRessourceViewPtr());
+
+	/*for (UINT i = 0; i < m_MaterialProperty.m_VTexure.size(); i++)
+	{
+		Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(i, 1, m_MaterialProperty.m_VTexure[0].m_Texture.GetRessourceViewPtr());
+	}*/
+
 	Armageddon::Interface::GetDeviceContext()->VSSetShader(m_VertexShader.GetShader(), NULL, 0);
 	Armageddon::Interface::GetDeviceContext()->PSSetShader(m_PixelShader.GetShader(), NULL, 0);
 

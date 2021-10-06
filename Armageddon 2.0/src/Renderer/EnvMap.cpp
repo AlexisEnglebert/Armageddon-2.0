@@ -11,7 +11,7 @@ EnvMap::EnvMap(const std::filesystem::path& HDRPath)
 	m_Cube.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\SkyBoxVertex.cso");
 
 	m_envMapTexture.CreateCubeMap(HDRPath);
-	//m_convEnvMapTexture.CreateIrradiancedMap(m_envMapTexture.GetRessourceViewPtr());
+	m_convEnvMapTexture.CreateIrradiancedMap(m_envMapTexture.GetRessourceViewPtr());
 	m_BRFLutTexture.Create(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\ibl_brdf_lut.png");
 	m_PreFilteredEnvMap.CreatePreFilteredMap(m_envMapTexture.GetRessourceViewPtr());
 	D3D11_RASTERIZER_DESC rDesc;
@@ -31,7 +31,7 @@ void EnvMap::Render(Armageddon::Camera* m_camera)
 	ViewMatrix.r[3].m128_f32[0] = 0.0f;
 	ViewMatrix.r[3].m128_f32[1] = 0.0f;
 	ViewMatrix.r[3].m128_f32[2] = 0.0f;
-	// DirectX::XMMatrixRotationRollPitchYaw(m_camera->GetRotation().x, m_camera->GetRotation().y, m_camera->GetRotation().z);
+	DirectX::XMMatrixRotationRollPitchYaw(m_camera->GetRotation().x, m_camera->GetRotation().y, m_camera->GetRotation().z);
 	m_TransForm.ProjectionMat = m_camera->GetProjectionMatrix();
 	m_TransForm.ViewMat = ViewMatrix;
 	Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(&m_TransForm);
