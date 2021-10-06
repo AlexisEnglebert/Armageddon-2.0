@@ -17,7 +17,8 @@ void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Armage
 	{
 		emitter << YAML::BeginMap;
 
-		emitter << YAML::Key << mat.m_MaterialProperty.m_VTexure[i].m_name << YAML::Value << mat.m_MaterialProperty.m_VTexure[i].ID;
+		emitter << YAML::Key << "Name" << YAML::Value << mat.m_MaterialProperty.m_VTexure[i].m_name;
+		emitter << YAML::Key << "ID" << YAML::Value << mat.m_MaterialProperty.m_VTexure[i].ID;
 		emitter << YAML::Key << "Texture" << mat.m_MaterialProperty.m_VTexure[i].m_Texture.TexturePath.string();
 		emitter << YAML::EndMap;
 
@@ -241,18 +242,25 @@ Armageddon::Material Serializer::DeserializeMaterial(const std::filesystem::path
 	std::stringstream m_stringStream;
 	m_stringStream << stream.rdbuf();
 	YAML::Node node = YAML::Load(m_stringStream);
-	if (node["MATname"]) 
+	if (node["Name"]) 
 	{
-		if (!AssetManager::MaterialExist(node["MATname"].as<std::string>())) {
-			auto mat = Armageddon::Material(node["MATname"].as<std::string>());
-			if (node["PixelShader"]) mat.m_PixelShader = AssetManager::GetOrCreatePixelShader(node["PixelShader"].as<std::string>());
+		if (!AssetManager::MaterialExist(node["Name"].as<std::string>())) {
+
+			if (node["Materials"])
+			{
+				for (auto material : node["Materials"])
+				{
+					if (material["Name"]) { Armageddon::Log::GetLogger()->trace("Texture Load From material : {0}", node["Name"].as<std::string>()); }
+				}
+			}
+		/*	if (node["PixelShader"]) mat.m_PixelShader = AssetManager::GetOrCreatePixelShader(node["PixelShader"].as<std::string>());
 			if (node["VertexShader"]) mat.m_VertexShader = AssetManager::GetOrCreateVertexShader(node["VertexShader"].as<std::string>());
 			if (node["AlbedoMap"]) mat.m_albedoMap = AssetManager::GetOrCreateTexture(node["AlbedoMap"].as<std::string>());
 			if (node["NormalMap"]) mat.m_normalMap = AssetManager::GetOrCreateTexture(node["NormalMap"].as<std::string>());
 			if (node["SpecMap"]) mat.m_specularMap = AssetManager::GetOrCreateTexture(node["SpecMap"].as<std::string>());
 			if (node["AOMap"]) mat.m_ambiantOcclusionMap = AssetManager::GetOrCreateTexture(node["AOMap"].as<std::string>());
 			if (node["MetalMap"]) mat.m_metalicMap = AssetManager::GetOrCreateTexture(node["MetalMap"].as<std::string>());
-			return mat;
+			//return mat;*/
 		}
 		else
 		{

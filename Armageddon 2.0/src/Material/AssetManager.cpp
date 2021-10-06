@@ -44,6 +44,7 @@ bool AssetManager::MaterialExist(const std::string& MaterialName)
 	for (UINT i = 0; i < v_material.size(); i++)
 	{
 		if (MaterialName == v_material[i].m_name) {
+            Armageddon::Log::GetLogger()->trace("Material {0} Already Exist : ", MaterialName);
             return true;
 		}
 	}
