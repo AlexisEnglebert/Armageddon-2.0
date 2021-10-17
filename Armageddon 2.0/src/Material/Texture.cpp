@@ -20,7 +20,7 @@ void Texture::Create(const std::filesystem::path& path)
 	}
 }
 
-void Texture::CreateCubeMap(const std::filesystem::path& path)
+void EnvTexture::CreateCubeMap(const std::filesystem::path& path)
 {
 	/*
 	Premièrement on doit load l'image HDR dans une Texture 2D
@@ -261,7 +261,7 @@ void Texture::CreateCubeMap(const std::filesystem::path& path)
 	pTexture->Release();
 }
 
-void Texture::CreateIrradiancedMap(ID3D11ShaderResourceView** envmapRessource)
+void EnvTexture::CreateIrradiancedMap(ID3D11ShaderResourceView** envmapRessource)
 {
 	/*-----------------------------------------------------------------------------*/
 	//								Create the shader							  //
@@ -430,9 +430,9 @@ void Texture::CreateIrradiancedMap(ID3D11ShaderResourceView** envmapRessource)
 	}
 
 	TextureRessourceView = Cubemapressourceview; //on set le CubeMap au ressource view
-}
+}	
 
-void Texture::CreatePreFilteredMap(ID3D11ShaderResourceView** envmapRessource)
+void EnvTexture::CreatePreFilteredMap(ID3D11ShaderResourceView** envmapRessource)
 {
 
 	Armageddon::VertexShaders VertexShader;
@@ -506,7 +506,7 @@ void Texture::CreatePreFilteredMap(ID3D11ShaderResourceView** envmapRessource)
 	Texdesc.Usage = D3D11_USAGE_DEFAULT;
 	Texdesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
 	Texdesc.CPUAccessFlags = 0;
-	Texdesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE | D3D11_RESOURCE_MISC_GENERATE_MIPS;;
+	Texdesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE | D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
 	ID3D11Texture2D* pTextureCubeMap = NULL;
 
@@ -608,3 +608,40 @@ void Texture::CreatePreFilteredMap(ID3D11ShaderResourceView** envmapRessource)
 
 }
 
+RenderTexture::RenderTexture(float width, float height, DXGI_FORMAT format)
+{
+	D3D11_TEXTURE2D_DESC Texdesc;
+	Texdesc.Width = width;
+	Texdesc.Height = height;
+	Texdesc.MipLevels = 1;
+	Texdesc.ArraySize = 1;
+	Texdesc.Format = format;
+	Texdesc.SampleDesc.Count = 1;
+	Texdesc.SampleDesc.Quality = 0;
+	Texdesc.Usage = D3D11_USAGE_DEFAULT;
+	Texdesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+	Texdesc.CPUAccessFlags = 0;
+	Texdesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+
+
+	ID3D11Texture2D* pTexture = NULL;
+
+	HRESULT hr = Armageddon::Interface::GetDevice()->CreateTexture2D(&Texdesc, nullptr, &pTexture);
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC ViewDesc;
+	ViewDesc.Format = format;
+	ViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	ViewDesc.Texture2D.MipLevels = Texdesc.MipLevels;
+	ViewDesc.Texture2D.MostDetailedMip = 0;
+	ID3D11ShaderResourceView* ressourceview;
+	hr = Armageddon::Interface::GetDevice()->CreateShaderResourceView(pTexture, &ViewDesc, TextureRessourceView.GetAddressOf());
+	TextureRessource = pTexture;
+
+
+	D3D11_RENDER_TARGET_VIEW_DESC desc = {};
+	desc.Format = format;
+	desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	desc.Texture2D.MipSlice = 0;
+
+	Armageddon::Interface::GetDevice()->CreateRenderTargetView(TextureRessource.Get(), &desc, &RenderTargetView);
+}

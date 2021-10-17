@@ -16,7 +16,7 @@ public:
 	int32_t m_materialIndex;
 	void BindVertexBuffer();
 	void BindIndexBuffer();
-	void DrawIndexed(bool BindMaterials);
+	void DrawIndexed();
 private:
 };
 

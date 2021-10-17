@@ -13,10 +13,10 @@ public:
 	Mesh m_Cube;
 
 	void Render(Armageddon::Camera* m_camera);
-	Texture m_envMapTexture;
-	Texture m_convEnvMapTexture;
+	EnvTexture m_envMapTexture;
+	EnvTexture m_convEnvMapTexture;
 	Texture m_BRFLutTexture;
-	Texture m_PreFilteredEnvMap;
+	EnvTexture m_PreFilteredEnvMap;
 private:
 
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerState;

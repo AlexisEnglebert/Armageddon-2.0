@@ -257,4 +257,9 @@ void MaterialEditor::DrawTextureTree(Armageddon::Material& mat)
 		ImGui::Columns();
 
 	}
+	for (auto& Bool : mat.m_MaterialProperty.m_Vbool)
+	{
+		ImGui::Checkbox(Bool.m_name.c_str() , &Bool.boolean);
+
+	}
 }

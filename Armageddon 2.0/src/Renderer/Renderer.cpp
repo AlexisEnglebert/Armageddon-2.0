@@ -31,6 +31,7 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
 
     CreateRenderTargetView(width,height);
     m_OffScreenRenderTarget.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
+    m_FrameBuffer.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
 
         CreateViewPort(width, height);
 
@@ -58,7 +59,7 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
         Armageddon::Log::GetLogger()->error("Failed Creating Default Sampler State");
     }
 
-    sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    sDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
 
     hr = Armageddon::Interface::GetDevice()->CreateSamplerState(&sDesc, Armageddon::Interface::GetTrilinearSampler().GetAddressOf());
     if (FAILED(hr))
@@ -237,6 +238,7 @@ void Armageddon::Renderer::ResizeBuffer(float width, float height)
 {
     CleanRenderTargetView();
     m_OffScreenRenderTarget.CleanRenderTargetView();
+    m_FrameBuffer.CleanRenderTargetView();
     ResetDephtStencileBuffer();
 
     HRESULT hr = Armageddon::Interface::GetSwapChain()->ResizeBuffers(0, (UINT)width, (UINT)height, DXGI_FORMAT_UNKNOWN, 0);
@@ -248,6 +250,7 @@ void Armageddon::Renderer::ResizeBuffer(float width, float height)
 
     CreateRenderTargetView(width,height);
     m_OffScreenRenderTarget.ResizeRenderTargetView(width, height,nullptr);
+    m_FrameBuffer.ResizeRenderTargetView(width, height,nullptr);
     CreateViewPort(width, height);
     CreateDephtStencilBuffer(width, height);
 }

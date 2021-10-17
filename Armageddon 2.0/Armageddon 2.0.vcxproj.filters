@@ -162,6 +162,9 @@
     <ClInclude Include="src\Renderer\RenderPass.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer\PostProcessing\Bloom.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -266,6 +269,9 @@
     <ClCompile Include="src\Renderer\CascadeShadow.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer\PostProcessing\Bloom.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\DefaultPixelShader.hlsl" />
@@ -283,5 +289,9 @@
     <FxCompile Include="Shaders\BillBoardPixel.hlsl" />
     <FxCompile Include="Shaders\ShadowMapVertex.hlsl" />
     <FxCompile Include="Shaders\ShadowMapPixel.hlsl" />
+    <FxCompile Include="Shaders\BloomThresholdPixel.hlsl" />
+    <FxCompile Include="Shaders\BloomThresholdVertex.hlsl" />
+    <FxCompile Include="Shaders\BloomDownSamplePixel.hlsl" />
+    <FxCompile Include="Shaders\BloomUpsample.hlsl" />
   </ItemGroup>
 </Project>

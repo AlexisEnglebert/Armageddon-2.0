@@ -14,6 +14,7 @@
 		void ClearScene();
 		void LoadScene(const std::filesystem::path& path);
 		void DuplicateEntity(Entity& RefEntity);
+		void DeleteEntity(Entity& entity);
 		entt::registry g_registry;
 		std::vector<Entity> v_Entity;
 	private:

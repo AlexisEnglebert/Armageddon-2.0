@@ -19,7 +19,17 @@ Armageddon::Material::Material(const std::string& MaterialName) : m_name(Materia
 
 	 m_MaterialProperty.AddTextureProperty("test Texture");
 	 m_MaterialProperty.AddTextureProperty("test Texture2");
-	Texture m_metalicMap;
+	 m_MaterialProperty.AddBoolProperty("TestBool");
+	 
+	 //Armageddon::Log::GetLogger()->info("Before Buffer Size : {0} ", sizeof(TestBuffer));
+	 //TestBuffer.push_back(sizeof(float));
+	 //Armageddon::Log::GetLogger()->info("After Buffer Size : {0} ", sizeof(TestBuffer)); // doit être +4 
+	 //ON vas allouer dynamiquement de la mémoire pour notre buffer , il aura une taille maximale de 
+	 // 1024 bytes
+	 //TestConstBuffer = (char*) malloc(10);
+	 //assert(TestConstBuffer != NULL,"ConstBuffer Is Empty");
+
+	//Texture m_metalicMap;
 
 }
 
@@ -29,7 +39,12 @@ Armageddon::Material::Material(Texture& m_albedoMap, Texture& m_normalMap, Textu
 	this->m_normalMap = m_normalMap;
 	this->m_specularMap = m_specularMap;
 	this->m_ambiantOcclusionMap = m_ambiantOcclusionMap;
-}	
+}
+Armageddon::Material::~Material()
+{
+	free(TestConstBuffer);
+}
+
 
 
 void Armageddon::Material::SetAlbedoMap(const std::filesystem::path& m_albedoPath)

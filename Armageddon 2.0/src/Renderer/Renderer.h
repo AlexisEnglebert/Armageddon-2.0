@@ -46,6 +46,8 @@ namespace Armageddon
 		static LightBuffer g_LightBufferData;
 
 		static D3D11_VIEWPORT ViewPort;
+		OffScreenRenderTarget m_FrameBuffer;
+
 	private:
 		bool InitSwapChain(HWND& hwnd);
 	
@@ -78,7 +80,6 @@ namespace Armageddon
 
 		/*Off Screen Render Target View*/
 		OffScreenRenderTarget m_OffScreenRenderTarget;
-
 
 		/*Midle*/
 		float m_screenPos[2]{0.0f,0.0f};

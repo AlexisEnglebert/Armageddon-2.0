@@ -62,6 +62,7 @@ Texture2D MetalicMap : register(t3);
 Texture2D AmbiantOMap : register(t4);
 Texture2D EmissiveMap : register(t5);
 Texture2D ShadowMap   : register(t9);
+Texture2D bloom   : register(t10);
 
 TextureCube irradianceMap : register(t6);
 TextureCube Prefiltered : register(t7);
@@ -211,7 +212,7 @@ float4 main(PSinput input) : SV_TARGET
     float3 NormalTex            = NormalMap.Sample(Sampler, input.textCoord);
     float RoughnessTex          = SpecularMap.Sample(Sampler, input.textCoord).r;
     float AmbiantOclusionTex    = AmbiantOMap.Sample(Sampler, input.textCoord);
-    
+    float4 bloomtex = bloom.Sample(Sampler, input.textCoord);
 
     AmbiantOclusionTex = AmbiantOclusionTex != 0 ? AmbiantOclusionTex : 1.0f;
     
@@ -312,7 +313,7 @@ float4 main(PSinput input) : SV_TARGET
 	
     float3 color = ambient + LightOut;  
     
-    color += EmisiveMap;
+    color += EmisiveMap + bloomtex;
     
     
    // color = ReinhardToneMap(color, 4.0f);

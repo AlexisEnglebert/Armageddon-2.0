@@ -16,10 +16,7 @@ public:
 	Texture() = default;
 	Texture(std::filesystem::path path);
 	void Create(const std::filesystem::path& path);
-	void CreateCubeMap(const std::filesystem::path& path);
-	void CreateIrradiancedMap(ID3D11ShaderResourceView** envmapRessource);
-	void CreatePreFilteredMap(ID3D11ShaderResourceView** envmapRessource);
-	//void CreateHDR(const std::wstring& path);
+	
 	float& GetImageX() {return ImageX;};
 	float& GetImageY() {return ImageY;};
 	ID3D11ShaderResourceView* GetRessourceView() {return TextureRessourceView.Get();};
@@ -28,8 +25,26 @@ public:
 	ID3D11Resource** GetRessourcePtr() {return TextureRessource.GetAddressOf();};
 	std::filesystem::path TexturePath = L"";
 
-private:
+protected:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> TextureRessourceView;
 	Microsoft::WRL::ComPtr<ID3D11Resource> TextureRessource;
 	float ImageX = 0, ImageY = 0;
+};
+class DECL RenderTexture : Texture
+{
+public:
+	RenderTexture() = default;
+	RenderTexture(float width, float height, DXGI_FORMAT format);
+	ID3D11RenderTargetView* RenderTargetView;
+	ID3D11ShaderResourceView* GetRessourceView() { return TextureRessourceView.Get(); };
+	ID3D11ShaderResourceView** GetRessourceViewPtr() { return TextureRessourceView.GetAddressOf(); };
+
+};
+class DECL EnvTexture : public Texture
+{
+public:
+	EnvTexture() = default;
+	void CreateCubeMap(const std::filesystem::path& path);
+	void CreateIrradiancedMap(ID3D11ShaderResourceView** envmapRessource);
+	void CreatePreFilteredMap(ID3D11ShaderResourceView** envmapRessource);
 };

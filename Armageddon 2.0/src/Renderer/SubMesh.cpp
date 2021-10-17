@@ -64,7 +64,7 @@ void SubMesh::BindIndexBuffer()
 
 
 
-void SubMesh::DrawIndexed(bool BindMaterials)
+void SubMesh::DrawIndexed()
 {
 	Armageddon::Interface::GetDeviceContext()->DrawIndexed(m_IndexBuffer.GetSize(), 0, 0);
 

@@ -61,3 +61,25 @@ void Scene::DuplicateEntity(Entity& RefEntity)
     }
 }
 
+void Scene::DeleteEntity(Entity& entity)
+{
+    Armageddon::Log::GetLogger()->info("DELETEING ENTITY");
+        g_registry.destroy(entity.GetHandle());
+
+    for (UINT i = 0; i < v_Entity.size(); i++)
+    {
+        if (v_Entity[i].GetHandle() == entity.GetHandle())
+        {
+            Armageddon::Log::GetLogger()->info("ENTITY FOUND");
+            Armageddon::Log::GetLogger()->info(""+i);
+            auto a = (v_Entity.begin() + i);
+          //  Armageddon::Log::GetLogger()->info("{0}",a);
+
+            v_Entity.erase(v_Entity.begin()+i);
+        }
+    }
+    Armageddon::Log::GetLogger()->info("DELETEING ALL COMPONENTS");
+
+
+}
+

@@ -21,6 +21,7 @@
 #include "Renderer/Renderer2D.h"
 #include "Scene/Serializer.h"
 #include "Renderer/CascadeShadow.h"
+#include "Renderer/PostProcessing/Bloom.h"
 
 #include "ImGuizmo.h"
 class Editor : public Armageddon::Application
@@ -67,7 +68,7 @@ private:
 
 	EnvMap m_Envmap;
     Armageddon::CascadeShadow m_Cascade = { &Armageddon::Application::GetWindow()->GetRenderer().m_camera,m_Scene };
-
+    Armageddon::Bloom m_bloom;
 
     Mesh m_quad = Armageddon::Renderer2D::GeneratePlane();
 	Mesh Msphere;
@@ -211,20 +212,92 @@ void Editor::OnRender()
                 Armageddon::Interface::GetDeviceContext()->VSSetShader(m_Cascade.vx.GetShader(),nullptr,0);
 				submesh.BindIndexBuffer();
 				submesh.BindVertexBuffer();
-				submesh.DrawIndexed(false);
+				submesh.DrawIndexed();
 			}
 		}
 	}
 
+     Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.Bind(Armageddon::Interface::GetDeviceContext().Get());
+     Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.Clear(Armageddon::Interface::GetDeviceContext().Get());
+
+     for (auto& ent : m_Scene.v_Entity)
+     {
+         if (ent.HasComponent<MeshComponent>() && !ent.HasComponent<LightComponent>())
+         {
+
+             auto& comp = ent.GetComponent<MeshComponent>();
+             if (ent.HasComponent<TransformComponent>())
+             {
+                 auto& transform = ent.GetComponent<TransformComponent>();
+                 // comp.m_mesh.GetTransform()->WorldMat *= transform.GetTransformMatrix();
+
+             }
+
+
+             Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(comp.m_mesh.GetTransform());
+             Armageddon::Renderer::g_TransformCBuffer.BindPS();
+             Armageddon::Renderer::g_TransformCBuffer.BindVS();
+
+
+
+             Armageddon::Renderer::g_LightCBuffer.SetDynamicData(&Armageddon::Renderer::g_LightBufferData);
+             Armageddon::Renderer::g_LightCBuffer.BindPS();
+             Armageddon::Renderer::g_LightCBuffer.BindVS();
+
+
+             for (auto& submesh : comp.m_mesh.v_SubMeshes)
+             {
+
+                 submesh.BindVertexBuffer();
+                 submesh.BindIndexBuffer();
+                 comp.m_mesh.BindMaterial(submesh.m_materialIndex);
+                 submesh.DrawIndexed();
+             }
+         }
+     }
+     m_Envmap.Render(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
+
+     
+     m_bloom.m_BloomTexture.Bind(Armageddon::Interface::GetDeviceContext().Get());
+     m_bloom.m_BloomTexture.Clear(Armageddon::Interface::GetDeviceContext().Get());
+
+     D3D11_VIEWPORT viewport;
+     ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+
+     viewport.TopLeftX = 0;
+     viewport.TopLeftY = 0;
+     viewport.Width = 1920;
+     viewport.Height = 1080;
+     viewport.MinDepth = 0.0f;
+     viewport.MaxDepth = 1.0f;
+
+     Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &viewport);
+     for (auto& submesh : m_quad.v_SubMeshes)
+     {
+         Armageddon::Interface::GetDeviceContext()->IASetInputLayout(m_bloom.vx.GetInputLayout());
+         Armageddon::Interface::GetDeviceContext()->PSSetShader(m_bloom.px.GetShader(), nullptr, 0);
+         Armageddon::Interface::GetDeviceContext()->VSSetShader(m_bloom.vx.GetShader(), nullptr, 0);
+         Armageddon::Interface::GetDeviceContext()->PSSetSamplers(0, 1, Armageddon::Interface::GetSamplerState().GetAddressOf());
+         Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 1, Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetAddressOfShaderRessource());
+
+         submesh.BindVertexBuffer();
+         submesh.BindIndexBuffer();
+         submesh.DrawIndexed();
+     }
+ 
     // HERE I CHANGE THE RenderTargetView
+
+
 
 	Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().Bind(Armageddon::Interface::GetDeviceContext().Get());
 	Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().Clear(Armageddon::Interface::GetDeviceContext().Get());
     //I REDRAW MY SCENE WHERE I'M BINDING THE RESSOURCE
 
+    m_bloom.Render();
+    Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().Bind(Armageddon::Interface::GetDeviceContext().Get());
 
     RenderScene(true);
-    
+
 
 
    /* m_quad.UpdtateTransform(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
@@ -252,10 +325,14 @@ void Editor::ImGuiRender()
     m_MaterialEditor.ImGuiDraw();
     m_BoneDebug.ImGuiDraw();
     ImGui::Begin("Debug shadow");
-	ImGui::Image(
-        m_Cascade.m_CascadeLightTex.DephtResourceView.Get()
-		, { m_Cascade.m_CascadeLightTex.GetImageX(),
-        m_Cascade.m_CascadeLightTex.GetImageY() });
+	/*ImGui::Image(
+        Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetShaderRessource()
+		, { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetImageX(),
+       Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetImageY() });*/
+    ImGui::Image(
+        m_bloom.m_BloomTexture.GetShaderRessource()
+		, { m_bloom.m_BloomTexture.GetImageX(),
+      m_bloom.m_BloomTexture.GetImageY() });
 
     ImGui::End();
 }
@@ -332,10 +409,19 @@ void Editor::onKeyBoardEvent(const unsigned char keyCode)
         }
 
     }
+   /* if (Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_delete) || Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_backspace))
+    {
+        if (EntityList::Seleceted != entt::null) {
+            m_Scene.DeleteEntity(m_Scene.GetEntityByID(EntityList::Seleceted));
+            EntityList::Seleceted == entt::null;
+        }
+    }*/
 }
 
 void Editor::RenderScene(bool BindMat)
 {
+    Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &Armageddon::Renderer::ViewPort);
+
 	for (auto& ent : m_Scene.v_Entity)
 	{
 
@@ -372,7 +458,7 @@ void Editor::RenderScene(bool BindMat)
 
                         Msphere.v_SubMeshes[0].BindVertexBuffer();
                         Msphere.v_SubMeshes[0].BindIndexBuffer();
-                        Msphere.v_SubMeshes[0].DrawIndexed(BindMat);
+                        Msphere.v_SubMeshes[0].DrawIndexed();
 					}
 				}
 
@@ -396,6 +482,7 @@ void Editor::RenderScene(bool BindMat)
 				Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(7, 1, m_Envmap.m_PreFilteredEnvMap.GetRessourceViewPtr());
 				Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(8, 1, m_Envmap.m_BRFLutTexture.GetRessourceViewPtr());
 				Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(9, 1, m_Cascade.m_CascadeLightTex.DephtResourceView.GetAddressOf());
+                Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(10, 1, m_bloom.m_bloomUpSample[0].GetRessourceViewPtr());
 
 				
 				// component.m_mesh.BindShaders();
@@ -406,7 +493,7 @@ void Editor::RenderScene(bool BindMat)
                     Submesh.BindVertexBuffer();
                     Submesh.BindIndexBuffer();
                     component.m_mesh.BindMaterial(Submesh.m_materialIndex);
-                    Submesh.DrawIndexed(true);
+                    Submesh.DrawIndexed();
                 }
 
 

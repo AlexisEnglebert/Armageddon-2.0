@@ -50,7 +50,7 @@ void EnvMap::Render(Armageddon::Camera* m_camera)
 	Viewport.MinDepth = 0.999999f;
 	Viewport.MaxDepth = 1.0f;
 	Armageddon::Interface::GetDeviceContext()->RSSetViewports(1,&Viewport);
-	m_Cube.v_SubMeshes[0].DrawIndexed(true);
+	m_Cube.v_SubMeshes[0].DrawIndexed();
 	Viewport.MinDepth = 0.0f;
 	Viewport.MaxDepth = 1.0f;
 	Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &Viewport);

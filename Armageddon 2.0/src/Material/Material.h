@@ -45,9 +45,14 @@ namespace Armageddon
 	};
 	struct BoolProperty : Property
 	{
+		std::string m_name;
 		bool boolean;
 		BoolProperty() = default;
-		BoolProperty(const BoolProperty& copy) {};
+		BoolProperty(const BoolProperty& copy) { boolean = copy.boolean; m_name = copy.m_name; };
+		BoolProperty(std::string name) : m_name(name)
+		{
+
+		};
 		BoolProperty(bool value) : boolean(value) {};
 
 	};
@@ -105,6 +110,10 @@ namespace Armageddon
 		{
 			m_VTexure.push_back(TextureProperty(name));
 		};
+		void AddBoolProperty(std::string name)
+		{
+			m_Vbool.push_back(BoolProperty(name));
+		};
 		std::size_t GetSize()
 		{
 			return m_Vfloat3.size();
@@ -130,6 +139,7 @@ namespace Armageddon
 		Material(const std::string& MaterialName);
 		Material(Texture* m_albedoMap, Texture* m_normalMap, Texture* m_specularMap, Texture* m_metalicMap, Texture* m_ambiantOcclusionMap);
 		Material(Texture& m_albedoMap, Texture& m_normalMap, Texture& m_specularMap, Texture& m_ambiantOcclusionMap);
+		~Material();
 		void SetAlbedoMap(const std::filesystem::path& m_albedoPath);
 		void SetNormalMap(const std::filesystem::path& m_NormalPath);
 		void SetSpecularMap(const std::filesystem::path& m_SpecularPath);
@@ -158,6 +168,9 @@ namespace Armageddon
 		MaterialProperty m_MaterialProperty;
 
 		MaterialBuffer m_PBRBUFFER;
+
+		//Test d'un ConstBuffer Dynamique :
+		char* TestConstBuffer;
 	private:
 
 	};
