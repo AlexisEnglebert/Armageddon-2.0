@@ -32,6 +32,7 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
     CreateRenderTargetView(width,height);
     m_OffScreenRenderTarget.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
     m_FrameBuffer.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
+    FinalPass.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
 
         CreateViewPort(width, height);
 
@@ -232,6 +233,18 @@ void Armageddon::Renderer::CreateDefaultBlendState()
 	BlendDesc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
 
 	Armageddon::Interface::GetDevice()->CreateBlendState(&BlendDesc, Armageddon::Renderer::DefaultBlendState.GetAddressOf());
+    BlendDesc.AlphaToCoverageEnable = false;
+    BlendDesc.IndependentBlendEnable = false;
+    BlendDesc.RenderTarget[0].BlendEnable = false;
+    BlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+    BlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ZERO;
+    BlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+    BlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+    BlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+    BlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    BlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+    Armageddon::Interface::GetDevice()->CreateBlendState(&BlendDesc, Armageddon::Interface::GetColorBlendState().GetAddressOf());
+
 }
 
 void Armageddon::Renderer::ResizeBuffer(float width, float height)
@@ -239,6 +252,7 @@ void Armageddon::Renderer::ResizeBuffer(float width, float height)
     CleanRenderTargetView();
     m_OffScreenRenderTarget.CleanRenderTargetView();
     m_FrameBuffer.CleanRenderTargetView();
+    FinalPass.CleanRenderTargetView();
     ResetDephtStencileBuffer();
 
     HRESULT hr = Armageddon::Interface::GetSwapChain()->ResizeBuffers(0, (UINT)width, (UINT)height, DXGI_FORMAT_UNKNOWN, 0);
@@ -251,6 +265,7 @@ void Armageddon::Renderer::ResizeBuffer(float width, float height)
     CreateRenderTargetView(width,height);
     m_OffScreenRenderTarget.ResizeRenderTargetView(width, height,nullptr);
     m_FrameBuffer.ResizeRenderTargetView(width, height,nullptr);
+    FinalPass.ResizeRenderTargetView(width, height,nullptr);
     CreateViewPort(width, height);
     CreateDephtStencilBuffer(width, height);
 }

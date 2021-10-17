@@ -243,6 +243,14 @@ void MaterialEditor::DrawTextureTree(Armageddon::Material& mat)
 		{
 
 		}
+
+		float color[] = { mat.m_PBRBUFFER.EmisiveTint.x ,mat.m_PBRBUFFER.EmisiveTint.y,mat.m_PBRBUFFER.EmisiveTint.z };
+		ImGui::ColorEdit3("Tint", color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+		mat.m_PBRBUFFER.EmisiveTint.x = color[0];
+		mat.m_PBRBUFFER.EmisiveTint.y = color[1];
+		mat.m_PBRBUFFER.EmisiveTint.z = color[2];
+
+		ImGui::DragFloat("Emisive Scale", &mat.m_PBRBUFFER.EmisiveFactor, 0.1f, 0.0f, 20.0f);
 		ImGui::Columns();
 	}
 

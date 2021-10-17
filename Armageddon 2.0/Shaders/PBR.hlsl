@@ -40,6 +40,8 @@ cbuffer MaterialCBuffer : register(b3)
     bool UseEmisive;
     float3 AlbedoTint; 
     float _Padding1;
+    float EmisiveFactor;
+    float3 EmisiveTint;
 };
 
 
@@ -62,7 +64,6 @@ Texture2D MetalicMap : register(t3);
 Texture2D AmbiantOMap : register(t4);
 Texture2D EmissiveMap : register(t5);
 Texture2D ShadowMap   : register(t9);
-Texture2D bloom   : register(t10);
 
 TextureCube irradianceMap : register(t6);
 TextureCube Prefiltered : register(t7);
@@ -207,17 +208,17 @@ float3 CalculateBRDF(PSinput input,float3 View, float4 AlbedoTex,float3 Normal,f
 }
 float4 main(PSinput input) : SV_TARGET
 {
-      
+     
     float4 AlbedoTex            = AlbedoMap.Sample(Sampler, input.textCoord);
     float3 NormalTex            = NormalMap.Sample(Sampler, input.textCoord);
     float RoughnessTex          = SpecularMap.Sample(Sampler, input.textCoord).r;
     float AmbiantOclusionTex    = AmbiantOMap.Sample(Sampler, input.textCoord);
-    float4 bloomtex = bloom.Sample(Sampler, input.textCoord);
 
     AmbiantOclusionTex = AmbiantOclusionTex != 0 ? AmbiantOclusionTex : 1.0f;
     
     float MetalicTex = UseMetalMap ? MetalicMap.Sample(Sampler, input.textCoord).r : float3(0.04f, 0.04f, 0.04f);
     float3 EmisiveMap = UseEmisive ? EmissiveMap.Sample(Sampler, input.textCoord) : float3(0.0f, 0.0f, 0.0f);
+   // EmisiveMap *= EmisiveTint;
     //RoughnessTex = RoughnessTex != 0 ? RoughnessTex : 1.0f;
     //NormalTex = NormalTex != 0 ? NormalTex : normalize(input.normal);
     //AlbedoTex = AlbedoTex != 0 ? AlbedoTex : float3(1.0f, 1.0f, 1.0f);
@@ -313,7 +314,7 @@ float4 main(PSinput input) : SV_TARGET
 	
     float3 color = ambient + LightOut;  
     
-    color += EmisiveMap + bloomtex;
+    color += EmisiveMap * EmisiveFactor;
     
     
    // color = ReinhardToneMap(color, 4.0f);

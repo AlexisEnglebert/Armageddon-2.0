@@ -54,8 +54,8 @@ struct DECL MaterialBuffer
 	bool UseMetalMap	= false; //2		.10
 	float _Padding0;		
 	bool UseEmisive = false; //2		.12
-	DirectX::XMFLOAT3 AlbedoTint;	//12
+	DirectX::XMFLOAT3 AlbedoTint = {1.0f,1.0f,1.0f};	//12
 	float _Padding1;
-
-	
+	float EmisiveFactor;
+	DirectX::XMFLOAT3 EmisiveTint;
 };

@@ -12,6 +12,18 @@ void EntityList::ImGuiDraw()
 		{
 			ImGui::PushID((int)ent.GetHandle());
 			//TODO mettre des selectables Node (tree) pour les prefabs par exemple
+			/*/ImGuiTreeNodeFlags isSelected;
+			if (Seleceted == ent.GetHandle()) {
+				isSelected |= ImGuiTreeNodeFlags_Selected;
+			}
+			if (ImGui::TreeNodeEx(ent.GetComponent<TagComponent>().Tag.c_str(),ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanAvailWidth| isSelected))
+			{
+				if (ImGui::IsItemClicked())
+				{
+					Seleceted = ent.GetHandle();
+				}
+				ImGui::TreePop();
+			}*/
 			if (ImGui::Selectable(ent.GetComponent<TagComponent>().Tag.c_str(), Seleceted == ent.GetHandle(), 0, {0,0}))
 			{
 				Seleceted = ent.GetHandle();

@@ -25,20 +25,20 @@ namespace Armageddon
 		Armageddon::VertexShaders vx;
 		void Render();
 		RenderTexture m_bloomUpSample[7];
-
+		ConstantBuffer<BloomConstantBuffer> m_BloomConstant;
+		Armageddon::BloomConstantBuffer BloomPropety;
 	private:
 		//Texture downSample[13];
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> TextureRessourceView;
 		Microsoft::WRL::ComPtr<ID3D11Resource> TextureRessource;
 		ID3D11RenderTargetView* RenderTargetView;
 		Mesh m_quad = Armageddon::Renderer2D::GeneratePlane();
-
+		ID3D11BlendState* m_BlendState;
 		RenderTexture m_bloomDownSample[7];
 		Armageddon::PixelShaders  Bloompx;
 		Armageddon::PixelShaders  BloomUpsample;
 		Armageddon::VertexShaders Bloomvx;
-		ConstantBuffer<BloomConstantBuffer> m_BloomConstant;
-		Armageddon::BloomConstantBuffer BloomPropety;
+
 	};
 
 

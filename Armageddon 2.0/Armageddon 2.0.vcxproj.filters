@@ -293,5 +293,6 @@
     <FxCompile Include="Shaders\BloomThresholdVertex.hlsl" />
     <FxCompile Include="Shaders\BloomDownSamplePixel.hlsl" />
     <FxCompile Include="Shaders\BloomUpsample.hlsl" />
+    <FxCompile Include="Shaders\CombinePixel.hlsl" />
   </ItemGroup>
 </Project>

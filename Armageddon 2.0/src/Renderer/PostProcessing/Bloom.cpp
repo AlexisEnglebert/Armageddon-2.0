@@ -80,8 +80,9 @@ void Armageddon::Bloom::Render()
 	}
 	Armageddon::Interface::GetDeviceContext()->PSSetShader(BloomUpsample.GetShader(), NULL, 0);
 
-	for (UINT i = 3; i > 0; i--)
+	for (int i = 3; i >= 0; i--)
 	{
+		Armageddon::Interface::GetDeviceContext()->OMSetBlendState(Armageddon::Interface::GetColorBlendState().Get(), {}, UINT32_MAX);
 
 		float width = 1920.0F * pow(0.5, i);
 		float height = 1080.0F * pow(0.5, i);
@@ -97,7 +98,6 @@ void Armageddon::Bloom::Render()
 		viewport.MaxDepth = 1.0f;
 
 		Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &viewport);
-
 		float BackGroundColor[] = { 0.1f,0.1f,0.1f,1.0f };
 		ID3D11ShaderResourceView* null[] = { nullptr, nullptr , nullptr , nullptr , nullptr , nullptr , nullptr , nullptr , nullptr , nullptr };
 		Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 10, null);
@@ -106,8 +106,9 @@ void Armageddon::Bloom::Render()
 
 		Armageddon::Interface::GetDeviceContext()->OMSetRenderTargets(1, &m_bloomUpSample[i].RenderTargetView, nullptr);
 		Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 10, null);
-
-		BloomPropety.TexelSize = DirectX::XMFLOAT2(float(1.0F / width), float(1.0F / height));
+		float TexWidth = (width * 0.5) * 0.5;
+		float TexHeight = (height * 0.5) * 0.5;
+		BloomPropety.TexelSize = DirectX::XMFLOAT2(float(1.0F / TexWidth), float(1.0F / TexHeight));
 		m_BloomConstant.SetDynamicData(&BloomPropety);
 		m_BloomConstant.BindPS();
 
@@ -120,7 +121,7 @@ void Armageddon::Bloom::Render()
 		}
 		else
 		{
-			Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 1, m_bloomDownSample[i+1].GetRessourceViewPtr());
+			Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 1, m_bloomDownSample[i + 1].GetRessourceViewPtr());
 			Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(1, 1, m_bloomUpSample[i + 1].GetRessourceViewPtr());
 
 		}

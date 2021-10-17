@@ -47,6 +47,7 @@ namespace Armageddon
 
 		static D3D11_VIEWPORT ViewPort;
 		OffScreenRenderTarget m_FrameBuffer;
+		OffScreenRenderTarget FinalPass;
 
 	private:
 		bool InitSwapChain(HWND& hwnd);
