@@ -24,7 +24,7 @@ public:
 	ID3D11Resource* GetRessource() {return TextureRessource.Get();};
 	ID3D11Resource** GetRessourcePtr() {return TextureRessource.GetAddressOf();};
 	std::filesystem::path TexturePath = L"";
-
+private:
 protected:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> TextureRessourceView;
 	Microsoft::WRL::ComPtr<ID3D11Resource> TextureRessource;

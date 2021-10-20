@@ -4,7 +4,7 @@ Entities:
         Tag: Entity
         Mesh: Assets\Models\scene.gltf
         Transform:
-            [0, -27.080307, 0,
+            [0, -4.48928261, 0,
         0, 0, 0,
         50, 1, 50]
 

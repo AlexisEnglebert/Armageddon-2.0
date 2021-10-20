@@ -178,7 +178,17 @@ void Editor::OnRender()
     //HERE IS WHERE I Bind the RenderTargetView 
     m_Cascade.m_CascadeLightTex.Bind(Armageddon::Interface::GetDeviceContext().Get());
     m_Cascade.m_CascadeLightTex.Clear(Armageddon::Interface::GetDeviceContext().Get());
+    D3D11_VIEWPORT viewport;
+    ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
 
+    viewport.TopLeftX = 0;
+    viewport.TopLeftY = 0;
+    viewport.Width = 1920;
+    viewport.Height = 1080;
+    viewport.MinDepth = 0.0f;
+    viewport.MaxDepth = 1.0f;
+
+    Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &viewport);
     //I DRAW MY SCENE
 	 for (auto& ent : m_Scene.v_Entity)
 	{
@@ -269,17 +279,17 @@ void Editor::OnRender()
      m_bloom.m_BloomTexture.Bind(Armageddon::Interface::GetDeviceContext().Get());
      m_bloom.m_BloomTexture.Clear(Armageddon::Interface::GetDeviceContext().Get());
 
-     D3D11_VIEWPORT viewport;
+     D3D11_VIEWPORT aviewport;
      ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
 
-     viewport.TopLeftX = 0;
-     viewport.TopLeftY = 0;
-     viewport.Width = 1920;
-     viewport.Height = 1080;
-     viewport.MinDepth = 0.0f;
-     viewport.MaxDepth = 1.0f;
+     aviewport.TopLeftX = 0;
+     aviewport.TopLeftY = 0;
+     aviewport.Width = 1920;
+     aviewport.Height = 1080;
+     aviewport.MinDepth = 0.0f;
+     aviewport.MaxDepth = 1.0f;
 
-     Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &viewport);
+     Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &aviewport);
      Armageddon::Interface::GetDeviceContext()->PSSetSamplers(0, 1, Armageddon::Interface::GetSamplerState().GetAddressOf());
      Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 1, Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetAddressOfShaderRessource());
 
@@ -346,11 +356,16 @@ void Editor::ImGuiRender()
         Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetShaderRessource()
 		, { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetImageX(),
        Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetImageY() });*/
-    ImGui::Image(
+   /* ImGui::Image(
         Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetShaderRessource()
 		, { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetImageX(),
       Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetImageY() });
-
+   */ 
+   ImGui::Image(
+       m_Cascade.m_CascadeLightTex.DephtResourceView.Get()
+		, { m_Cascade.m_CascadeLightTex.GetImageX(),
+       m_Cascade.m_CascadeLightTex.GetImageY() });
+   
     ImGui::End();
 }
 

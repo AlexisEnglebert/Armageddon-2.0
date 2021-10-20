@@ -57,5 +57,6 @@ float4 main(PSinput input) : SV_TARGET
     float4 color = FrameTex + (s * (1.0 / 16.0));
     
     color = float4(uncharted2_filmic(color.rgb),1.0f);
+    color = pow(color, 1 / 2.22);
     return color;
 }

@@ -8,10 +8,10 @@ Texture::Texture(std::filesystem::path path)
 
 void Texture::Create(const std::filesystem::path& path)
 {
-	if(TextureRessource != nullptr)
-		TextureRessource->Release();
+	if (TextureRessource != nullptr)
+		TextureRessource.Get()->Release();
 	if(TextureRessourceView != nullptr)
-		TextureRessourceView->Release();
+		TextureRessourceView.Get()->Release();
 	TexturePath = path;
 	HRESULT hr = DirectX::CreateWICTextureFromFile(Armageddon::Interface::GetDevice().Get(), path.c_str(), TextureRessource.GetAddressOf(), TextureRessourceView.GetAddressOf());
 	if (FAILED(hr))
