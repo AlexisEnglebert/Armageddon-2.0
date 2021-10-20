@@ -18,4 +18,4 @@
 	url = https://github.com/aiekick/ImGuiFileDialog
 [submodule "Armageddon Editor/includes/ImGuizmo"]
 	path = Armageddon Editor/includes/ImGuizmo
-	url = https://github.com/CedricGuillemet/ImGuizmo
+	url = https://github.com/Alexisloic21/ImGuizmo
