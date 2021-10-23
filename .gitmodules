@@ -22,3 +22,5 @@
 [submodule "Armageddon 2.0/includes/PhysX"]
 	path = Armageddon 2.0/includes/PhysX
 	url = https://github.com/NVIDIAGameWorks/PhysX
+[submodule "Armageddon Editor/includes"]
+	url = https://github.com/Alexisloic21/ImGuizmo

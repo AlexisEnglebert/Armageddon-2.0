@@ -4,7 +4,7 @@ Entities:
         Tag: Entity
         Mesh: Assets\Models\scene.gltf
         Transform:
-            [0, -4.48928261, 0,
+            [0, -4.48928261, 8.96957588,
         0, 0, 0,
         50, 1, 50]
 
@@ -22,7 +22,7 @@ Entities:
         Light:
             Type: 1
             Color: [1, 0.999989986, 0.999989986]
-            Direction: [4, 4.5, -5.30000019]
+            Direction: [-1.20000005, 2.20000005, -1.20000005]
             Intensity: 1
     -   Entity: 3
         Tag: Entity
@@ -44,6 +44,64 @@ Entities:
         Tag: "Entit\x00"
         Mesh: Assets\Models\Cube.fbx
         Transform:
-            [0.0563899279, 2, 2.85618305,
+            [-16.3836632, 2, 2.85618305,
         0, 0, 0,
         1, 1, 1]
+
+    -   Entity: 6
+        Tag: Entity
+        Mesh: Assets\Models\Fantasy Town Kit\Models\FBX format\roof.fbx
+        Transform:
+            [-13.0571556, 10.2349453, 0,
+        0, 0, 0,
+        1, 1, 1]
+
+    -   Entity: 7
+        Tag: Entity
+        Mesh: Assets\Models\Fantasy Town Kit\Models\FBX format\roof.fbx
+        Transform:
+            [-2.86891103, 10.2299995, 0.17857866,
+        0, 3.20000005, 0,
+        1, 1, 1]
+
+    -   Entity: 8
+        Tag: Entity
+        Mesh: Assets\Models\Fantasy Town Kit\Models\FBX format\treeHigh.fbx
+        Transform:
+            [21.916996, -3.53480864, 0,
+        0, 0, 0,
+        1, 1, 1]
+
+    -   Entity: 9
+        Tag: Entity
+        Mesh: Assets\Models\Fantasy Town Kit\Models\FBX format\windmill.fbx
+        Transform:
+            [35.9228172, 10.6752033, -0.478433609,
+        0, 0, 0,
+        1, 1, 1]
+
+    -   Entity: 10
+        Tag: Entity
+        Mesh: Assets\Models\Fantasy Town Kit\Models\FBX format\road.fbx
+        Transform:
+            [0, 0, -11.346426,
+        0, 0, 0,
+        1, 1, 1]
+
+    -   Entity: 11
+        Tag: Entity
+        Mesh: Assets\Models\Fantasy Town Kit\Models\FBX format\fenceBroken.fbx
+        Transform:
+            [10.5457296, 0, 1.49434435,
+        0, 1.5, 0,
+        1, 1, 1]
+
+    -   Entity: 12
+        Tag: PointLight
+        Mesh: ""
+        Light:
+            Type: 0
+            Color: [1, 0, 0]
+            Position: [0, 1, 0]
+            Intensity: 9.5
+            Radius: 13.5

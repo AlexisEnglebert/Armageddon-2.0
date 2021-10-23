@@ -138,7 +138,7 @@
     <ClInclude Include="src\Scene\Serializer.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\Animation\Joint.h">
+    <ClInclude Include="src\Animation\Joint.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="includes\ImGuizmo\ImCurveEdit.h">

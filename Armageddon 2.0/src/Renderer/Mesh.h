@@ -15,8 +15,21 @@
 #include <assimp\scene.h>
 #include <assimp/postprocess.h>
 #include "../Material/AssetManager.h"
-#include "Animation/Joint.h"
+#include "../Animation/Joint.h"
 /*Cette class gère les models ainsi que le les vertex de bases */
+
+
+//TODO COPIE COLLE	
+struct DECL BoneInfo
+{
+	/*id is index in finalBoneMatrices*/
+	int id;
+
+	/*offset matrix transforms vertex from model space to bone space*/
+	DirectX::XMMATRIX offset;
+};
+
+
 class DECL Mesh
 {
 public:
@@ -42,8 +55,8 @@ private:
 
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	void ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	void ProcessBones(aiMesh* mesh, std::vector<Vertex>& Vertices);
-	void ProcessSkeletonNode(aiNode* node,uint8_t ParentID);
+	void ProcessBones(aiMesh* mesh, std::vector<Vertex>& Vertices,const aiScene* scene);
+	void ProcesBoneNode(aiNode* node,uint8_t ParentID);
 
 	TransFormBuffer m_TransForm;
 	Armageddon::Camera* m_camera;

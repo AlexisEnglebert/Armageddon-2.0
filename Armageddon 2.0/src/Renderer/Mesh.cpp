@@ -5,6 +5,7 @@
 Mesh::Mesh(const std::filesystem::path& ModelPath)
 {
 	Assimp::Importer importer;
+	importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
 	const aiScene* model = importer.ReadFile(ModelPath.string().c_str(), aiProcess_Triangulate |
 		aiProcess_GenNormals |
 		aiProcess_GenUVCoords |
@@ -12,7 +13,8 @@ Mesh::Mesh(const std::filesystem::path& ModelPath)
 		aiProcess_ConvertToLeftHanded |
 		aiProcess_ValidateDataStructure |
 		aiProcess_JoinIdenticalVertices |
-		aiProcess_CalcTangentSpace);
+		aiProcess_CalcTangentSpace |
+		aiProcess_PopulateArmatureData);
 
 	if (model == nullptr)
 	{
@@ -118,7 +120,8 @@ void Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		}
 
 	}
-	ProcessBones(mesh, Vertices);
+	if(mesh->HasBones())
+		ProcessBones(mesh, Vertices,scene);
 
 	if (mesh->mMaterialIndex >= 0) {
 		v_SubMeshes.push_back(SubMesh(Vertices, Indices, mesh->mMaterialIndex));
@@ -132,22 +135,31 @@ void Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 }
 
 
-void Mesh::ProcessBones(aiMesh* mesh, std::vector<Vertex>& Vertices)
+void Mesh::ProcessBones(aiMesh* mesh, std::vector<Vertex>& Vertices,const aiScene* scene)
 {
+		auto& InverseTransformation = scene->mRootNode->mTransformation;
+		InverseTransformation.Inverse();
+		ProcesBoneNode(mesh->mBones[0]->mNode,0);
 		for (UINT j = 0; j< mesh->mNumBones; j++)
 		{
 			//mesh->mBones[i]->
+	
+
 			std::string BoneName = (const char*)mesh->mBones[j]->mName.C_Str();
 
-			DirectX::XMMATRIX Blind = DirectX::XMMATRIX(
-				mesh->mBones[j]->mOffsetMatrix.a1, mesh->mBones[j]->mOffsetMatrix.a2, mesh->mBones[j]->mOffsetMatrix.a3, mesh->mBones[j]->mOffsetMatrix.a4,
-				mesh->mBones[j]->mOffsetMatrix.b1, mesh->mBones[j]->mOffsetMatrix.b2, mesh->mBones[j]->mOffsetMatrix.b3, mesh->mBones[j]->mOffsetMatrix.b4,
-				mesh->mBones[j]->mOffsetMatrix.c1, mesh->mBones[j]->mOffsetMatrix.c2, mesh->mBones[j]->mOffsetMatrix.c3, mesh->mBones[j]->mOffsetMatrix.c4,
-				mesh->mBones[j]->mOffsetMatrix.d1, mesh->mBones[j]->mOffsetMatrix.d2, mesh->mBones[j]->mOffsetMatrix.d3, mesh->mBones[j]->mOffsetMatrix.d4);
-			
 			Armageddon::Log::GetLogger()->trace("Bones name: {0}", BoneName.c_str());
 
+
+			const aiMatrix4x4& offset = mesh->mBones[j]->mOffsetMatrix;
+			XMMATRIX meshToBoneTransform = XMMatrixTranspose(
+				XMMATRIX(offset.a1, offset.a2, offset.a3, offset.a4,
+					offset.b1, offset.b2, offset.b3, offset.b4,
+					offset.c1, offset.c2, offset.c3, offset.c4,
+					offset.d1, offset.d2, offset.d3, offset.d4));
 			auto weightInfluence =  mesh->mBones[j]->mWeights;
+			
+
+
 			for (UINT k = 0; k < mesh->mBones[j]->mNumWeights; k++)
 			{
 				UINT VertId = weightInfluence[k].mVertexId;
@@ -166,23 +178,39 @@ void Mesh::ProcessBones(aiMesh* mesh, std::vector<Vertex>& Vertices)
 					Armageddon::Log::GetLogger()->error("Vertex ID out of range !  : {0}", VertId);
 
 				}
-			}
+				
 
-			m_skeleton.m_aJoints.push_back(Joint(BoneName, 0, Blind));
-			m_skeleton.m_JointsCount += 1;
+			
+			}
+			
+			
 
 			//m_skeleton
 		}
 	
 }
 
-void Mesh::ProcessSkeletonNode(aiNode* node, uint8_t ParentID)
+void Mesh::ProcesBoneNode(aiNode* node, uint8_t ParentID)
 {
-	Armageddon::Log::GetLogger()->trace("Node name : {0}", node->mName.C_Str());
-	Armageddon::Log::GetLogger()->trace("Parent ID : {0}", ParentID);
+	uint8_t id = ParentID + 1 ;
+	Armageddon::Log::GetLogger()->trace("Bone name : {0}", node->mName.C_Str());
+	Armageddon::Log::GetLogger()->trace("Parent ID : {0}", id-1);
+	
+
+
+	const aiMatrix4x4& Transformation = node->mTransformation;
+	XMMATRIX meshToBoneTransform = XMMatrixTranspose(
+		XMMATRIX(Transformation.a1, Transformation.a2, Transformation.a3, Transformation.a4,
+			Transformation.b1, Transformation.b2, Transformation.b3, Transformation.b4,
+			Transformation.c1, Transformation.c2, Transformation.c3, Transformation.c4,
+			Transformation.d1, Transformation.d2, Transformation.d3, Transformation.d4));
+
+
+	m_skeleton.m_aJoints.push_back(Joint(std::string(node->mName.C_Str()),(uint8_t)(id - 1) ,meshToBoneTransform));
+	m_skeleton.m_JointsCount += 1;
 	for (UINT i = 0; i < node->mNumChildren; i++)
 	{
-		ProcessSkeletonNode(node->mChildren[i], ++ParentID);
+		ProcesBoneNode(node->mChildren[i], id);
 	}
 }
 

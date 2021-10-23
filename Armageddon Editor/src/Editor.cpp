@@ -76,7 +76,6 @@ private:
     Armageddon::Bloom m_bloom;
 
     Mesh m_quad = Armageddon::Renderer2D::GeneratePlane();
-	Mesh Msphere;
 
 
 
@@ -382,7 +381,6 @@ void Editor::OnInit()
     ImGui::SetCurrentContext(Armageddon::Application::GetWindow()->GetRenderer().GetImGuiContext());
     ImGuizmo::SetImGuiContext(Armageddon::Application::GetWindow()->GetRenderer().GetImGuiContext());
     Armageddon::Log::GetLogger()->trace("OnInit Event Reached");
-    Msphere = Armageddon::Primitives::GenerateSphere(1, 38, 20);
 
     //m_Scene.LoadScene("Assets/Scenes/TestScene.mat");
     m_serializer.DeserializeScene("Assets/Scenes/TestScene.mat");
@@ -480,17 +478,17 @@ void Editor::RenderScene(bool BindMat)
 				{
 					for (UINT i = 0; i < component.m_mesh.m_skeleton.m_JointsCount; i++)
 					{
-						Msphere.UpdtateTransform(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
+						m_quad.UpdtateTransform(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
 
-						Msphere.GetTransform()->WorldMat *= component.m_mesh.m_skeleton.m_aJoints[i].m_inverseBlindPose;
+                        m_quad.GetTransform()->WorldMat *= component.m_mesh.m_skeleton.m_aJoints[i].m_inverseBlindPose;
 
-						Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(Msphere.GetTransform());
+						Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(m_quad.GetTransform());
 						Armageddon::Renderer::g_TransformCBuffer.BindPS();
 						Armageddon::Renderer::g_TransformCBuffer.BindVS();
 
-                        Msphere.v_SubMeshes[0].BindVertexBuffer();
-                        Msphere.v_SubMeshes[0].BindIndexBuffer();
-                        Msphere.v_SubMeshes[0].DrawIndexed();
+                        m_quad.v_SubMeshes[0].BindVertexBuffer();
+                        m_quad.v_SubMeshes[0].BindIndexBuffer();
+                        m_quad.v_SubMeshes[0].DrawIndexed();
 					}
 				}
 

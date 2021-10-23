@@ -134,7 +134,7 @@
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)bin\$(Configuration)-$(Platform)\$(Projectname)\Armageddon 2.0.dll" "$(Solutiondir)bin\Debug-x64\Armageddon Editor" /Y /I
 xcopy "$(SolutionDir)bin\$(Configuration)-$(Platform)\$(Projectname)\Armageddon 2.0.lib" "$(Solutiondir)Armageddon Editor\lib\debug" /Y /I
-xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-vc142-mtd.dll" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Armageddon Editor\" /Y /I</Command>
+xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-vc142-mtd.dll" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Armageddon Editor" /Y /I</Command>
     </PostBuildEvent>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -186,7 +186,7 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
     <ClInclude Include="src\Material\AssetManager.h" />
     <ClInclude Include="src\Material\Material.h" />
     <ClInclude Include="src\Material\Texture.h" />
-    <ClInclude Include="src\Renderer\Animation\Joint.h" />
+    <ClInclude Include="src\Animation\Joint.h" />
     <ClInclude Include="src\Renderer\CascadeShadow.h" />
     <ClInclude Include="src\Renderer\PostProcessing\Bloom.h" />
     <ClInclude Include="src\Renderer\Renderer2D.h" />
