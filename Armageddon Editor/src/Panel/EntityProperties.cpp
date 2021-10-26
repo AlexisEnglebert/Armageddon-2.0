@@ -240,7 +240,7 @@ void EntityProperties::DrawMeshComponent(Entity& entity)
 			ImGui::Combo("##PrimitiveTtype",&currentItem,PrimitivesItems,ARRAYSIZE(PrimitivesItems));
 		}
 
-		if (entity.HasComponent<MaterialComponent>() || component.m_mesh.v_Materials.size() > 0)
+		if (entity.HasComponent<MaterialComponent>() || component.m_mesh.v_MaterialReference.size() > 0)
 		{
 
 			if (ImGui::TreeNodeEx("Materials", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Selected))
@@ -248,23 +248,22 @@ void EntityProperties::DrawMeshComponent(Entity& entity)
 				if (entity.HasComponent<MeshComponent>())
 				{
 					auto& component = entity.GetComponent<MeshComponent>();
-					for (auto& mat : component.m_mesh.v_Materials)
+					for (auto& mat : component.m_mesh.v_MaterialReference)
 					{
 						ImGui::Columns(2);
-						ImGui::Text(mat.m_name.c_str());
+						ImGui::Text(AssetManager::m_MaterialMap[mat].m_AssetName.c_str());
 						ImGui::NextColumn();
 						//ImGui::SameLine();
-						ImGui::InputText("##Material", mat.m_name.data(), mat.m_name.size() * sizeof(char));
+						ImGui::InputText("##Material", AssetManager::m_MaterialMap[mat].m_AssetName.data(), AssetManager::m_MaterialMap[mat].m_AssetName.size() * sizeof(char));
 						if (ImGui::BeginDragDropTarget())
 						{
 							if (auto payload = ImGui::AcceptDragDropPayload("ASSET", ImGuiInputTextFlags_ReadOnly))
 							{
 								const char* str = (const char*)payload->Data;
 								Serializer m_serial;
-								auto material = m_serial.DeserializeMaterial(str);
-								std::string name = mat.m_name;
+								auto material = HashUtils::_64BitHash(AssetManager::GetOrCreateMaterial(str).m_AssetName);
+								std::string name = AssetManager::m_MaterialMap[material].m_AssetName;
 								mat = material;
-								mat.m_name = name;
 								Armageddon::Log::GetLogger()->trace(str);
 							}
 							ImGui::EndDragDropTarget();

@@ -6,6 +6,7 @@
 #include "../Application.h"
 #include "../Renderer/Camera/Camera.h"
 #include "../Renderer/Interface.h"
+#include "../Material/Material.h"
 struct TagComponent
 {
 	std::string Tag;
@@ -95,6 +96,10 @@ struct LightComponent
 	*/	
 	int type = 0;
 	LightComponent() = default;
+	~LightComponent()
+	{
+
+	}
 };
 
 struct SkyComponent
@@ -104,7 +109,7 @@ struct SkyComponent
 
 struct MaterialComponent
 {
-	//Armageddon::Material m_material = Armageddon::Renderer::g_assetManager.v_material[0];
-	Armageddon::Material m_material;
+	//Material m_material = Armageddon::Renderer::g_assetManager.v_material[0];
+	Material m_material;
 	MaterialComponent() = default;
 };

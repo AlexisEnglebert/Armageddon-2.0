@@ -97,10 +97,10 @@ void EntityList::ImGuiDraw()
 				entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
 				Armageddon::Renderer::g_PointLightsVector.push_back(component.m_pointLight);
 				auto& MeshComp = entity.GetComponent<MeshComponent>();
-				MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
-				MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
-				MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
-				MeshComp.m_mesh.v_Materials[0].RenderMode = 1;
+				//MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
+				//MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
+			//	MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
+				//MeshComp.m_mesh.v_Materials[0].RenderMode = 1;
 				MeshComp.ShowComponent = false;
 
 			}
@@ -114,10 +114,10 @@ void EntityList::ImGuiDraw()
 				entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
 				Armageddon::Renderer::g_DirectLightsVector.push_back(component.m_directionalLight);
 				auto& MeshComp = entity.GetComponent<MeshComponent>();
-				MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
-				MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
-				MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
-				MeshComp.m_mesh.v_Materials[0].RenderMode = 1;
+				//MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
+				//MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
+				//MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
+				//MeshComp.m_mesh.v_Materials[0].RenderMode = 1;
 				MeshComp.ShowComponent = false;
 			}
 			ImGui::EndMenu();

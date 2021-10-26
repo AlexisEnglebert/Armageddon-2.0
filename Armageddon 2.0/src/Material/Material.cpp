@@ -1,13 +1,14 @@
 #include "Material.h"
-#include "AssetManager.h"
 #include "../Renderer/Renderer.h"
 
-uint32_t Armageddon::Property::PropertyID;
+uint32_t Property::PropertyID;
 
 
-Armageddon::Material::Material(const std::string& MaterialName) : m_name(MaterialName) , m_usedMaterialName(m_usedMaterialName)
+Material::Material(const std::string& MaterialName) : m_usedMaterialName(m_usedMaterialName)
 {
-	Armageddon::Log::GetLogger()->error("POUF");
+	 m_AssetName = MaterialName;
+	 m_AssetType = AssetType::MaterialAsset;
+	 Armageddon::Log::GetLogger()->error("POUF");
 	 m_albedoMap					 = AssetManager::GetOrCreateTexture( "Ressources//Textures//DefaultAlbedo.png" );
 	 m_normalMap					 = AssetManager::GetOrCreateTexture( "Ressources//Textures//DefaultNormal.tiff" );
 	 m_specularMap					 = AssetManager::GetOrCreateTexture( "Ressources//Textures//DefaultAlbedo.png" );
@@ -21,6 +22,8 @@ Armageddon::Material::Material(const std::string& MaterialName) : m_name(Materia
 	 m_MaterialProperty.AddTextureProperty("test Texture2");
 	 m_MaterialProperty.AddBoolProperty("TestBool");
 	 
+	 AssetManager::m_AssetMap[HashUtils::_64BitHash(MaterialName)] = *this;
+	 AssetManager::m_MaterialMap[HashUtils::_64BitHash(MaterialName)] = *this;
 	 //Armageddon::Log::GetLogger()->info("Before Buffer Size : {0} ", sizeof(TestBuffer));
 	 //TestBuffer.push_back(sizeof(float));
 	 //Armageddon::Log::GetLogger()->info("After Buffer Size : {0} ", sizeof(TestBuffer)); // doit être +4 
@@ -33,72 +36,72 @@ Armageddon::Material::Material(const std::string& MaterialName) : m_name(Materia
 
 }
 
-Armageddon::Material::Material(Texture& m_albedoMap, Texture& m_normalMap, Texture& m_specularMap, Texture& m_ambiantOcclusionMap)
+Material::Material(Texture& m_albedoMap, Texture& m_normalMap, Texture& m_specularMap, Texture& m_ambiantOcclusionMap)
 {
 	this->m_albedoMap = m_albedoMap;
 	this->m_normalMap = m_normalMap;
 	this->m_specularMap = m_specularMap;
 	this->m_ambiantOcclusionMap = m_ambiantOcclusionMap;
 }
-Armageddon::Material::~Material()
+Material::~Material()
 {
 	free(TestConstBuffer);
 }
 
 
 
-void Armageddon::Material::SetAlbedoMap(const std::filesystem::path& m_albedoPath)
+void Material::SetAlbedoMap(const std::filesystem::path& m_albedoPath)
 {
 	m_albedoMap = AssetManager::GetOrCreateTexture(m_albedoPath);
 	
 }
 
-void Armageddon::Material::SetNormalMap(const std::filesystem::path& m_NormalPath)
+void Material::SetNormalMap(const std::filesystem::path& m_NormalPath)
 {
 	m_normalMap = AssetManager::GetOrCreateTexture(m_NormalPath);
 
 }
 
-void Armageddon::Material::SetSpecularMap(const std::filesystem::path& m_SpecularPath)
+void Material::SetSpecularMap(const std::filesystem::path& m_SpecularPath)
 {
 	m_specularMap = AssetManager::GetOrCreateTexture(m_SpecularPath);
 }
 
-void Armageddon::Material::SetMetalicMap(const std::filesystem::path& m_MetalicPath)
+void Material::SetMetalicMap(const std::filesystem::path& m_MetalicPath)
 {
 	m_metalicMap = AssetManager::GetOrCreateTexture(m_MetalicPath);
 
 }
 
-void Armageddon::Material::SetEmisiveMap(const std::filesystem::path& emissivePath)
+void Material::SetEmisiveMap(const std::filesystem::path& emissivePath)
 {
 	m_EmissiveMap = AssetManager::GetOrCreateTexture(emissivePath);
 
 }
 
-void Armageddon::Material::SetAOMap(const std::filesystem::path& m_AOPath)
+void Material::SetAOMap(const std::filesystem::path& m_AOPath)
 {
 	m_ambiantOcclusionMap = AssetManager::GetOrCreateTexture(m_AOPath);
 
 }
 
-void Armageddon::Material::SetVertexShader(const std::filesystem::path& ShaderPath)
+void Material::SetVertexShader(const std::filesystem::path& ShaderPath)
 {
 	m_VertexShader = AssetManager::GetOrCreateVertexShader(ShaderPath);
 }
 
-void Armageddon::Material::SetPixelShader(const std::filesystem::path& ShaderPath)
+void Material::SetPixelShader(const std::filesystem::path& ShaderPath)
 {
 	m_PixelShader = AssetManager::GetOrCreatePixelShader(ShaderPath);
 
 }
 
-Armageddon::Material::Material(Texture* m_albedoMap, Texture* m_normalMap, Texture* m_specularMap, Texture* m_metalicMap, Texture* m_ambiantOcclusionMap)
+Material::Material(Texture* m_albedoMap, Texture* m_normalMap, Texture* m_specularMap, Texture* m_metalicMap, Texture* m_ambiantOcclusionMap)
 {
 	
 }
 
-void Armageddon::Material::Bind()
+void Material::Bind()
 {
 	/*
 	* 

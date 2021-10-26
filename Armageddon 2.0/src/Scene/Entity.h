@@ -30,7 +30,10 @@ public:
 	{
 		return scene->g_registry.get<T>(HandleEntity);
 	};
-
+	void DeleteAllComponent()
+	{
+		
+	}
 	entt::entity GetHandle()
 	{	
 		return HandleEntity;

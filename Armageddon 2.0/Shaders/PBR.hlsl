@@ -219,14 +219,14 @@ float4 main(PSinput input) : SV_TARGET
     float MetalicTex = UseMetalMap ? MetalicMap.Sample(Sampler, input.textCoord).r : float3(0.04f, 0.04f, 0.04f);
     float3 EmisiveMap = UseEmisive ? EmissiveMap.Sample(Sampler, input.textCoord) : float3(0.0f, 0.0f, 0.0f);
    // EmisiveMap *= EmisiveTint;
-    //RoughnessTex = RoughnessTex != 0 ? RoughnessTex : 1.0f;
+    RoughnessTex = RoughnessTex != 1 ? RoughnessTex : Roughness;
     //NormalTex = NormalTex != 0 ? NormalTex : normalize(input.normal);
     //AlbedoTex = AlbedoTex != 0 ? AlbedoTex : float3(1.0f, 1.0f, 1.0f);
     AlbedoTex *= float4(AlbedoTint, AlbedoTex.a);
     
     
     //MetalicTex = Metalic;
-    RoughnessTex = Roughness;
+   // RoughnessTex = Roughness;
     
     NormalTex = (NormalTex * 2.0f) - 1.0f;
     float3 BumpNormal = (NormalTex.x * input.Tangent) + (NormalTex.y * input.Binormal) + (NormalTex.z * input.normal);
@@ -234,8 +234,8 @@ float4 main(PSinput input) : SV_TARGET
     
       float3 LightOut = float3(0.0f,0.0f,0.0f);
 	  float3 F0 = float3(0.04f, 0.04f, 0.04f);
-      float3 Normal = BumpNormal;
-	  float3 View = normalize(CameraPos - input.WorldPos);
+      float3 Normal = input.normal;
+	  float3 View = normalize(( input.WorldPos - CameraPos ));
 
       F0 = lerp(F0, AlbedoTex.rgb, MetalicTex);
       for (uint i = 0; i < PointLightCount; i++)
@@ -281,7 +281,7 @@ float4 main(PSinput input) : SV_TARGET
 
         }
            
-        LightOut += (spec * radiance) + shadows;
+        LightOut += (spec * (radiance + (shadows)));
         
         
         //spec * radiance + (1 - Shadow);

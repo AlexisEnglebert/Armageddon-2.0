@@ -1,10 +1,13 @@
 #include "AssetManager.h"
-
+#include "Texture.h"
+#include "Material.h"
 
  std::vector<Armageddon::PixelShaders>	AssetManager::v_PixelShaders;
  std::vector<Armageddon::VertexShaders>	AssetManager::v_VertexShaders;
- std::vector<Armageddon::Material>		AssetManager::v_material;
+ std::vector<Material>		AssetManager::v_material;
  std::vector<Texture>					AssetManager::v_texture;
+ std::unordered_map<std::size_t, Asset> AssetManager::m_AssetMap;
+ std::unordered_map<std::size_t, Material> AssetManager::m_MaterialMap;
 
 AssetManager::AssetManager()
 {
@@ -15,7 +18,7 @@ Texture AssetManager::GetOrCreateTexture(const std::filesystem::path& TexturePat
 {
     for (UINT i = 0; i < v_texture.size(); i++)
     {
-        if (TexturePath == v_texture[i].TexturePath) {
+        if (TexturePath == v_texture[i].m_AssetName) {
             Armageddon::Log::GetLogger()->trace("Texture alredy exist");
             return v_texture[i];
         }
@@ -25,16 +28,16 @@ Texture AssetManager::GetOrCreateTexture(const std::filesystem::path& TexturePat
     return tex;
 }
 
-Armageddon::Material AssetManager::GetOrCreateMaterial(const std::string& MaterialName)
+Material AssetManager::GetOrCreateMaterial(const std::string& MaterialName)
 {
 	for (UINT i = 0; i < v_material.size(); i++)
 	{
-        if (MaterialName == v_material[i].m_name) {
+        if (MaterialName == v_material[i].m_AssetName) {
             Armageddon::Log::GetLogger()->trace("Material alerady exist : {0}",MaterialName);
             return v_material[i];
         }
 	}
-    Armageddon::Material mat = Armageddon::Material(MaterialName);
+    Material mat = Material(MaterialName);
     v_material.push_back(mat);
     return mat;
 }
@@ -43,7 +46,7 @@ bool AssetManager::MaterialExist(const std::string& MaterialName)
 {
 	for (UINT i = 0; i < v_material.size(); i++)
 	{
-		if (MaterialName == v_material[i].m_name) {
+		if (MaterialName == v_material[i].m_AssetName) {
             Armageddon::Log::GetLogger()->trace("Material {0} Already Exist : ", MaterialName);
             return true;
 		}

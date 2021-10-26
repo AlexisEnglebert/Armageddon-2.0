@@ -6,10 +6,9 @@ EnvMap::EnvMap(const std::filesystem::path& HDRPath)
 	m_Cube = Armageddon::Primitives::GenerateCube();
  
 
-	
-	m_Cube.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\SkyBoxPixel.cso");
-	m_Cube.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\SkyBoxVertex.cso");
-
+	m_Cube.v_MaterialReference[0] = HashUtils::_64BitHash(AssetManager::GetOrCreateMaterial("EnvmapMaterial").m_AssetName);
+	AssetManager::m_MaterialMap[m_Cube.v_MaterialReference[0]].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\SkyBoxPixel.cso");
+	AssetManager::m_MaterialMap[m_Cube.v_MaterialReference[0]].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\SkyBoxVertex.cso");
 	m_envMapTexture.CreateCubeMap(HDRPath);
 	m_convEnvMapTexture.CreateIrradiancedMap(m_envMapTexture.GetRessourceViewPtr());
 	m_BRFLutTexture.Create(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\ibl_brdf_lut.png");

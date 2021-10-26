@@ -10,7 +10,9 @@
 #include "WICTextureLoader/WICTextureLoader11.h"
 #include "DirectXTex/DirectXTex.h"
 #include "../Renderer/Shaders.h"	
-class DECL Texture
+#include "AssetManager.h"
+
+class DECL Texture : public Asset
 {
 public:
 	Texture() = default;
@@ -23,7 +25,6 @@ public:
 	ID3D11ShaderResourceView** GetRessourceViewPtr() {return TextureRessourceView.GetAddressOf();};
 	ID3D11Resource* GetRessource() {return TextureRessource.Get();};
 	ID3D11Resource** GetRessourcePtr() {return TextureRessource.GetAddressOf();};
-	std::filesystem::path TexturePath = L"";
 private:
 protected:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> TextureRessourceView;

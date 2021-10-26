@@ -3,13 +3,14 @@
 #include "Texture.h"
 #include "../Renderer/Shaders.h"
 #include "../Renderer/ConstantBufferTypes.h"
+#include "AssetManager.h"
+
 #include <atomic>
 #include <map>
 
 #define AG_RENDERMODE_OPAQUE = 0
 #define AG_RENDERMODE_TRANSPARENT = 1
-namespace Armageddon
-{
+
 	/*
 	* Par convention dans l'engine , les Property des materials ont un ID ,
 	* il faudrait trouver un moyen d'assigner un id automatiquement mais pour
@@ -132,7 +133,7 @@ namespace Armageddon
 
 
 
-	class DECL Material
+	class DECL Material : public Asset
 	{
 	public:
 		Material() = default;
@@ -152,10 +153,9 @@ namespace Armageddon
 
 		int RenderMode = 0; //Par défaut il est opaque
 
-		VertexShaders m_VertexShader;
-		PixelShaders m_PixelShader;
+		Armageddon::VertexShaders m_VertexShader;
+		Armageddon::PixelShaders m_PixelShader;
 
-		std::string m_name;
 		std::string m_usedMaterialName;
 
 		Texture m_albedoMap;
@@ -182,4 +182,3 @@ namespace Armageddon
 		return false;
 	}
 
-}

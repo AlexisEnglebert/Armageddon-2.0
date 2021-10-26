@@ -13,6 +13,7 @@
 #include "Panel/EntityProperties.h"
 #include "Panel/MaterialEditor.h"
 #include "Panel/BoneDebug.h"
+#include "Panel/RessourceManager.h"
 
 #include "Scene/Scene.h"
 #include "Renderer/EnvMap.h"
@@ -50,7 +51,7 @@ public:
 	{
         for (auto& mat : AssetManager::v_material)
         {
-            m_serializer.SerializeMaterial("Assets/Materials/" + mat.m_name + ".mat", mat);
+            m_serializer.SerializeMaterial("Assets/Materials/" + mat.m_AssetName + ".mat", mat);
         }
 	}
     
@@ -65,6 +66,7 @@ private:
     EntityProperties m_EntityProperties = { m_Scene };
     MaterialEditor m_MaterialEditor = { m_Scene };
     BoneDebug      m_BoneDebug = { m_Scene };
+    RessourceManager m_RessourceManager = { m_Scene };
     bool cameraControlsActive = false;
 
     void CreateDockSpace();
@@ -350,25 +352,25 @@ void Editor::ImGuiRender()
     m_EntityProperties.ImGuiDraw();
     m_MaterialEditor.ImGuiDraw();
     m_BoneDebug.ImGuiDraw();
+    m_RessourceManager.ImGuiDraw();
     ImGui::Begin("Debug shadow");
 	/*ImGui::Image(
         Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetShaderRessource()
 		, { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetImageX(),
        Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetImageY() });*/
-   /* ImGui::Image(
+    ImGui::Image(
         Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetShaderRessource()
 		, { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetImageX(),
       Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetImageY() });
-   */ 
-   ImGui::Image(
+   
+   /*ImGui::Image(
        m_Cascade.m_CascadeLightTex.DephtResourceView.Get()
 		, { m_Cascade.m_CascadeLightTex.GetImageX(),
-       m_Cascade.m_CascadeLightTex.GetImageY() });
+       m_Cascade.m_CascadeLightTex.GetImageY() });*/
    
     ImGui::End();
 }
 
-//TODO : OnKeyPressed
 void Editor::OnInit()
 {
 	Armageddon::Log::GetLogger()->trace("OnInit Event Reached");
@@ -439,13 +441,13 @@ void Editor::onKeyBoardEvent(const unsigned char keyCode)
         }
 
     }
-   /* if (Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_delete) || Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_backspace))
+    if ( keyCode == AG_KEY_delete || keyCode == AG_KEY_backspace)
     {
         if (EntityList::Seleceted != entt::null) {
             m_Scene.DeleteEntity(m_Scene.GetEntityByID(EntityList::Seleceted));
             EntityList::Seleceted == entt::null;
         }
-    }*/
+    }
 }
 
 void Editor::RenderScene(bool BindMat)

@@ -6,8 +6,8 @@ public:
 	MaterialEditor() = default;
 	MaterialEditor(Scene& scene) : m_Scene(scene) {};
 	void ImGuiDraw();
-	void DrawMaterial(Armageddon::Material& mat);
-	void DrawTextureTree(Armageddon::Material& mat);
+	void DrawMaterial(uint64_t& matRef);
+	void DrawTextureTree(uint64_t& matRef);
 private:
 	Scene& m_Scene;
 

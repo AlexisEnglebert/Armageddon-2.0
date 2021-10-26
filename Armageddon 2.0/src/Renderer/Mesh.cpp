@@ -30,8 +30,7 @@ Mesh::Mesh(const std::filesystem::path& ModelPath)
 			aiString m_mname;
 			mat->Get(AI_MATKEY_NAME, m_mname);
 			Armageddon::Log::GetLogger()->info("Material {0}", (const char*)m_mname.C_Str());
-
-			v_Materials.push_back(AssetManager::GetOrCreateMaterial(m_mname.C_Str()));
+			v_MaterialReference.push_back(HashUtils::_64BitHash(AssetManager::GetOrCreateMaterial(m_mname.C_Str()).m_AssetName));
 		}
 	}
 	
@@ -218,7 +217,7 @@ Mesh::Mesh(std::vector<Vertex> Vertices, std::vector<DWORD> Indices)
 {
 
 	v_SubMeshes.push_back(SubMesh(Vertices, Indices,0));
-	v_Materials.push_back(AssetManager::GetOrCreateMaterial("DefaultMaterial"));
+	v_MaterialReference.push_back(HashUtils::_64BitHash(AssetManager::GetOrCreateMaterial("DefaultMaterial").m_AssetName));
 
 }
 
@@ -253,7 +252,7 @@ Mesh::Mesh(std::vector<Vertex> Vertices, std::vector<DWORD> Indices)
 
  void Mesh::BindMaterial(int MatIndex)
  {
-	 v_Materials[MatIndex].Bind();
+	 AssetManager::m_MaterialMap[v_MaterialReference[MatIndex]].Bind();
  }
 
 

@@ -15,6 +15,7 @@
 #include <assimp\scene.h>
 #include <assimp/postprocess.h>
 #include "../Material/AssetManager.h"
+#include "../Material/Material.h"	
 #include "../Animation/Joint.h"
 /*Cette class gère les models ainsi que le les vertex de bases */
 
@@ -46,7 +47,7 @@ public:
 	 TransFormBuffer* GetTransform() { return &m_TransForm; };
 	 
 	 std::vector<SubMesh> v_SubMeshes;
-	 std::vector <Armageddon::Material > v_Materials;
+	 std::vector<uint64_t> v_MaterialReference;
 	 Skeleton m_skeleton;
 
 	 void BindMaterial(int MatIndex);

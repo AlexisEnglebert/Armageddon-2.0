@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "AssetManager.h"
 #include "../Renderer/Renderer.h"
 	
 Texture::Texture(std::filesystem::path path)
@@ -11,8 +12,11 @@ void Texture::Create(const std::filesystem::path& path)
 	if (TextureRessource != nullptr)
 		TextureRessource.Get()->Release();
 	if(TextureRessourceView != nullptr)
-		TextureRessourceView.Get()->Release();
-	TexturePath = path;
+		TextureRessourceView.Get()->Release();	
+	m_AssetName = path.string();
+	m_AssetType = AssetType::TextureAsset;
+	AssetManager::m_AssetMap[HashUtils::_64BitHash(m_AssetName)] = *this;
+
 	HRESULT hr = DirectX::CreateWICTextureFromFile(Armageddon::Interface::GetDevice().Get(), path.c_str(), TextureRessource.GetAddressOf(), TextureRessourceView.GetAddressOf());
 	if (FAILED(hr))
 	{

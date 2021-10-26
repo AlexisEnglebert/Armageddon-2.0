@@ -2,12 +2,12 @@
 #include "Entity.h"
 #include "../Renderer/Renderer2D.h"
 
-void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Armageddon::Material& mat)
+void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Material& mat)
 {
 	YAML::Emitter emitter;
 	emitter << YAML::BeginMap;
 
-	emitter << YAML::Key << "Name" << YAML::Value << mat.m_name;
+	emitter << YAML::Key << "Name" << YAML::Value << mat.m_AssetName;
 	emitter << YAML::Key << "PixelShader" << YAML::Value << mat.m_PixelShader.ShaderPath.string();
 	emitter << YAML::Key << "VertexShader" << YAML::Value << mat.m_VertexShader.ShaderPath.string();
 
@@ -19,36 +19,36 @@ void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Armage
 
 		emitter << YAML::Key << "Name" << YAML::Value << mat.m_MaterialProperty.m_VTexure[i].m_name;
 		emitter << YAML::Key << "ID" << YAML::Value << mat.m_MaterialProperty.m_VTexure[i].ID;
-		emitter << YAML::Key << "Texture" << mat.m_MaterialProperty.m_VTexure[i].m_Texture.TexturePath.string();
+		emitter << YAML::Key << "Texture" << mat.m_MaterialProperty.m_VTexure[i].m_Texture.m_AssetName.c_str();
 		emitter << YAML::EndMap;
 
 	}
 
 	emitter << YAML::Key << "AlbedoMap";
-	emitter << YAML::Value << mat.m_albedoMap.TexturePath.string();
+	emitter << YAML::Value << mat.m_albedoMap.m_AssetName.c_str();
 
 	emitter << YAML::Key << "NormalMap";
-	emitter << YAML::Value << mat.m_normalMap.TexturePath.string();
+	emitter << YAML::Value << mat.m_normalMap.m_AssetName.c_str();
 
 	emitter << YAML::Key << "SpecMap";
-	emitter << YAML::Value << mat.m_specularMap.TexturePath.string();
+	emitter << YAML::Value << mat.m_specularMap.m_AssetName.c_str();
 
 	emitter << YAML::Key << "AOMap";
-	emitter << YAML::Value << mat.m_ambiantOcclusionMap.TexturePath.string();
+	emitter << YAML::Value << mat.m_ambiantOcclusionMap.m_AssetName.c_str();
 	
 	emitter << YAML::Key << "UseMetal";
 	emitter << YAML::Value << mat.m_PBRBUFFER.UseMetalMap;
 	if (mat.m_PBRBUFFER.UseMetalMap)
 	{
 		emitter << YAML::Key << "MetalMap";
-		emitter << YAML::Value << mat.m_metalicMap.TexturePath.string();
+		emitter << YAML::Value << mat.m_metalicMap.m_AssetName.c_str();
 	}
 	emitter << YAML::Key << "UseEmisive";
 	emitter << YAML::Value << mat.m_PBRBUFFER.UseEmisive;
 	if (mat.m_PBRBUFFER.UseEmisive)
 	{
 		emitter << YAML::Key << "EmisiveMap";
-		emitter << YAML::Value << mat.m_metalicMap.TexturePath.string();
+		emitter << YAML::Value << mat.m_metalicMap.m_AssetName.c_str();
 	}
 
 	emitter << YAML::EndMap;
@@ -63,7 +63,18 @@ void Serializer::SerializeScene(const std::filesystem::path& FilePath,Entity& en
 	emitter.SetIndent(4);
 
 	emitter << YAML::BeginMap;
-	emitter << YAML::Key << "Scene" << YAML::Value << FilePath.string().c_str() << YAML::Newline;;
+	emitter << YAML::Key << "Ressources" << YAML::Value  << YAML::Block << YAML::BeginSeq;
+	emitter << YAML::BeginMap;
+	for (auto iterator = AssetManager::m_AssetMap.begin() ; iterator != AssetManager::m_AssetMap.cend();iterator++)
+	{
+		emitter << YAML::Key << YAML::Hex << iterator->first << YAML::Value << iterator->second.m_AssetName;
+		emitter << YAML::Key << "AssetType" << (int)iterator->second.m_AssetType;
+
+	}
+	emitter << YAML::EndMap;
+	emitter << YAML::EndSeq;
+
+	emitter << YAML::Key << "Scene" << YAML::Value << FilePath.string().c_str() << YAML::Newline;
 	emitter << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
 	for (auto& entity : m_Scene->v_Entity)
 	{
@@ -189,10 +200,10 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 						n_entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
 						Armageddon::Renderer::g_PointLightsVector.push_back(component.m_pointLight);
 						auto& MeshComp = n_entity.GetComponent<MeshComponent>();
-						MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
-						MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
-						MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
-						MeshComp.m_mesh.v_Materials[0].RenderMode = 1;
+						//MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
+						//MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
+						//MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
+						//MeshComp.m_mesh.v_Materials[0].RenderMode = 1;
 						MeshComp.ShowComponent = false;
 
 					}
@@ -210,10 +221,10 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 						n_entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
 						Armageddon::Renderer::g_DirectLightsVector.push_back(component.m_directionalLight);
 						auto& MeshComp = n_entity.GetComponent<MeshComponent>();
-						MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
-						MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
-						MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
-						MeshComp.m_mesh.v_Materials[0].RenderMode = 1;
+					//	MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
+						//MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
+						//MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
+						//MeshComp.m_mesh.v_Materials[0].RenderMode = 1;
 						MeshComp.ShowComponent = false;
 					}
 				}
@@ -236,7 +247,7 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 
 	
 }
-Armageddon::Material Serializer::DeserializeMaterial(const std::filesystem::path& FilePath)
+Material Serializer::DeserializeMaterial(const std::filesystem::path& FilePath)
 {
 	std::ifstream stream(FilePath);
 	std::stringstream m_stringStream;
@@ -264,9 +275,9 @@ Armageddon::Material Serializer::DeserializeMaterial(const std::filesystem::path
 		}
 		else
 		{
-			return AssetManager::GetOrCreateMaterial(node["MATname"].as<std::string>());
+			//return AssetManager::GetOrCreateMaterial(node["MATname"].as<std::string>());
 		}
 	}
 
-	return Armageddon::Material();
+	return Material();
 }

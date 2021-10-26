@@ -170,6 +170,7 @@
     <ClCompile Include="src\Panel\EntityList.cpp" />
     <ClCompile Include="src\Panel\EntityProperties.cpp" />
     <ClCompile Include="src\Panel\MaterialEditor.cpp" />
+    <ClCompile Include="src\Panel\RessourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\imgui-docking\backends\imgui_impl_dx11.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="src\Panel\EntityList.h" />
     <ClInclude Include="src\Panel\EntityProperties.h" />
     <ClInclude Include="src\Panel\MaterialEditor.h" />
+    <ClInclude Include="src\Panel\RessourceManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

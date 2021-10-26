@@ -5,6 +5,7 @@
 #include "Primitives.h"
 #include "Interface.h"
 #include <filesystem>
+#include "../Material/Material.h"
 class DECL EnvMap
 {
 public:

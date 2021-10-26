@@ -1,3 +1,52 @@
+Ressources:
+    -   0xe08294e29bbc3d92: Ressources//Icones//Editor//icone_point_light.png
+        AssetType: 1
+        0x18acbf92dbfc0b73: Ressources//Icones//ContentBrowser//FileIcon.png
+        AssetType: 1
+        0x90c5f198c13cedcd: Ressources//Icones//ContentBrowser//FolderIcon.png
+        AssetType: 1
+        0xbd784bb486f6d4e1: Ressources//Icones//ContentBrowser//SearchIcon.png
+        AssetType: 1
+        0xf322b8d1c4e01608: foliage
+        AssetType: 2
+        0x4188b1ae4de3cc06: Ressources//Icones//ContentBrowser//BackIcon.png
+        AssetType: 1
+        0x707e16f6368787a8: wood
+        AssetType: 2
+        0xc61d992939cfe18c: Ressources//Icones//ContentBrowser//FileIconTIFF.png
+        AssetType: 1
+        0xdc93b58c2aa0f5df: Ressources//Icones//ContentBrowser//FileIconFBX.png
+        AssetType: 1
+        0x6ecf3c5b62fa7eb5: Ressources//Icones//ContentBrowser//FileIconJPEG.png
+        AssetType: 1
+        0xcbf29ce484222325: ""
+        AssetType: 2
+        0xd84084f96a7c6d75: Ressources//Icones//ContentBrowser//FileIconMAT.png
+        AssetType: 1
+        0x356868bb6cc92988: Ressources//Icones//ContentBrowser//FileIconPNG.png
+        AssetType: 1
+        0x9611976d31e765d1: Ressources//Icones//ContentBrowser//FileIconHDR.png
+        AssetType: 1
+        0x746ff7cd79de77fa: Ressources//Textures//DefaultAlbedo.png
+        AssetType: 1
+        0x414820406f8ea322: Ressources//Textures//DefaultNormal.tiff
+        AssetType: 1
+        0x3efb4d9127ebcca3: DefaultMaterial
+        AssetType: 2
+        0x62e41c1334dc2db: ..\Armageddon Editor\Assets\Texture\Skybox\ibl_brdf_lut.png
+        AssetType: 1
+        0xb19c9290038389c0: Material
+        AssetType: 2
+        0x453254ad76ea8a5a: stone
+        AssetType: 2
+        0xfd8df0bb48419fe9: roofLight
+        AssetType: 2
+        0xa3550b1ff0c47f8f: roof
+        AssetType: 2
+        0x33581d192fefa641: hay
+        AssetType: 2
+        0xf6f3c71f0b2d37ef: _defaultMat
+        AssetType: 2
 Scene: Assets/Scenes/TestScene.mat
 Entities:
     -   Entity: 0
