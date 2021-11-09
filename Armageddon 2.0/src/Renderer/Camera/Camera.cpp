@@ -11,6 +11,8 @@ Armageddon::Camera::Camera()
 
 void Armageddon::Camera::SetProjectionValues(float FovDegrees, float AspectRatio, float nearZ, float FarZ)
 {
+    FOV = FovDegrees;
+    this->AspectRatio= AspectRatio;
     float fovRad = (FovDegrees / 360.0f) * DirectX::XM_2PI;
     this->NearZ = nearZ;
     this->FarZ = FarZ;

@@ -1,4 +1,3 @@
-#define _CRTDBG_MAP_ALLOC  
 #include <stdlib.h>  
 #include <crtdbg.h>
 #include "Application.h"
@@ -23,7 +22,7 @@
 #include "Scene/Serializer.h"
 #include "Renderer/CascadeShadow.h"
 #include "Renderer/PostProcessing/Bloom.h"
-
+#include "Utils/Timer.h"
 #include "ImGuizmo.h"
 class Editor : public Armageddon::Application
 {
@@ -42,9 +41,11 @@ public:
 
 	Editor()
 	{
+        m_Scene.m_SceneState = SceneState::Editor;
         FinalPassVertex = AssetManager::GetOrCreateVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BloomThresholdVertex.cso");
         FinalPassPixel = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\CombinePixel.cso");
-        m_Envmap = EnvMap(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\HDR\\orbita_4k.hdr");
+        m_Envmap = EnvMap(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\HDR\\sunset_jhbcentral_1k.hdr");
+        m_PlayButton.Create(L"Ressources//Icones//Editor//PlayButton.png");
 	}
 
 	~Editor()
@@ -60,13 +61,13 @@ private:
     
     Scene m_Scene;
     Serializer m_serializer = {&m_Scene};
-
-    ContentBrowser m_ContentBrowser;
-    EntityList m_EntityList = { m_Scene };
-    EntityProperties m_EntityProperties = { m_Scene };
-    MaterialEditor m_MaterialEditor = { m_Scene };
-    BoneDebug      m_BoneDebug = { m_Scene };
-    RessourceManager m_RessourceManager = { m_Scene };
+    //Editor Panel
+    ContentBrowser                  m_ContentBrowser;
+    EntityList                      m_EntityList = { m_Scene };
+    EntityProperties                m_EntityProperties = { m_Scene };
+    MaterialEditor                  m_MaterialEditor = { m_Scene };
+    BoneDebug                       m_BoneDebug = { m_Scene };
+    RessourceManager                m_RessourceManager = { m_Scene };
     bool cameraControlsActive = false;
 
     void CreateDockSpace();
@@ -78,6 +79,8 @@ private:
     Armageddon::Bloom m_bloom;
 
     Mesh m_quad = Armageddon::Renderer2D::GeneratePlane();
+
+    Texture m_PlayButton;
 
 
 
@@ -137,6 +140,8 @@ void Editor::OnUpdate()
 */
 void Editor::OnRender()
 {
+    Profiler m_CascadeTimer("GlobalPass");
+
     auto group = m_Scene.g_registry.group<LightComponent>(entt::get<TagComponent>);
     for (int i = 0 ; i < group.size();i++)
     {
@@ -179,6 +184,8 @@ void Editor::OnRender()
     //HERE IS WHERE I Bind the RenderTargetView 
     m_Cascade.m_CascadeLightTex.Bind(Armageddon::Interface::GetDeviceContext().Get());
     m_Cascade.m_CascadeLightTex.Clear(Armageddon::Interface::GetDeviceContext().Get());
+    Profiler Shadow("ShadowPass");
+   
     D3D11_VIEWPORT viewport;
     ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
 
@@ -232,6 +239,10 @@ void Editor::OnRender()
 		}
 	}
 
+     Shadow.~Profiler();
+
+     Profiler FramePass("FrameBufferPass");
+
      Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.Bind(Armageddon::Interface::GetDeviceContext().Get());
      Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.Clear(Armageddon::Interface::GetDeviceContext().Get());
 
@@ -275,8 +286,9 @@ void Editor::OnRender()
          }
      }
      m_Envmap.Render(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
+     FramePass.~Profiler();
+     Profiler BloomTimer("BloomPass");
 
-     
      m_bloom.m_BloomTexture.Bind(Armageddon::Interface::GetDeviceContext().Get());
      m_bloom.m_BloomTexture.Clear(Armageddon::Interface::GetDeviceContext().Get());
 
@@ -312,11 +324,16 @@ void Editor::OnRender()
 	Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().Bind(Armageddon::Interface::GetDeviceContext().Get());
 	Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().Clear(Armageddon::Interface::GetDeviceContext().Get());
     //I REDRAW MY SCENE WHERE I'M BINDING THE RESSOURCE
-
     m_bloom.Render();
+
+    BloomTimer.~Profiler();
     Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().Bind(Armageddon::Interface::GetDeviceContext().Get());
+  
+    Profiler RenderPass("RenderPass");
 
     RenderScene(true);
+    RenderPass.~Profiler();
+    Profiler CombinePass("CombinePass");
 
     Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.Bind(Armageddon::Interface::GetDeviceContext().Get());
     Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.Clear(Armageddon::Interface::GetDeviceContext().Get());
@@ -436,17 +453,22 @@ void Editor::onKeyBoardEvent(const unsigned char keyCode)
         if (!Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_D) && keyCode == AG_KEY_D)
         {
             if (EntityList::Seleceted != entt::null)
-            {// m_Scene.DuplicateEntity(m_Scene.GetEntityByID(EntityList::Seleceted));
+            {
+                m_Scene.DuplicateEntity(m_Scene.GetEntityByID(EntityList::Seleceted));
             }
         }
 
     }
-    if ( keyCode == AG_KEY_delete || keyCode == AG_KEY_backspace)
+    if ( keyCode == AG_KEY_delete) 
     {
         if (EntityList::Seleceted != entt::null) {
             m_Scene.DeleteEntity(m_Scene.GetEntityByID(EntityList::Seleceted));
             EntityList::Seleceted == entt::null;
         }
+    }
+    if (keyCode == AG_KEY_O)
+    {
+        
     }
 }
 
@@ -458,7 +480,11 @@ void Editor::RenderScene(bool BindMat)
 	{
 
         //Armageddon::Interface::GetDeviceContext()->CSSetShader()
-
+       /*/ if (ent.HasComponent<RigidBodyComponent>())
+        {
+           auto& component = ent.GetComponent<RigidBodyComponent>();
+           component.update();
+        }*/
 		if (ent.HasComponent<MeshComponent>())
 		{
 			auto& component = ent.GetComponent<MeshComponent>();
@@ -515,6 +541,7 @@ void Editor::RenderScene(bool BindMat)
 				Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(8, 1, m_Envmap.m_BRFLutTexture.GetRessourceViewPtr());
 				Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(9, 1, m_Cascade.m_CascadeLightTex.DephtResourceView.GetAddressOf());
 
+                
 				
 				// component.m_mesh.BindShaders();
                 
@@ -531,6 +558,8 @@ void Editor::RenderScene(bool BindMat)
 			}
 		}
 	}
+  //  Armageddon::PhysicsInterface::g_PhysxScene->simulate(0.01);
+  //  Armageddon::PhysicsInterface::g_PhysxScene->fetchResults(true);
     m_Envmap.Render(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
 
 }
@@ -583,7 +612,6 @@ void Editor::CreateDockSpace()
                     }
                     if (pute.HasComponent<MeshComponent>())
                     {
-                        Armageddon::Log::GetLogger()->trace("TU AS LE MESH COMPONENT ALORS CASSE PAS LES COUIILLES");
                     }
                     if (pute.HasComponent<TransformComponent>())
                     {
@@ -615,11 +643,45 @@ void Editor::CreateDockSpace()
    // ImGui::DragFloat("Metalic", &m_PBRBUFFER.Metalic, 0.01, 0, 1);
 
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+    for (auto iterator = ProfilerData::m_profilerData.begin(); iterator != ProfilerData::m_profilerData.cend(); iterator++)
+    {
+        ImGui::Text("%s : %.3f ms", iterator->first.c_str(), iterator->second);
+
+    }
+    ProfilerData::Clear();
 	ImGui::End();
 }
 
 void Editor::DrawImGuiScene()
 {
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0.0f,0.0f});
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, { 0.0f,0.0f });
+    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.0862745098f, 0.0862745098f, 0.0862745098f, 1.0f));
+
+    
+
+    ImGui::Begin("##SceneToolBar", 0, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoCollapse);
+    ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5) - (ImGui::GetWindowHeight() - 4.0f * 0.5f));
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4( 35/255, 35/255, 35/255 ,1.0f));
+    if (ImGui::ImageButton(m_PlayButton.GetRessourceView(), { 20,20 }))
+    {
+        if (m_Scene.m_SceneState == SceneState::Editor)
+        {
+
+
+        }
+        if (m_Scene.m_SceneState == SceneState::Runtime)
+        {
+
+        }
+    }
+    ImGui::PopStyleColor(2);
+    ImGui::PopStyleVar(2);
+
+    ImGui::End();
+
+
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0.0f,0.0f });

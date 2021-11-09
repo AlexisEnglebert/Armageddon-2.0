@@ -29,9 +29,14 @@ bool Armageddon::PixelShaders::Init(Microsoft::WRL::ComPtr<ID3D11Device>& device
 			Armageddon::Log::GetLogger()->error("Failed reading file");
 			return false;
 		}
+		ID3DBlob* pError;
 
 		hr = D3DCompile(blob->GetBufferPointer(), blob->GetBufferSize(), NULL, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "ps_5_0",
-			15, 0, PixelShaderBuffer.GetAddressOf(), NULL);
+			15, 0, PixelShaderBuffer.GetAddressOf(), &pError);
+		if (pError) {
+			Armageddon::Log::GetLogger()->error("FAILED Compiling VertexShader [{0}]", (char*)pError->GetBufferPointer());
+			pError->Release();
+		}
 
 		if (FAILED(hr))
 		{

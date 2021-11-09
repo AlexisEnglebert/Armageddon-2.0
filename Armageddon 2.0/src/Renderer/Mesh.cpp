@@ -30,7 +30,11 @@ Mesh::Mesh(const std::filesystem::path& ModelPath)
 			aiString m_mname;
 			mat->Get(AI_MATKEY_NAME, m_mname);
 			Armageddon::Log::GetLogger()->info("Material {0}", (const char*)m_mname.C_Str());
-			v_MaterialReference.push_back(HashUtils::_64BitHash(AssetManager::GetOrCreateMaterial(m_mname.C_Str()).m_AssetName));
+			if (m_mname.length <= 0)
+			{
+				m_mname = "Unamed Material #" + std::to_string(i);
+			}
+			v_MaterialReference.push_back(AssetManager::GetOrCreateMaterial(m_mname.C_Str()));
 		}
 	}
 	
@@ -217,7 +221,7 @@ Mesh::Mesh(std::vector<Vertex> Vertices, std::vector<DWORD> Indices)
 {
 
 	v_SubMeshes.push_back(SubMesh(Vertices, Indices,0));
-	v_MaterialReference.push_back(HashUtils::_64BitHash(AssetManager::GetOrCreateMaterial("DefaultMaterial").m_AssetName));
+	v_MaterialReference.push_back(AssetManager::GetOrCreateMaterial("DefaultMaterial"));
 
 }
 

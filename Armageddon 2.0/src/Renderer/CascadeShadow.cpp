@@ -87,8 +87,16 @@ void Armageddon::CascadeShadow::Update()
 		LightView = DirectX::XMMatrixLookAtLH( InvLightDir ,DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 		LightProjection = DirectX::XMMatrixOrthographicLH(100, 100, 1.0f, 100.5);
 
+		//compute AA Bounding Box with the corner of the view frustum
+		
+		//Fov = ouverture du champ (groso modo) 
 
-		DirectX::XMVECTOR Position = DirectX::XMVectorSet(Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.GetPos().x, Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.GetPos().y, Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.GetPos().z, 0.0f);
+		float TanHeight = tanf(((Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.FOV / 2.0f) / 360.0f) * DirectX::XM_2PI);
+		float TanView = tanf((((Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.FOV * Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.AspectRatio) / 2.0f) / 360.0f) * DirectX::XM_2PI);
+		float near_X = Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.NearZ;
+		
+		
+		
 		//	DirectX::XMVECTOR InvLightDir = -DirectX::XMVectorSet(-2.0f, 4.0f,-1.0f, 0.0f);
 
 

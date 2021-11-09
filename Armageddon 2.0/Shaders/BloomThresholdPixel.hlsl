@@ -12,9 +12,15 @@ float4 main(PSinput input) : SV_TARGET
 
 
     //TEST CELUI DE OPENGL : 
-    // ON DOIT IMPROVE CA
-    float brightness = dot(color.rgb, float3(0.2126, 0.7152, 0.0722));
-    if (brightness > 0.9F) color = 1.0F * color.rgb, 1.0;
-    else color = float4(0.0F, 0.0F, 0.0F, 1.0F);
+    float knee = 0.1f;
+    float threshold = 0.8f;
+    float3 curve = float3(threshold - knee, knee * 2, 0.25 / knee);
+
+    float br =color ;
+    float rq = clamp(br - curve.x, 0.0, curve.y);
+    rq = curve.z * rq * rq;
+
+    // Combine and apply the brightness response curve
+    color *= max(rq, br - threshold) / max(br, 1e-4);
 	return float4(color, 1.0f);
 }

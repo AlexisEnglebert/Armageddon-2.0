@@ -96,7 +96,9 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
     ImGuiStyle* style = &ImGui::GetStyle();
     ImVec4* colors = style->Colors;
 
-    const ImVec4 bgColor = ColorFromBytes(37, 37, 38);
+    const ImVec4 bgColor = ColorFromBytes(48, 48, 48);
+    const ImVec4 FrameColor = ColorFromBytes(127, 127, 127);
+    const ImVec4 bgColorTitle = ImVec4(0.0862745098f, 0.0862745098f, 0.0862745098f, 1.0f);
     const ImVec4 lightBgColor = ColorFromBytes(82, 82, 85);
     const ImVec4 veryLightBgColor = ColorFromBytes(90, 90, 95);
 
@@ -106,7 +108,8 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
 
     const ImVec4 textColor = ColorFromBytes(255, 255, 255);
     const ImVec4 textDisabledColor = ColorFromBytes(151, 151, 151);
-    const ImVec4 borderColor = ColorFromBytes(78, 78, 78);
+    const ImVec4 borderColor = ColorFromBytes(52, 52, 52);
+    const ImVec4 borderColorShadow = ColorFromBytes(30, 30, 30);
 
     colors[ImGuiCol_Text] = textColor;
     colors[ImGuiCol_TextDisabled] = textDisabledColor;
@@ -114,15 +117,15 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
     colors[ImGuiCol_WindowBg] = bgColor;
     colors[ImGuiCol_ChildBg] = bgColor;
     colors[ImGuiCol_PopupBg] = bgColor;
-    colors[ImGuiCol_Border] = borderColor;
-    colors[ImGuiCol_BorderShadow] = borderColor;
-    colors[ImGuiCol_FrameBg] = panelColor;
+    colors[ImGuiCol_Border] = borderColorShadow;
+    colors[ImGuiCol_BorderShadow] = borderColorShadow;
+    colors[ImGuiCol_FrameBg] = bgColorTitle;
     colors[ImGuiCol_FrameBgHovered] = panelHoverColor;
     colors[ImGuiCol_FrameBgActive] = panelActiveColor;
-    colors[ImGuiCol_TitleBg] = bgColor;
-    colors[ImGuiCol_TitleBgActive] = bgColor;
-    colors[ImGuiCol_TitleBgCollapsed] = bgColor;
-    colors[ImGuiCol_MenuBarBg] = panelColor;
+    colors[ImGuiCol_TitleBg] = bgColorTitle;
+    colors[ImGuiCol_TitleBgActive] = bgColorTitle;
+    colors[ImGuiCol_TitleBgCollapsed] = bgColorTitle;
+    colors[ImGuiCol_MenuBarBg] = bgColorTitle;
     colors[ImGuiCol_ScrollbarBg] = panelColor;
     colors[ImGuiCol_ScrollbarGrab] = lightBgColor;
     colors[ImGuiCol_ScrollbarGrabHovered] = veryLightBgColor;
@@ -165,6 +168,7 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
     style->ScrollbarRounding = 6;
     style->GrabRounding = 4;
     style->TabRounding = 4;
+ //   style->
 
 
     style->WindowTitleAlign = ImVec2(1.0f, 0.5f);

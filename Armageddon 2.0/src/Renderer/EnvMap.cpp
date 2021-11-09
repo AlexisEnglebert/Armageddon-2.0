@@ -6,7 +6,7 @@ EnvMap::EnvMap(const std::filesystem::path& HDRPath)
 	m_Cube = Armageddon::Primitives::GenerateCube();
  
 
-	m_Cube.v_MaterialReference[0] = HashUtils::_64BitHash(AssetManager::GetOrCreateMaterial("EnvmapMaterial").m_AssetName);
+	m_Cube.v_MaterialReference[0] = AssetManager::GetOrCreateMaterial("EnvmapMaterial");
 	AssetManager::m_MaterialMap[m_Cube.v_MaterialReference[0]].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\SkyBoxPixel.cso");
 	AssetManager::m_MaterialMap[m_Cube.v_MaterialReference[0]].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\SkyBoxVertex.cso");
 	m_envMapTexture.CreateCubeMap(HDRPath);

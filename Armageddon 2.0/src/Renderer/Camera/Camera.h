@@ -46,6 +46,8 @@ namespace Armageddon
 
 		 float NearZ;
 		 float FarZ;
+		 float FOV;
+		 float AspectRatio;
 	private:
 		void UpdateViewMatrix();
 		DirectX::XMVECTOR RotVector;

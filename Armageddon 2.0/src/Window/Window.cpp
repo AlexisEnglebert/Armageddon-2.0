@@ -37,6 +37,7 @@ Armageddon::Window::Window(int height, int width, std::wstring title, std::wstri
 		Armageddon::Log::GetLogger()->trace("Erreur lors de la crétation du renderer");
 
 	}
+	m_PhysEngine.init();
 
 
 	ShowWindow(this->WindowHandle, SW_MAXIMIZE);

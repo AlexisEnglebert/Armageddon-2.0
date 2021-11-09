@@ -34,7 +34,7 @@ void Scene::LoadScene(const std::filesystem::path& path)
    // m_serialzer.DeserializeScene(path);
 }
 
-void Scene::DuplicateEntity(Entity& RefEntity)
+void Scene::DuplicateEntity(Entity RefEntity)
 {
     auto entity = CreateEntity();
     if(RefEntity.HasComponent<TagComponent>())

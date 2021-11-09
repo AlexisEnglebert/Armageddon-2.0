@@ -26,11 +26,11 @@ class DECL AssetManager
 public:
 	AssetManager();
 	static Texture GetOrCreateTexture(const std::filesystem::path& TexturePath);
-	static Material GetOrCreateMaterial(const std::string& MaterialName);
-	static bool MaterialExist(const std::string& MaterialName);
+	//static Material GetOrCreateMaterial(const std::string& MaterialName);
+	static uint64_t GetOrCreateMaterial(const std::string& MaterialName);
 	static Armageddon::PixelShaders GetOrCreatePixelShader(const std::filesystem::path& ShaderPath);
 	static Armageddon::VertexShaders GetOrCreateVertexShader(const std::filesystem::path& ShaderPath);
-
+	static bool MaterialExist(const std::string& MaterialName);
 	static std::vector<Armageddon::PixelShaders>	v_PixelShaders;
 	static std::vector<Armageddon::VertexShaders>	v_VertexShaders;
 	static std::vector<Material>		v_material;

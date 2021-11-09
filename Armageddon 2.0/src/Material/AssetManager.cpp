@@ -27,9 +27,12 @@ Texture AssetManager::GetOrCreateTexture(const std::filesystem::path& TexturePat
     v_texture.push_back(tex);
     return tex;
 }
-
+/*
 Material AssetManager::GetOrCreateMaterial(const std::string& MaterialName)
 {
+    if (AssetManager::m_MaterialMap.find(1) == AssetManager::m_MaterialMap.end())
+    {
+    }
 	for (UINT i = 0; i < v_material.size(); i++)
 	{
         if (MaterialName == v_material[i].m_AssetName) {
@@ -41,18 +44,21 @@ Material AssetManager::GetOrCreateMaterial(const std::string& MaterialName)
     v_material.push_back(mat);
     return mat;
 }
+*/
 
-bool AssetManager::MaterialExist(const std::string& MaterialName)
+uint64_t AssetManager::GetOrCreateMaterial(const std::string& MaterialName)
 {
-	for (UINT i = 0; i < v_material.size(); i++)
-	{
-		if (MaterialName == v_material[i].m_AssetName) {
-            Armageddon::Log::GetLogger()->trace("Material {0} Already Exist : ", MaterialName);
-            return true;
-		}
-	}
-    return false;
+    uint64_t MatHash = HashUtils::_64BitHash(MaterialName);
+    auto Key = AssetManager::m_MaterialMap.find(MatHash);
+    if (Key == AssetManager::m_MaterialMap.end())
+    {
+        Material mat = Material(MaterialName);
+        return MatHash;
+
+    }
+    return MatHash;
 }
+
 
 Armageddon::PixelShaders AssetManager::GetOrCreatePixelShader(const std::filesystem::path& ShaderPath)
 {
@@ -82,4 +88,13 @@ Armageddon::VertexShaders AssetManager::GetOrCreateVertexShader(const std::files
     vx.Init(Armageddon::Interface::GetDevice(), ShaderPath);
     v_VertexShaders.push_back(vx);
     return vx;
+}
+
+bool AssetManager::MaterialExist(const std::string& MaterialName)
+{
+    uint64_t MatHash = HashUtils::_64BitHash(MaterialName);
+    auto Key = AssetManager::m_MaterialMap.find(MatHash);
+    if (Key == AssetManager::m_MaterialMap.end()) return false;
+
+    return true;
 }

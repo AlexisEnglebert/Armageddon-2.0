@@ -18,7 +18,7 @@
 #include <windows.h>
 #include <string.h>
 #include <tchar.h>
-
+#include "../Physics/PhysicsEngine.h"
 namespace Armageddon
 {
 	class DECL Window
@@ -32,6 +32,7 @@ namespace Armageddon
 
 		inline Renderer& GetRenderer() { return m_Renderer;			 };
 		inline KeyBoard& GetKeyBoard() { return m_KeyBoard;			 };
+		inline 	Armageddon::PhyicsEngine GetPhysicEngine() {return m_PhysEngine;};
 		float GetAspectRatio()		   { return(w_width / w_height); };
 
 		void SetMouseCallBack(const std::function<void(MouseEvent::MEventType e, float x, float y)>& callbackfunc) { MouseCallBack = callbackfunc; };
@@ -59,6 +60,7 @@ namespace Armageddon
 		/*Graphics*/
 		Renderer m_Renderer;
 
+		Armageddon::PhyicsEngine m_PhysEngine;
 		/*KeyBoard Handler*/
 		KeyBoard m_KeyBoard;
 

@@ -119,7 +119,7 @@ float NormalDistribution(float3 Normal, float3 HalfWay, float Roughness)
 
     float Numerateur = Roughness2;
     float Denominateur = (NormalDotHalf2 * (Roughness2 - 1.0) + 1.0);
-    Denominateur = (Denominateur * Denominateur); //ajouter PI ? 
+    Denominateur = (Denominateur * Denominateur) * 1.0f/PI; //ajouter PI ? 
 
     return Numerateur / Denominateur;
 }
@@ -134,8 +134,8 @@ float GeometrySchlickGGX(float NormalDotView, float Roughness)
   
 float GeometrySmith(float3 Normal, float3 View, float3 Light, float Roughness)
 {
-	float NdotV = max(dot(Normal, View), 0.0);
-	float NdotL = max(dot(Normal, Light), 0.0);
+	float NdotV = abs(dot(Normal, View)) + 1e-5;
+	float NdotL = saturate(dot(Normal, Light));
 	float ggx1 = GeometrySchlickGGX(NdotV, Roughness);
 	float ggx2 = GeometrySchlickGGX(NdotL, Roughness);
 	
@@ -144,7 +144,8 @@ float GeometrySmith(float3 Normal, float3 View, float3 Light, float Roughness)
 
 float3 fresnelSchlick(float cosTheta, float3 F0)
 {
-	return F0 + (1.0f - F0) * pow(1.0 - cosTheta, 5.0f);
+    float f = pow(1.0 - cosTheta, 5.0f);
+    return f + F0 * (1.0f - f);
 }
 
 float3 fresnelSchlickRoughness(float cosTheta, float3 F0, float roughness)
@@ -199,10 +200,10 @@ float3 CalculateBRDF(PSinput input,float3 View, float4 AlbedoTex,float3 Normal,f
         
         
     float3 Numerateur = D * F * G;
-    float Denominateur = 4.0f * max(dot(Normal, View), 0.0f) * max(dot(Normal, Light), 0.0f) + 0.001f;
+    float Denominateur = 4.0f * abs(dot(Normal, View)) + 1e-5 * saturate(dot(Normal, Light)) + 0.001f;
     float3 specular = Numerateur / Denominateur;
         
-    float NdotL = max(dot(Normal, Light), 0.0f);
+    float NdotL = saturate(dot(Normal, Light));
         
     return (kD * AlbedoTex.rgb / PI + specular)  * NdotL;
 }
@@ -219,23 +220,23 @@ float4 main(PSinput input) : SV_TARGET
     float MetalicTex = UseMetalMap ? MetalicMap.Sample(Sampler, input.textCoord).r : float3(0.04f, 0.04f, 0.04f);
     float3 EmisiveMap = UseEmisive ? EmissiveMap.Sample(Sampler, input.textCoord) : float3(0.0f, 0.0f, 0.0f);
    // EmisiveMap *= EmisiveTint;
-    RoughnessTex = RoughnessTex != 1 ? RoughnessTex : Roughness;
+  //  RoughnessTex = RoughnessTex != 1 ? RoughnessTex : Roughness;
     //NormalTex = NormalTex != 0 ? NormalTex : normalize(input.normal);
     //AlbedoTex = AlbedoTex != 0 ? AlbedoTex : float3(1.0f, 1.0f, 1.0f);
     AlbedoTex *= float4(AlbedoTint, AlbedoTex.a);
     
     
     //MetalicTex = Metalic;
-   // RoughnessTex = Roughness;
+    //RoughnessTex = Roughness;
     
-    NormalTex = (NormalTex * 2.0f) - 1.0f;
-    float3 BumpNormal = (NormalTex.x * input.Tangent) + (NormalTex.y * input.Binormal) + (NormalTex.z * input.normal);
+    NormalTex = (NormalTex * 2.0f) - float3(1.0f, 1.0f, 1.0f);
+    float3 BumpNormal = (NormalTex.x * normalize(input.Tangent)) + (NormalTex.y * normalize(input.Binormal)) + (NormalTex.z * normalize(input.normal));
     BumpNormal = normalize(BumpNormal);
     
       float3 LightOut = float3(0.0f,0.0f,0.0f);
 	  float3 F0 = float3(0.04f, 0.04f, 0.04f);
-      float3 Normal = input.normal;
-	  float3 View = normalize(( input.WorldPos - CameraPos ));
+      float3 Normal = BumpNormal;
+	  float3 View = normalize((  CameraPos -  input.WorldPos ));
 
       F0 = lerp(F0, AlbedoTex.rgb, MetalicTex);
       for (uint i = 0; i < PointLightCount; i++)
@@ -275,13 +276,13 @@ float4 main(PSinput input) : SV_TARGET
 
             if (lightDepthValue > depthValue)
             {
-                shadows = 0.0f;
+                shadows = 0.1f;
 
             }
 
         }
            
-        LightOut += (spec * (radiance + (shadows)));
+        LightOut += (spec * (radiance * shadows));
         
         
         //spec * radiance + (1 - Shadow);
@@ -301,9 +302,9 @@ float4 main(PSinput input) : SV_TARGET
     float3 specular = prefilteredColor * (_kS * envBRDF.x + envBRDF.y);
 	
 	
-    float3 ambient = (_kD * diffuse  + specular) * AmbiantOclusionTex;
+    float3 ambient = (_kD * diffuse  ) * AmbiantOclusionTex;
 	
-    float3 color = ambient + LightOut;  
+    float3 color = ambient + LightOut ;
     
     color += EmisiveMap * EmisiveFactor;
     

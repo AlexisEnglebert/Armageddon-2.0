@@ -47,7 +47,21 @@ struct MeshComponent
 		
 	};
 };
+/*
+struct RigidBodyComponent
+{
+	//Armageddon::PhysicActor m_actor;
+	RigidBodyComponent(/*Entity& ent)
+	{
+		//m_actor.m_ent = ent;
+		//m_actor.CreateRigidBody();
+	};
 
+	void update()
+	{
+		//m_actor.update();
+	};
+};*/
 
 struct TransformComponent
 {

@@ -32,6 +32,10 @@ void EntityProperties::ImGuiDraw()
 				entity.AddComponent<LightComponent>();
 				Armageddon::Renderer::g_PointLightsVector.push_back(entity.GetComponent<LightComponent>().m_pointLight);
 			}
+		/*	if (ImGui::MenuItem("RigidBodyComponent") && !entity.HasComponent<RigidBodyComponent>())
+			{
+				entity.AddComponent<RigidBodyComponent>();
+			}*/
 			//ImGui::MenuItem("Sphere");
 		
 			ImGui::EndPopup();
@@ -261,14 +265,19 @@ void EntityProperties::DrawMeshComponent(Entity& entity)
 							{
 								const char* str = (const char*)payload->Data;
 								Serializer m_serial;
-								auto material = HashUtils::_64BitHash(AssetManager::GetOrCreateMaterial(str).m_AssetName);
+								auto file_name = std::filesystem::path(str).stem();
+								if (!AssetManager::MaterialExist(file_name.string()))
+								{
+									m_serial.DeserializeMaterial(str);
+								}
+								auto material = AssetManager::GetOrCreateMaterial(file_name.string());
 								std::string name = AssetManager::m_MaterialMap[material].m_AssetName;
 								mat = material;
-								Armageddon::Log::GetLogger()->trace(str);
+								Armageddon::Log::GetLogger()->trace(file_name);
 							}
 							ImGui::EndDragDropTarget();
 						}
-						ImGui::Columns();
+						ImGui::Columns();	
 
 					}
 				}

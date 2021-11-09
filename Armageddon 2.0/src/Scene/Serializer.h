@@ -15,8 +15,9 @@ public:
 	Serializer(Scene* Scene) : m_Scene(Scene) {};
 	void SerializeMaterial(const std::filesystem::path& FilePath, Material& mat);
 	void SerializeScene(const std::filesystem::path& FilePath, Entity& ent, entt::registry& ere);
+	void SerializeRessourceMap(const std::filesystem::path& FilePath);
 	void DeserializeScene(const std::filesystem::path& FilePath);
-	Material DeserializeMaterial(const std::filesystem::path& FilePath);
+	uint64_t DeserializeMaterial(const std::filesystem::path& FilePath);
 private:
 	Scene* m_Scene;
 };

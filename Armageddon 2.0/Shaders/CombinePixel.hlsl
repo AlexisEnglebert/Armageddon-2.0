@@ -53,10 +53,10 @@ float4 main(PSinput input) : SV_TARGET
     s += BloomTexture.Sample(Sampler, (input.textCoord + d.zy));
     s += BloomTexture.Sample(Sampler, (input.textCoord + d.wy)) * 2.0;
     s += BloomTexture.Sample(Sampler, (input.textCoord + d.xy));
-     
-    float4 color = FrameTex + (s * (1.0 / 16.0));
+     //FrameTex +
+    float4 color =  (s * (1.0 / 16.0));
     
     color = float4(uncharted2_filmic(color.rgb),1.0f);
     color = pow(color, 1 / 2.22);
-    return color;
+    return color + FrameTex;
 }
