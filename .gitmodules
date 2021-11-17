@@ -24,6 +24,3 @@
 	url = https://github.com/NVIDIAGameWorks/PhysX
 [submodule "Armageddon Editor/includes"]
 	url = https://github.com/Alexisloic21/ImGuizmo
-[submodule "Armageddon 2.0/includes/mono"]
-	path = Armageddon 2.0/includes/mono
-	url = https://github.com/mono/mono
