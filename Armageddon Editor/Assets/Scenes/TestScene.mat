@@ -3,34 +3,8 @@ Scene: Assets/Scenes/TestScene.mat
 Entities:
     -   Entity: 0
         Tag: Entity
-        Mesh: Assets\Models\Cube.fbx
+        Mesh: Assets\Models\sphere.obj
         Transform:
-            [0, 0, 0,
-        0, 0, 0,
-        20, 0.100000001, 20]
-
-    -   Entity: 1
-        Tag: Entity
-        Mesh: Assets\Models\Cube.fbx
-        Transform:
-            [0, 3.11791229, 0,
-        0, 0, 0,
+            [0, -1, 0,
+        0, 1.57000005, 0,
         1, 1, 1]
-
-    -   Entity: 2
-        Tag: DirectionalLight
-        Mesh: ""
-        Light:
-            Type: 1
-            Color: [1, 0.942810595, 0.725490212]
-            Direction: [1, 1, 1]
-            Intensity: 4.5
-    -   Entity: 3
-        Tag: PointLight
-        Mesh: ""
-        Light:
-            Type: 0
-            Color: [1, 0.441176414, 0]
-            Position: [0, 3.5, 9]
-            Intensity: 23
-            Radius: 5

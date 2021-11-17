@@ -33,17 +33,23 @@ cbuffer LightCBuffer : register(b1)
 
 cbuffer MaterialCBuffer : register(b3)
 {
-    float Roughness;
-    float Metalic;
-    bool UseMetalMap;
-    float _Padding0;
-    bool UseEmisive;
-    float3 AlbedoTint; 
-    float _Padding1;
-    float EmisiveFactor;
+    float Roughness;//4
+    float Metalic;//8
+    bool UseMetalMap;//9
+    float _Padding0;//13
+    bool UseEmisive;//14
+    float3 AlbedoTint; //26
+    //float _Padding1;//30
+    //bool _Padding3; //31
+    //bool _Padding2; //32
+    float EmisiveFactor;//4
     float3 EmisiveTint;
 };
 
+cbuffer WorldCBuffer : register(b4)
+{
+    float time;
+}
 
 struct PSinput
 {
@@ -227,19 +233,25 @@ float4 main(PSinput input) : SV_TARGET
     
     
     //MetalicTex = Metalic;
-    //RoughnessTex = Roughness;
+   // RoughnessTex = Roughness;
     
     NormalTex = (NormalTex * 2.0f) - float3(1.0f, 1.0f, 1.0f);
-    float3 BumpNormal = (NormalTex.x * normalize(input.Tangent)) + (NormalTex.y * normalize(input.Binormal)) + (NormalTex.z * normalize(input.normal));
+    float3x3 TBN = float3x3(normalize(input.Tangent), normalize(input.Binormal), normalize(input.normal));
+    float3 BumpNormal = mul(transpose(TBN), NormalTex);
+
+    //float3 BumpNormal = (NormalTex.x * normalize(input.Tangent)) + (NormalTex.y * normalize(input.Binormal)) + (NormalTex.z * normalize(input.normal));
     BumpNormal = normalize(BumpNormal);
     
+
+   
       float3 LightOut = float3(0.0f,0.0f,0.0f);
 	  float3 F0 = float3(0.04f, 0.04f, 0.04f);
       float3 Normal = BumpNormal;
-	  float3 View = normalize((  CameraPos -  input.WorldPos ));
+      float3 camPosNormal = float3(CameraPos.x, CameraPos.y, CameraPos.z);
+	  float3 View = normalize(camPosNormal - input.WorldPos);
 
       F0 = lerp(F0, AlbedoTex.rgb, MetalicTex);
-      for (uint i = 0; i < PointLightCount; i++)
+      for (uint i = 0; i < PointLightCount; i++)         
       {
         
         float3 Light = normalize(PointLights[i].Position - input.WorldPos);
@@ -288,8 +300,9 @@ float4 main(PSinput input) : SV_TARGET
         //spec * radiance + (1 - Shadow);
 
     }
-	
-    float3 _kS = fresnelSchlickRoughness(max(dot(Normal, View), 0.0), F0, RoughnessTex);
+    float azazdazd = dot(View, Normal);
+    float testabec = saturate(dot(Normal,View));
+    float3 _kS = fresnelSchlickRoughness(testabec, F0, RoughnessTex);
     float3 _kD = 1.0 - _kS;
     _kD *= 1.0f - MetalicTex;
     
@@ -304,9 +317,9 @@ float4 main(PSinput input) : SV_TARGET
 	
     float3 ambient = (_kD * diffuse  ) * AmbiantOclusionTex;
 	
-    float3 color = ambient + LightOut ;
+    float3 color = ambient + LightOut + specular;
     
-    color += EmisiveMap * EmisiveFactor;
+    color += EmisiveMap * EmisiveFactor * EmisiveTint ;
     
     
    // color = ReinhardToneMap(color, 4.0f);

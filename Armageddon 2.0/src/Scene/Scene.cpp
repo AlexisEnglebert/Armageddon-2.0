@@ -18,6 +18,11 @@ Entity& Scene::GetEntityByID(entt::entity ID)
     }
 }
 
+void Scene::UpdateScene()
+{
+    Scenetime++;
+}
+
 void Scene::ClearScene()
 {
     for(auto& ent : v_Entity)

@@ -37,7 +37,7 @@ void EnvMap::Render(Armageddon::Camera* m_camera)
 	Armageddon::Renderer::g_TransformCBuffer.BindPS();
 	Armageddon::Renderer::g_TransformCBuffer.BindVS();
 	
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(17,1, m_envMapTexture.GetRessourceViewPtr());
+	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(17,1, m_PreFilteredEnvMap.GetRessourceViewPtr());
 	Armageddon::Interface::GetDeviceContext()->PSSetSamplers(0, 1, Armageddon::Interface::GetSamplerState().GetAddressOf());
 
 	m_Cube.v_SubMeshes[0].BindVertexBuffer();

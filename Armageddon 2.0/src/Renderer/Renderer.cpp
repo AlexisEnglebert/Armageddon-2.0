@@ -5,6 +5,7 @@ ConstantBuffer<LightBuffer> Armageddon::Renderer::g_LightCBuffer;
 ConstantBuffer<TransFormBuffer> Armageddon::Renderer::g_TransformCBuffer;
 ConstantBuffer<RoughnessBuffer> Armageddon::Renderer::g_RoughnessCBuffer;
 ConstantBuffer<MaterialBuffer>  Armageddon::Renderer::g_PBRCBuffer;
+ConstantBuffer<WorldBuffer>  Armageddon::Renderer::g_WorldCBuffer;
 
 LightBuffer Armageddon::Renderer::g_LightBufferData;
 D3D11_VIEWPORT  Armageddon::Renderer::ViewPort;
@@ -96,7 +97,7 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
     ImGuiStyle* style = &ImGui::GetStyle();
     ImVec4* colors = style->Colors;
 
-    const ImVec4 bgColor = ColorFromBytes(48, 48, 48);
+    const ImVec4 bgColor = ColorFromBytes(36, 36, 36);
     const ImVec4 FrameColor = ColorFromBytes(127, 127, 127);
     const ImVec4 bgColorTitle = ImVec4(0.0862745098f, 0.0862745098f, 0.0862745098f, 1.0f);
     const ImVec4 lightBgColor = ColorFromBytes(82, 82, 85);
@@ -192,7 +193,7 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
     g_LightCBuffer.Create(D3D11_USAGE_DYNAMIC, 1);
     g_RoughnessCBuffer.Create(D3D11_USAGE_DYNAMIC, 2);
     g_PBRCBuffer.Create(D3D11_USAGE_DYNAMIC, 3);
-  
+    g_WorldCBuffer.Create(D3D11_USAGE_DYNAMIC, 4);  
     
 
 

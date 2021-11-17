@@ -268,7 +268,7 @@ void EntityProperties::DrawMeshComponent(Entity& entity)
 								auto file_name = std::filesystem::path(str).stem();
 								if (!AssetManager::MaterialExist(file_name.string()))
 								{
-									m_serial.DeserializeMaterial(str);
+									m_serial.DeserializeMaterial(std::filesystem::path(str));
 								}
 								auto material = AssetManager::GetOrCreateMaterial(file_name.string());
 								std::string name = AssetManager::m_MaterialMap[material].m_AssetName;

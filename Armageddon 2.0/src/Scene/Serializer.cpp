@@ -270,9 +270,10 @@ uint64_t Serializer::DeserializeMaterial(const std::filesystem::path& FilePath)
 	std::ifstream stream(FilePath);
 	std::stringstream m_stringStream;
 	m_stringStream << stream.rdbuf();
+	std::string MatName = FilePath.stem().string();
 	YAML::Node node = YAML::Load(m_stringStream);
-	Material mat(node["Name"].as<std::string>());
-	auto Hash = HashUtils::_64BitHash(node["Name"].as<std::string>());
+	Material mat(MatName);
+	auto Hash = HashUtils::_64BitHash(MatName);
 	if (node["Name"]) 
 	{
 			if (node["Materials"])

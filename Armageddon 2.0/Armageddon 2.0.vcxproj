@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>ARMAGEDDON_BUILD_DLL;_DEBUG;_CONSOLE;NOMINMAX;_UNICODE;_WINDLL;UNICODE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Armageddon 2.0\includes\imgui-docking;$(SolutionDir)Armageddon 2.0\includes\spdlog\include;$(SolutionDir)Armageddon 2.0\includes\assimp\include;$(SolutionDir)Armageddon 2.0\includes\assimp\build\include;$(SolutionDir)Armageddon 2.0\includes\entt\src;$(SolutionDir)Armageddon 2.0\includes\DirectXTex;$(SolutionDir)Armageddon 2.0\includes\yaml-cpp\include;$(SolutionDir)Armageddon 2.0\includes\ImGuizmo;$(SolutionDir)Armageddon 2.0\includes\PhysX\physx\include;$(SolutionDir)Armageddon 2.0\includes\PhysX\pxshared\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Armageddon 2.0\includes\imgui-docking;$(SolutionDir)Armageddon 2.0\includes\spdlog\include;$(SolutionDir)Armageddon 2.0\includes\assimp\include;$(SolutionDir)Armageddon 2.0\includes\assimp\build\include;$(SolutionDir)Armageddon 2.0\includes\entt\src;$(SolutionDir)Armageddon 2.0\includes\DirectXTex;$(SolutionDir)Armageddon 2.0\includes\yaml-cpp\include;$(SolutionDir)Armageddon 2.0\includes\ImGuizmo;$(SolutionDir)Armageddon 2.0\includes\PhysX\physx\include;$(SolutionDir)Armageddon 2.0\includes\PhysX\pxshared\include;$(SolutionDir)Armageddon 2.0\includes\mono\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

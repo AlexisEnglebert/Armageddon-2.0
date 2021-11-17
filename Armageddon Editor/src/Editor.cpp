@@ -130,7 +130,6 @@ void Editor::OnUpdate()
 	if (Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_escape))
 		EntityList::Seleceted = entt::null;
    
-
 }
 
 
@@ -140,8 +139,14 @@ void Editor::OnUpdate()
 */
 void Editor::OnRender()
 {
-    Profiler m_CascadeTimer("GlobalPass");
+    m_Scene.UpdateScene();
 
+    m_Scene.m_SceneBuffer.Time = m_Scene.Scenetime;
+    Armageddon::Renderer::g_WorldCBuffer.SetDynamicData(&m_Scene.m_SceneBuffer);
+    Armageddon::Renderer::g_WorldCBuffer.BindVS();
+    Armageddon::Renderer::g_WorldCBuffer.BindPS();
+
+    Profiler m_CascadeTimer("GlobalPass");
     auto group = m_Scene.g_registry.group<LightComponent>(entt::get<TagComponent>);
     for (int i = 0 ; i < group.size();i++)
     {
@@ -184,6 +189,8 @@ void Editor::OnRender()
     //HERE IS WHERE I Bind the RenderTargetView 
     m_Cascade.m_CascadeLightTex.Bind(Armageddon::Interface::GetDeviceContext().Get());
     m_Cascade.m_CascadeLightTex.Clear(Armageddon::Interface::GetDeviceContext().Get());
+    Armageddon::Renderer::g_WorldCBuffer.BindVS();
+    Armageddon::Renderer::g_WorldCBuffer.BindPS();
     Profiler Shadow("ShadowPass");
    
     D3D11_VIEWPORT viewport;
@@ -245,7 +252,8 @@ void Editor::OnRender()
 
      Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.Bind(Armageddon::Interface::GetDeviceContext().Get());
      Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.Clear(Armageddon::Interface::GetDeviceContext().Get());
-
+     Armageddon::Renderer::g_WorldCBuffer.BindVS();
+     Armageddon::Renderer::g_WorldCBuffer.BindPS();
      for (auto& ent : m_Scene.v_Entity)
      {
          if (ent.HasComponent<MeshComponent>() && !ent.HasComponent<LightComponent>())
@@ -288,7 +296,8 @@ void Editor::OnRender()
      m_Envmap.Render(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
      FramePass.~Profiler();
      Profiler BloomTimer("BloomPass");
-
+     Armageddon::Renderer::g_WorldCBuffer.BindVS();
+     Armageddon::Renderer::g_WorldCBuffer.BindPS();
      m_bloom.m_BloomTexture.Bind(Armageddon::Interface::GetDeviceContext().Get());
      m_bloom.m_BloomTexture.Clear(Armageddon::Interface::GetDeviceContext().Get());
 
@@ -324,11 +333,14 @@ void Editor::OnRender()
 	Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().Bind(Armageddon::Interface::GetDeviceContext().Get());
 	Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().Clear(Armageddon::Interface::GetDeviceContext().Get());
     //I REDRAW MY SCENE WHERE I'M BINDING THE RESSOURCE
+    Armageddon::Renderer::g_WorldCBuffer.BindVS();
+    Armageddon::Renderer::g_WorldCBuffer.BindPS();
     m_bloom.Render();
 
     BloomTimer.~Profiler();
     Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().Bind(Armageddon::Interface::GetDeviceContext().Get());
-  
+    Armageddon::Renderer::g_WorldCBuffer.BindVS();
+    Armageddon::Renderer::g_WorldCBuffer.BindPS();
     Profiler RenderPass("RenderPass");
 
     RenderScene(true);
@@ -337,11 +349,12 @@ void Editor::OnRender()
 
     Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.Bind(Armageddon::Interface::GetDeviceContext().Get());
     Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.Clear(Armageddon::Interface::GetDeviceContext().Get());
-    
+    Armageddon::Renderer::g_WorldCBuffer.BindVS();
+    Armageddon::Renderer::g_WorldCBuffer.BindPS();
     Armageddon::Interface::GetDeviceContext()->PSSetSamplers(0, 1, Armageddon::Interface::GetClampSampler().GetAddressOf());
     Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 1, Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetAddressOfShaderRessource());
     Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(1, 1, m_bloom.m_bloomUpSample[0].GetRessourceViewPtr());
-    
+     
     m_bloom.BloomPropety.TexelSize = DirectX::XMFLOAT2(float(1.0F / Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetImageX()), float(1.0F / Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetImageY()));
     m_bloom.m_BloomConstant.SetDynamicData(&m_bloom.BloomPropety);
     m_bloom.m_BloomConstant.BindPS();
@@ -439,7 +452,7 @@ void Editor::onMouseEvent(MouseEvent::MEventType e, float x, float y)
 
         case MouseEvent::MEventType::Move:
 
-            Armageddon::Application::GetWindow()->GetRenderer().m_camera.AdjustRotation(y * 0.01f, x * 0.01f, 0.0f);
+            Armageddon::Application::GetWindow()->GetRenderer().m_camera.AdjustRotation(y * -0.01f, x * 0.01f, 0.0f);
             break;
         }
     }
@@ -454,7 +467,7 @@ void Editor::onKeyBoardEvent(const unsigned char keyCode)
         {
             if (EntityList::Seleceted != entt::null)
             {
-                m_Scene.DuplicateEntity(m_Scene.GetEntityByID(EntityList::Seleceted));
+               // m_Scene.DuplicateEntity(m_Scene.GetEntityByID(EntityList::Seleceted));
             }
         }
 
@@ -542,7 +555,11 @@ void Editor::RenderScene(bool BindMat)
 				Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(9, 1, m_Cascade.m_CascadeLightTex.DephtResourceView.GetAddressOf());
 
                 
-				
+				//TEST DEBUG 
+                if (ent.HasComponent<TagComponent>())
+                {
+                    auto& tag = ent.GetComponent<TagComponent>();
+                }
 				// component.m_mesh.BindShaders();
                 
                 for (auto& Submesh : component.m_mesh.v_SubMeshes)

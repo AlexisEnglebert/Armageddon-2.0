@@ -6,6 +6,10 @@ cbuffer TransFormBuffer : register(b0)
     row_major float4x4  ViewMat;
     row_major float4x4  MVP;
 };
+cbuffer WorldCBuffer : register(b4)
+{
+    float time;
+}
 
 struct VSinput
 {

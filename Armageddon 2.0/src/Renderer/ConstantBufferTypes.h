@@ -49,13 +49,21 @@ struct DECL RoughnessBuffer
 
 struct DECL MaterialBuffer
 {
-	float Roughness			= 0.1; //4		.4
-	float Metalic		= 0.04;  //4		.8
-	bool UseMetalMap	= false; //2		.10
-	float _Padding0;		
-	bool UseEmisive = false; //2		.12
-	DirectX::XMFLOAT3 AlbedoTint = {1.0f,1.0f,1.0f};	//12
-	float _Padding1;
-	float EmisiveFactor;
-	DirectX::XMFLOAT3 EmisiveTint;
+	float Roughness;//4
+	float Metalic;//8
+	bool UseMetalMap;//9
+	float _Padding0;//13
+	bool UseEmisive;//14
+	DirectX::XMFLOAT3 AlbedoTint = {1.0f,1.0f,1.0f}; //26
+	//float _Padding1;//30
+	//bool _Padding3; //31
+	//bool _Padding2; //32
+	float EmisiveFactor;//4
+	DirectX::XMFLOAT3 EmisiveTint;//12
+};
+
+struct DECL WorldBuffer
+{
+	float Time;
+
 };

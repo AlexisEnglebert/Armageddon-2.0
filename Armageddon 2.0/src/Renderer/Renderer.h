@@ -36,6 +36,7 @@ namespace Armageddon
 		static ConstantBuffer<LightBuffer> g_LightCBuffer;
 		static ConstantBuffer<RoughnessBuffer> g_RoughnessCBuffer;
 		static ConstantBuffer<MaterialBuffer> g_PBRCBuffer;
+		static ConstantBuffer<WorldBuffer> g_WorldCBuffer;
 		static std::vector<PointLight> g_PointLightsVector;
 		static std::vector<DirectionalLight> g_DirectLightsVector;
 
