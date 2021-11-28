@@ -3,6 +3,7 @@ Scene: Assets/Scenes/TestScene.mat
 Entities:
     -   Entity: 0
         Tag: Entity
+        Script: PepeneScript
         Mesh: Assets\Models\sphere.obj
         Transform:
             [0, -1, 0,

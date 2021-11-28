@@ -150,13 +150,17 @@ float GeometrySmith(float3 Normal, float3 View, float3 Light, float Roughness)
 
 float3 fresnelSchlick(float cosTheta, float3 F0)
 {
-    float f = pow(1.0 - cosTheta, 5.0f);
+    float f = pow(clamp(1.0 - cosTheta,0.0f,1.0f), 5.0f);
     return f + F0 * (1.0f - f);
 }
 
 float3 fresnelSchlickRoughness(float cosTheta, float3 F0, float roughness)
 {
-    return F0 + (max(float3(1.0 - roughness, 1.0 - roughness, 1.0 - roughness), F0) - F0) * pow(max(1.0 - cosTheta, 0.0), 5.0);
+    //return max(float3(1.0 - roughness, 1.0 - roughness, 1.0 - roughness), F0) - F0;
+    //return F0 + (max(float3(1.0 - roughness, 1.0 - roughness, 1.0 - roughness), F0) - F0) * pow(max(1.0 - cosTheta, 0.0), 5.0);
+   // return (max(float3(1.0 - roughness, 1.0 - roughness, 1.0 - roughness), F0) - F0);
+   return F0 + (max(float3(1.0 - roughness.x, 1.0 - roughness.x, 1.0 - roughness.x), F0) - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+
 }
 
 float CalculatePointLightAttenuation(float distance,float radius)
@@ -300,9 +304,8 @@ float4 main(PSinput input) : SV_TARGET
         //spec * radiance + (1 - Shadow);
 
     }
-    float azazdazd = dot(View, Normal);
-    float testabec = saturate(dot(Normal,View));
-    float3 _kS = fresnelSchlickRoughness(testabec, F0, RoughnessTex);
+    float test =  saturate(dot(Normal, View));
+    float3 _kS = fresnelSchlickRoughness(saturate(dot(Normal,-View)), F0, RoughnessTex);
     float3 _kD = 1.0 - _kS;
     _kD *= 1.0f - MetalicTex;
     
@@ -332,7 +335,7 @@ float4 main(PSinput input) : SV_TARGET
    // color = pow(color, float3(1.0f / 2.2f, 1.0f / 2.2f, 1.0f / 2.2f));
 	
     color = uncharted2_filmic(color);
-    color = pow(abs(color), 1 / 2.22);
+  //  color = pow(abs(color), 1 / 2.22);
     
     
     
@@ -343,5 +346,5 @@ float4 main(PSinput input) : SV_TARGET
 
  
     
-    return float4(color, AlbedoTex.a);
+    return float4(View, AlbedoTex.a);
 }
