@@ -1,14 +1,14 @@
 #include "EntityProperties.h"
 #include "EntityList.h"
-
+#include "Scripting/ScriptEngine.h"
 void EntityProperties::ImGuiDraw()
 {
 	ImGui::Begin("Entity Properties");
 	if (EntityList::Seleceted != entt::null)
 	{
 		auto entity = m_Scene.GetEntityByID(EntityList::Seleceted);
-		
-		
+
+		bool UseScriptComponent = false;
 		if(ImGui::Button("AddComponent"))
 			ImGui::OpenPopup("add_component");
 		if (ImGui::BeginPopup("add_component"))
@@ -27,6 +27,16 @@ void EntityProperties::ImGuiDraw()
 				entity.AddComponent<TransformComponent>();
 
 			}
+			if (ImGui::MenuItem("ScriptComponent") && !entity.HasComponent<ScriptComponent>())
+			{
+			/*	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+				ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));*/
+
+				// Always center this window when appearing
+
+				UseScriptComponent = true;
+			}
+
 			if (ImGui::MenuItem("LightComponent") && !entity.HasComponent<LightComponent>())
 			{
 				entity.AddComponent<LightComponent>();
@@ -40,6 +50,30 @@ void EntityProperties::ImGuiDraw()
 		
 			ImGui::EndPopup();
 		}
+
+		if (UseScriptComponent)
+		{
+			ImGui::OpenPopup("ScriptComponent");
+		}
+		bool open = true;
+
+		if (ImGui::BeginPopupModal("ScriptComponent", &open, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			char InputScript[255] = "";
+			memcpy(InputScript, SavedBuffer, 255);
+			ImGui::InputTextWithHint("Name:", "...", InputScript, 255);
+			if (ImGui::Button("Ok", { 20.0f,20.0f }))
+			{
+				entity.AddComponent<ScriptComponent>(std::string(InputScript));
+				ScriptEngine::CreateScriptFile(std::string(InputScript));
+
+				UseScriptComponent = false;
+			}
+			memcpy(SavedBuffer, InputScript, 255);
+
+			ImGui::EndPopup();
+		}
+
 		if (entity.HasComponent<TagComponent>())
 		{
 			DrawTagComponent(entity);
@@ -58,6 +92,10 @@ void EntityProperties::ImGuiDraw()
 		if (entity.HasComponent<LightComponent>())
 		{
 			DrawLightComponent(entity);
+		}
+		if (entity.HasComponent<ScriptComponent>())
+		{
+			DrawScriptComponent(entity);
 		}
 		
 	}
@@ -294,8 +332,6 @@ void EntityProperties::DrawMeshComponent(Entity& entity)
 
 void EntityProperties::DrawMaterialComponent(Entity& entity)
 {
-	
-	
 
 }
 
@@ -429,3 +465,18 @@ void EntityProperties::DrawLightComponent(Entity& entity)
 	ImGui::PopStyleColor();
 
 }
+
+void EntityProperties::DrawScriptComponent(Entity& entity)
+{
+	ImGui::PushStyleColor(ImGuiCol_Header, { 0.29,0.6,0.66,1 });
+	auto& component = entity.GetComponent<ScriptComponent>();
+	if (ImGui::TreeNodeEx("ScriptComponent", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::Text("Script:");
+		ImGui::SameLine();
+		ImGui::InputTextWithHint("##EntityName", "Name", component.moduleName.data(), component.moduleName.size());
+		ImGui::TreePop();
+	}
+	ImGui::PopStyleColor();
+}
+

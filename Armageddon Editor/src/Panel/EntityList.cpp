@@ -3,14 +3,16 @@ entt::entity EntityList::Seleceted = entt::null;
 
 void EntityList::ImGuiDraw()
 {
+	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.0862745098f, 0.0862745098f, 0.0862745098f, 1.0f));
 	ImGui::Begin("Entity list");
+	ImGui::PopStyleColor();
+
 	
-	
-	for (auto& ent : m_Scene.v_Entity)
+	for ( auto iterator = m_Scene.EntityMap.begin(); iterator != m_Scene.EntityMap.cend(); iterator++)
 	{
-		if (ent.HasComponent<TagComponent>())
+		if (iterator->second.HasComponent<TagComponent>())
 		{
-			ImGui::PushID((int)ent.GetHandle());
+			ImGui::PushID((int)iterator->second.GetHandle());
 			//TODO mettre des selectables Node (tree) pour les prefabs par exemple
 			/*/ImGuiTreeNodeFlags isSelected;
 			if (Seleceted == ent.GetHandle()) {
@@ -24,9 +26,9 @@ void EntityList::ImGuiDraw()
 				}
 				ImGui::TreePop();
 			}*/
-			if (ImGui::Selectable(ent.GetComponent<TagComponent>().Tag.c_str(), Seleceted == ent.GetHandle(), 0, {0,0}))
+			if (ImGui::Selectable(iterator->second.GetComponent<TagComponent>().Tag.c_str(), Seleceted == iterator->second.GetHandle(), 0, {0,0}))
 			{
-				Seleceted = ent.GetHandle();
+				Seleceted = iterator->second.GetHandle();
 			}
 			ImGui::PopID();
 		}

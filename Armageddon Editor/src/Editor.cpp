@@ -22,6 +22,8 @@
 #include "Scene/Serializer.h"
 #include "Renderer/CascadeShadow.h"
 #include "Renderer/PostProcessing/Bloom.h"
+
+#include "Scripting/ScriptEngine.h"
 #include "Utils/Timer.h"
 #include "ImGuizmo.h"
 class Editor : public Armageddon::Application
@@ -205,15 +207,15 @@ void Editor::OnRender()
 
     Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &viewport);
     //I DRAW MY SCENE
-	 for (auto& ent : m_Scene.v_Entity)
-	{
-		if (ent.HasComponent<MeshComponent>() && !ent.HasComponent<LightComponent>())
+    for (auto iterator = m_Scene.EntityMap.begin(); iterator != m_Scene.EntityMap.cend(); iterator++)
+    {
+		if (iterator->second.HasComponent<MeshComponent>() && !iterator->second.HasComponent<LightComponent>())
 		{
             
-			auto& comp = ent.GetComponent<MeshComponent>();
-			if (ent.HasComponent<TransformComponent>())
+			auto& comp = iterator->second.GetComponent<MeshComponent>();
+			if (iterator->second.HasComponent<TransformComponent>())
 			{
-				auto& transform = ent.GetComponent<TransformComponent>();
+				auto& transform = iterator->second.GetComponent<TransformComponent>();
                // comp.m_mesh.GetTransform()->WorldMat *= transform.GetTransformMatrix();
 
 			}
@@ -254,15 +256,15 @@ void Editor::OnRender()
      Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.Clear(Armageddon::Interface::GetDeviceContext().Get());
      Armageddon::Renderer::g_WorldCBuffer.BindVS();
      Armageddon::Renderer::g_WorldCBuffer.BindPS();
-     for (auto& ent : m_Scene.v_Entity)
+     for (auto iterator = m_Scene.EntityMap.begin(); iterator != m_Scene.EntityMap.cend(); iterator++)
      {
-         if (ent.HasComponent<MeshComponent>() && !ent.HasComponent<LightComponent>())
+         if (iterator->second.HasComponent<MeshComponent>() && !iterator->second.HasComponent<LightComponent>())
          {
 
-             auto& comp = ent.GetComponent<MeshComponent>();
-             if (ent.HasComponent<TransformComponent>())
+             auto& comp = iterator->second.GetComponent<MeshComponent>();
+             if (iterator->second.HasComponent<TransformComponent>())
              {
-                 auto& transform = ent.GetComponent<TransformComponent>();
+                 auto& transform = iterator->second.GetComponent<TransformComponent>();
                  // comp.m_mesh.GetTransform()->WorldMat *= transform.GetTransformMatrix();
 
              }
@@ -377,6 +379,8 @@ void Editor::ImGuiRender()
 {
      CreateDockSpace();
      DrawImGuiScene();
+
+
     m_ContentBrowser.ImGuiDraw();
     m_EntityList.ImGuiDraw();
     m_EntityProperties.ImGuiDraw();
@@ -489,8 +493,8 @@ void Editor::RenderScene(bool BindMat)
 {
     Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &Armageddon::Renderer::ViewPort);
 
-	for (auto& ent : m_Scene.v_Entity)
-	{
+    for (auto iterator = m_Scene.EntityMap.begin(); iterator != m_Scene.EntityMap.cend(); iterator++)
+    {
 
         //Armageddon::Interface::GetDeviceContext()->CSSetShader()
        /*/ if (ent.HasComponent<RigidBodyComponent>())
@@ -498,21 +502,21 @@ void Editor::RenderScene(bool BindMat)
            auto& component = ent.GetComponent<RigidBodyComponent>();
            component.update();
         }*/
-		if (ent.HasComponent<MeshComponent>())
+		if (iterator->second.HasComponent<MeshComponent>())
 		{
-			auto& component = ent.GetComponent<MeshComponent>();
+			auto& component = iterator->second.GetComponent<MeshComponent>();
 			if (!component.m_mesh.IsEmpty()) {
 				component.m_mesh.UpdtateTransform(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
-				if (ent.HasComponent<LightComponent>())
+				if (iterator->second.HasComponent<LightComponent>())
 				{
-					auto& Lightcomponent = ent.GetComponent<LightComponent>();
+					auto& Lightcomponent = iterator->second.GetComponent<LightComponent>();
 
 					component.m_mesh.GetTransform()->WorldMat *= DirectX::XMMatrixTranslation(Lightcomponent.m_pointLight.Position.x, Lightcomponent.m_pointLight.Position.y, Lightcomponent.m_pointLight.Position.z);
 
 				}
-				if (ent.HasComponent<TransformComponent>())
+				if (iterator->second.HasComponent<TransformComponent>())
 				{
-					auto& transform = ent.GetComponent<TransformComponent>();
+					auto& transform = iterator->second.GetComponent<TransformComponent>();
 					component.m_mesh.GetTransform()->WorldMat *= transform.GetTransformMatrix();
 				}
 				if (component.m_mesh.m_skeleton.m_JointsCount > 0)
@@ -556,9 +560,9 @@ void Editor::RenderScene(bool BindMat)
 
                 
 				//TEST DEBUG 
-                if (ent.HasComponent<TagComponent>())
+                if (iterator->second.HasComponent<TagComponent>())
                 {
-                    auto& tag = ent.GetComponent<TagComponent>();
+                    auto& tag = iterator->second.GetComponent<TagComponent>();
                 }
 				// component.m_mesh.BindShaders();
                 
@@ -620,22 +624,22 @@ void Editor::CreateDockSpace()
 			if (ImGui::MenuItem("Save Scene", ""))
 			{
                 
-                for (auto& pute : m_Scene.v_Entity)
+                for (auto iterator = m_Scene.EntityMap.begin(); iterator != m_Scene.EntityMap.cend(); iterator++)
                 {
-                    if (pute.HasComponent<TagComponent>())
+                    if (iterator->second.HasComponent<TagComponent>())
                     {
                         Armageddon::Log::GetLogger()->trace("TAG COMOPONENENENEN");
 
                     }
-                    if (pute.HasComponent<MeshComponent>())
+                    if (iterator->second.HasComponent<MeshComponent>())
                     {
                     }
-                    if (pute.HasComponent<TransformComponent>())
+                    if (iterator->second.HasComponent<TransformComponent>())
                     {
                         Armageddon::Log::GetLogger()->trace("qsdqsdqsdqsdqsdqsdqsd");
                     }
 
-                    m_serializer.SerializeScene("Assets/Scenes/TestScene.mat", pute,m_Scene.g_registry);
+                    m_serializer.SerializeScene("Assets/Scenes/TestScene.mat", iterator->second,m_Scene.g_registry);
                 }
                // m_Scene.g_registry.data
                 Armageddon::Log::GetLogger()->trace(m_Scene.g_registry.capacity<TransformComponent>());
@@ -685,12 +689,12 @@ void Editor::DrawImGuiScene()
     {
         if (m_Scene.m_SceneState == SceneState::Editor)
         {
-
+            m_Scene.m_SceneState = SceneState::Runtime;
+            ScriptEngine::Init(&m_Scene);
 
         }
         if (m_Scene.m_SceneState == SceneState::Runtime)
         {
-
         }
     }
     ImGui::PopStyleColor(2);
@@ -730,10 +734,11 @@ void Editor::DrawImGuiScene()
 		const ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
        if (viewportPanelSize.x / viewportPanelSize.y > 0.0f) {
             /* on resize que le offscreen render target view*/
-             Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().ResizeRenderTargetView(
+            /* Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().ResizeRenderTargetView(
                 vMax.x - vMin.x, vMax.y - vMin.y,
-                nullptr);
-       
+                nullptr);*/ 
+          Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().CreateViewPort(vMax.x - vMin.x, vMax.y - vMin.y);
+         // Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().ResizeBuffer(vMax.x - vMin.x, vMax.y - vMin.y);
 		    Armageddon::Application::GetWindow()->GetRenderer().m_camera.SetProjectionValues(90.0f, viewportPanelSize.x / viewportPanelSize.y, 0.1f, 10000.0f);
 
             CurrentWindowSize = ImGui::GetWindowSize();
@@ -781,7 +786,7 @@ void Editor::DrawGuizmos()
 
             ImGuizmo::SetRect(vMin.x, vMin.y, static_cast<float>(Armageddon::Application::GetApplicationInsatnce()->GetWindow()->w_width),
                 static_cast<float>(Armageddon::Application::GetApplicationInsatnce()->GetWindow()->w_height));
-            ImGui::GetForegroundDrawList()->AddRect(vMin, vMax, IM_COL32(255, 255, 0, 255));
+            //ImGui::GetForegroundDrawList()->AddRect(vMin, vMax, IM_COL32(255, 255, 0, 255));
             if (ImGuizmo::Manipulate(*ViewMat.m, *ProjMat.m, ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, *TransformMat.m))
             {
 				component.Translation.x = TransformMat.m[3][0];
