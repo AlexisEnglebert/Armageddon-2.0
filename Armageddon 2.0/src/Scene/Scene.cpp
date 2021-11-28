@@ -5,17 +5,19 @@
 Entity Scene::CreateEntity()
 {
     Entity ent = { g_registry.create(), this };
-    v_Entity.push_back(ent); 
+    EntityMap.emplace((int)ent.GetHandle(), ent);
     return ent;
 }
 
 Entity& Scene::GetEntityByID(entt::entity ID)
 {
-    for (auto& ent : v_Entity)
+    if (EntityMap.find(int(ID)) != EntityMap.end())
     {
-        if (ID == ent.GetHandle())
-            return ent;
+        return EntityMap.at(int(ID));
     }
+
+
+
 }
 
 void Scene::UpdateScene()
@@ -25,10 +27,9 @@ void Scene::UpdateScene()
 
 void Scene::ClearScene()
 {
-    for(auto& ent : v_Entity)
-     g_registry.destroy(ent.GetHandle());
+    EntityMap.clear();
+   
 
-    v_Entity.clear();
 
 }
 
@@ -70,7 +71,7 @@ void Scene::DeleteEntity(Entity& entity)
 {
     Armageddon::Log::GetLogger()->info("DELETEING ENTITY");
 
-    for (UINT i = 0; i < v_Entity.size(); i++)
+   /* for (UINT i = 0; i < v_Entity.size(); i++)
     {
         if (v_Entity[i].GetHandle() == entity.GetHandle())
         {
@@ -81,7 +82,7 @@ void Scene::DeleteEntity(Entity& entity)
             v_Entity.erase(v_Entity.begin()+i);
 
         }
-    }
+    }*/
     Armageddon::Log::GetLogger()->info("DELETEING ALL COMPONENTS");
 
 

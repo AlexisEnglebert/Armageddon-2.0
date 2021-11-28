@@ -4,7 +4,7 @@
 #include "../Macros.h"
 #include "Components.h"
 #include <filesystem>
-	class Entity;
+class Entity;
 
 	enum class SceneState
 	{
@@ -27,7 +27,7 @@
 
 		const char* m_sceneName = "Untilted";
 		entt::registry g_registry;
-		std::vector<Entity> v_Entity;
+		std::map<uint64_t, Entity> EntityMap;
 		SceneState m_SceneState = SceneState::Undefined;
 		float Scenetime = 0.0f; //TODO: double
 		float SceneDeltaTime =  1.0f/60.0f; //TODO: double	

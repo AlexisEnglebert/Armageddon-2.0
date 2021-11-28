@@ -68,23 +68,27 @@ void Serializer::SerializeScene(const std::filesystem::path& FilePath,Entity& en
 
 	emitter << YAML::Key << "Scene" << YAML::Value << FilePath.string().c_str() << YAML::Newline;
 	emitter << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
-	for (auto& entity : m_Scene->v_Entity)
+	for (auto entity = m_Scene->EntityMap.begin(); entity != m_Scene->EntityMap.cend(); entity++)
 	{
 		emitter << YAML::BeginMap;
 		emitter << YAML::Key << "Entity";
-		emitter << YAML::Value << (int)entity.GetHandle() << YAML::Newline;
-		if (entity.HasComponent<TagComponent>())
+		emitter << YAML::Value << (int)entity->second.GetHandle() << YAML::Newline;
+		if (entity->second.HasComponent<TagComponent>())
 		{
-			auto& Component = entity.GetComponent<TagComponent>();
+			auto& Component = entity->second.GetComponent<TagComponent>();
 			emitter << YAML::Key << "Tag";
 			emitter << YAML::Value << Component.Tag << YAML::Newline;
 		}
+		if (entity->second.HasComponent<ScriptComponent>())
+		{
+			auto& Component = entity->second.GetComponent<ScriptComponent>();
+			emitter << YAML::Key << "Script";
+			emitter << YAML::Value << Component.moduleName.c_str();
+		}
 
-
-		if (entity.HasComponent<MeshComponent>())
+		if (entity->second.HasComponent<MeshComponent>())
 		{	
-			Armageddon::Log::GetLogger()->trace("CA AMMMASAS");
-			auto& Component = entity.GetComponent<MeshComponent>();
+			auto& Component = entity->second.GetComponent<MeshComponent>();
 			emitter << YAML::Key << "Mesh";
 			emitter << YAML::Value << Component.m_path.c_str();
 		/*	emitter << YAML::BeginSeq;
@@ -96,9 +100,9 @@ void Serializer::SerializeScene(const std::filesystem::path& FilePath,Entity& en
 
 		}
 
-		if (entity.HasComponent<LightComponent>())
+		if (entity->second.HasComponent<LightComponent>())
 		{
-			auto& Component = entity.GetComponent<LightComponent>();
+			auto& Component = entity->second.GetComponent<LightComponent>();
 			emitter << YAML::Key << "Light";
 			emitter << YAML::BeginMap;
 
@@ -135,9 +139,9 @@ void Serializer::SerializeScene(const std::filesystem::path& FilePath,Entity& en
 			emitter << YAML::EndMap;
 
 		}
-		if (entity.HasComponent<TransformComponent>())
+		if (entity->second.HasComponent<TransformComponent>())
 		{
-			auto& Component = entity.GetComponent<TransformComponent>();
+			auto& Component = entity->second.GetComponent<TransformComponent>();
 			emitter << YAML::Key << "Transform";
 			emitter << YAML::Flow;
 			emitter << YAML::Value << YAML::Newline  << YAML::BeginSeq
@@ -246,7 +250,11 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 						MeshComp.ShowComponent = false;
 					}
 				}
-
+				if (ent["Script"])
+				{
+					auto a = ent["Script"];
+					n_entity.AddComponent<ScriptComponent>(a.as<std::string>());
+				}
 				if (ent["Transform"])
 				{
 					auto a = ent["Transform"];

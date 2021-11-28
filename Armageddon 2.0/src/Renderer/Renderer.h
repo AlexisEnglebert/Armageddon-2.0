@@ -49,6 +49,7 @@ namespace Armageddon
 		static D3D11_VIEWPORT ViewPort;
 		OffScreenRenderTarget m_FrameBuffer;
 		OffScreenRenderTarget FinalPass;
+		void CreateViewPort(float width, float height);
 
 	private:
 		bool InitSwapChain(HWND& hwnd);
@@ -59,7 +60,6 @@ namespace Armageddon
 		void CreateRenderTargetView(float width, float height);
 		void CleanRenderTargetView();
 
-		void CreateViewPort(float width, float height);
 
 		void CreateRasterizer(D3D11_RASTERIZER_DESC rDesc);
 		void ChangeRasterizer(D3D11_RASTERIZER_DESC rDesc);

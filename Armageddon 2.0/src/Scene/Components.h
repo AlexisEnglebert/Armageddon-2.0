@@ -16,6 +16,18 @@ struct TagComponent
 };
 
 
+struct ScriptComponent
+{
+	std::string moduleName = "";
+	ScriptComponent() = default;
+	ScriptComponent(std::string name) : moduleName(name)
+	{
+	};
+	/*ScriptComponent(ScriptComponent component)
+	{
+	};*/
+};
+
 		/*POUR L'INSTANT ON LAISSE CA
 		MAIS ON DEVRAIT AVOIR UN TRANSFORM COMPONENT
 		AINSI QU'UNE CAMERA COMPONENT POUR PRETRE D'UPDATE DIRRECTEMENT DANS LA
