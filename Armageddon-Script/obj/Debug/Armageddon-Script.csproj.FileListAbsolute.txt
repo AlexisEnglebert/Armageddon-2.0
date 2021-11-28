@@ -1,0 +1,7 @@
+C:\Users\engle\OneDrive\Documents\Armageddon\Armageddon-2.0\Armageddon-Script\obj\Debug\Armageddon-Script.csproj.AssemblyReference.cache
+C:\Users\engle\OneDrive\Documents\Armageddon\Armageddon-2.0\Armageddon-Script\obj\Debug\Armageddon-Script.csproj.CoreCompileInputs.cache
+C:\Users\engle\OneDrive\Documents\Armageddon\Armageddon-2.0\Armageddon-Script\bin\Debug\Armageddon-Script.dll.config
+C:\Users\engle\OneDrive\Documents\Armageddon\Armageddon-2.0\Armageddon-Script\bin\Debug\Armageddon-Script.dll
+C:\Users\engle\OneDrive\Documents\Armageddon\Armageddon-2.0\Armageddon-Script\bin\Debug\Armageddon-Script.pdb
+C:\Users\engle\OneDrive\Documents\Armageddon\Armageddon-2.0\Armageddon-Script\obj\Debug\Armageddon-Script.dll
+C:\Users\engle\OneDrive\Documents\Armageddon\Armageddon-2.0\Armageddon-Script\obj\Debug\Armageddon-Script.pdb
