@@ -163,11 +163,18 @@ float3 fresnelSchlickRoughness(float cosTheta, float3 F0, float roughness)
 
 }
 
-float CalculatePointLightAttenuation(float distance,float radius)
+float CalculatePointLightEvaluation(float distance,float radius,float intensity)
 {
-    float denom = (distance / radius + 1);
-    float demnom2 = denom * denom;
-    float attenuation = 1.0f / demnom2;
+    /*
+    * Inverse square law(I / distance²) on ajouté un Bias
+    * Car plus la distance est grande plus l'attenuation est petite donc on fixe une valeur pour limiter les calculs
+    */
+
+    float DistanceSquare = distance * distance;
+    float attenuation = intensity / max(DistanceSquare, pow(0.1, 2));
+    float factor = DistanceSquare / radius;
+    float SmoothFactor = saturate(1 - factor * factor);
+    attenuation *= SmoothFactor * SmoothFactor;
     
     return attenuation;
 
@@ -260,8 +267,10 @@ float4 main(PSinput input) : SV_TARGET
         
         float3 Light = normalize(PointLights[i].Position - input.WorldPos);
         float distance = length(PointLights[i].Position - input.WorldPos);
-        float attenuation = CalculatePointLightAttenuation(distance, PointLights[i].Radius);
-        float3 radiance = PointLights[i].Color * PointLights[i].Intensity * attenuation;
+
+        float attenuation = CalculatePointLightEvaluation(distance, PointLights[i].Radius, PointLights[i].Intensity);
+        float3 lightColor = PointLights[i].Color * PI * PointLights[i].Intensity / (4 * PI); 
+        float3 radiance = lightColor * attenuation;
         float3 spec = CalculateBRDF(input, View, AlbedoTex, Normal, RoughnessTex, AmbiantOclusionTex, MetalicTex, Light, F0);
         LightOut += spec * radiance;
 		
@@ -334,7 +343,7 @@ float4 main(PSinput input) : SV_TARGET
   //  color = color / (color + float3(1.0f, 1.0f, 1.0f));
    // color = pow(color, float3(1.0f / 2.2f, 1.0f / 2.2f, 1.0f / 2.2f));
 	
-    color = uncharted2_filmic(color);
+    color = uncharted2_filmic(color); 
   //  color = pow(abs(color), 1 / 2.22);
     
     
@@ -346,5 +355,5 @@ float4 main(PSinput input) : SV_TARGET
 
  
     
-    return float4(View, AlbedoTex.a);
+    return float4(color, AlbedoTex.a);
 }

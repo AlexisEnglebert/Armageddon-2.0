@@ -36,12 +36,13 @@ void InternalsCall::LoadInternals(MonoDomain* domain)
 			mono_add_internal_call("Armageddon.TagComponent::SetTag", nullptr);
 
 			mono_add_internal_call("Armageddon.TransformComponent::GetTranslation", &InternalsCall::Internal_Translation_Get);
+			mono_add_internal_call("Armageddon.TransformComponent::SetTranslation", &InternalsCall::Internal_Translation_Set);
+			//        private static extern bool TestIII(ulong EntityID, out int aaa);
 
-			mono_add_internal_call("Armageddon.TransformComponent::SetTranslation", nullptr);
-			mono_add_internal_call("Armageddon.TransformComponent::GetRotation", nullptr);
-			mono_add_internal_call("Armageddon.TransformComponent::SetRotation", nullptr);
-			mono_add_internal_call("Armageddon.TransformComponent::GetScale", nullptr);
-			mono_add_internal_call("Armageddon.TransformComponent::SetScale", nullptr);
+			mono_add_internal_call("Armageddon.TransformComponent::GetRotation", &InternalsCall::Internal_Rotation_Get);
+			mono_add_internal_call("Armageddon.TransformComponent::SetRotation", &InternalsCall::Internal_Rotation_Set);
+			mono_add_internal_call("Armageddon.TransformComponent::GetScale", &InternalsCall::Internal_Scale_Get);
+			mono_add_internal_call("Armageddon.TransformComponent::SetScale", &InternalsCall::Internal_Scale_Set);
 
 
 		}
@@ -75,6 +76,7 @@ bool InternalsCall::Internal_HasComponent_Internal(uint64_t EntityID, void* type
 	return Hascomponent;
 }
 
+
 MonoString* InternalsCall::GetTag(uint64_t EntityID)
 {
 	Entity& ent = ScriptEngine::GetScene()->EntityMap.at(EntityID);
@@ -83,12 +85,61 @@ MonoString* InternalsCall::GetTag(uint64_t EntityID)
 	return mono_string_new(ScriptEngine::GetDomain(),component.Tag.c_str());
 }
 
-void InternalsCall::Internal_Translation_Get(uint64_t ID, DirectX::XMFLOAT3* Translation)
+void InternalsCall::Internal_Translation_Get(uint64_t ID, float* TranslationX, float* TranslationY, float* TranslationZ)
 {
 	Entity& ent = ScriptEngine::GetScene()->EntityMap.at(ID);
 	auto& component = ent.GetComponent<TransformComponent>();
-//	Translation = component.Translation;
+	*TranslationX = component.Translation.x;
+	*TranslationY = component.Translation.y;
+	*TranslationZ = component.Translation.z;
 
 }
+
+void InternalsCall::Internal_Translation_Set(uint64_t ID, float* valueX, float* valueY, float* valueZ)
+{
+	Entity& ent = ScriptEngine::GetScene()->EntityMap.at(ID);
+	auto& component = ent.GetComponent<TransformComponent>();
+	component.Translation.x = *valueX;
+	component.Translation.z = *valueY;
+	component.Translation.y = *valueZ;
+
+}
+
+void InternalsCall::Internal_Rotation_Get(uint64_t ID, float* RotX, float* RotY, float* RotZ)
+{
+	Entity& ent = ScriptEngine::GetScene()->EntityMap.at(ID);
+	auto& component = ent.GetComponent<TransformComponent>();
+	*RotX = component.Rotation.x;
+	*RotY = component.Rotation.y;
+	*RotZ = component.Rotation.z;
+}
+
+void InternalsCall::Internal_Rotation_Set(uint64_t ID, float* valueX, float* valueY, float* valueZ)
+{
+	Entity& ent = ScriptEngine::GetScene()->EntityMap.at(ID);
+	auto& component = ent.GetComponent<TransformComponent>();
+	component.Rotation.x = *valueX;
+	component.Rotation.z = *valueY;
+	component.Rotation.y = *valueZ;
+}
+
+void InternalsCall::Internal_Scale_Get(uint64_t ID, float* ScaleX, float* ScaleY, float* ScaleZ)
+{
+	Entity& ent = ScriptEngine::GetScene()->EntityMap.at(ID);
+	auto& component = ent.GetComponent<TransformComponent>();
+	*ScaleX = component.Scale.x;
+	*ScaleY = component.Scale.y;
+	*ScaleZ = component.Scale.z;
+}
+
+void InternalsCall::Internal_Scale_Set(uint64_t ID, float* valueX, float* valueY, float* valueZ)
+{
+	Entity& ent = ScriptEngine::GetScene()->EntityMap.at(ID);
+	auto& component = ent.GetComponent<TransformComponent>();
+	component.Scale.x = *valueX;
+	component.Scale.z = *valueY;
+	component.Scale.y = *valueZ;
+}
+
 
 

@@ -59,6 +59,15 @@ uint64_t AssetManager::GetOrCreateMaterial(const std::string& MaterialName)
     return MatHash;
 }
 
+void AssetManager::CreateMaterial(const std::string& MaterialName)
+{
+}
+
+void AssetManager::CreateMaterial(uint64_t hash, const std::string& MaterialName)
+{
+    
+}
+
 
 Armageddon::PixelShaders AssetManager::GetOrCreatePixelShader(const std::filesystem::path& ShaderPath)
 {

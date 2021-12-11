@@ -16,6 +16,7 @@ public:
 	void SerializeMaterial(const std::filesystem::path& FilePath, Material& mat);
 	void SerializeScene(const std::filesystem::path& FilePath, Entity& ent, entt::registry& ere);
 	void SerializeRessourceMap(const std::filesystem::path& FilePath);
+	void DeserializeRessourceMap(const std::filesystem::path& Filepath);
 	void DeserializeScene(const std::filesystem::path& FilePath);
 	uint64_t DeserializeMaterial(const std::filesystem::path& FilePath);
 private:

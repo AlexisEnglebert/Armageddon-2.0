@@ -26,34 +26,37 @@ namespace Armageddon
     {
         public Vector3 Translation
         {
-            get {  GetTranslation(Ent.ID,out Vector3 translation); return translation; }
-            set => SetTranslation(Ent.ID);
+            get { GetTranslation(Ent.ID, out float translationX, out float translationY, out float translationZ); return new Vector3(translationX, translationY, translationZ); }
+            set { Log.error("Une valeur a ete set"); SetTranslation(Ent.ID, ref value.X, ref value.Y, ref value.Z); }
         }
         public Vector3 Rotation
         {
-            get => GetRotation(Ent.ID);
-            set => SetRotation(Ent.ID);
+            get { GetRotation(Ent.ID, out float RotX, out float RotY, out float RotZ); return new Vector3(RotX, RotY, RotZ); }
+            set { SetRotation(Ent.ID, ref value.X, ref value.Y, ref value.Z); }
         }
         public Vector3 Scale
         {
-            get => GetScale(Ent.ID);
-            set => SetScale(Ent.ID);
+            get { GetScale(Ent.ID, out float ScaleX, out float ScaleY, out float ScaleZ); return new Vector3(ScaleX, ScaleY, ScaleZ); }
+            set { SetScale(Ent.ID, ref value.X, ref value.Y, ref value.Z); }
         }
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
 
-        private extern static Vector3 GetTranslation(ulong EntityID, out Vector3 translation);
+        private extern static void GetTranslation(ulong EntityID, out float translationX, out float translationY, out float translationZ);
+
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        private extern static Vector3  SetTranslation(ulong EntityID);
+        internal extern static void SetTranslation(ulong EntityID, ref float valueX, ref float valueY, ref float valueZ);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        private extern static Vector3 GetRotation(ulong EntityID, out float RotX, out float RotY, out float RotZ);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        private extern static Vector3 SetRotation(ulong EntityID, ref float valueX, ref float valueY, ref float valueZ);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
 
-        private extern static Vector3 GetRotation(ulong EntityID);
+        private extern static Vector3 GetScale(ulong EntityID, out float ScaleX, out float ScaleY, out float ScaleZ);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        private extern static Vector3 SetRotation(ulong EntityID);
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        private extern static Vector3 SetScale(ulong EntityID, ref float valueX, ref float valueY, ref float valueZ);
 
-        private extern static Vector3 GetScale(ulong EntityID);
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        private extern static Vector3 SetScale(ulong EntityID);
+        
 
     }
 
@@ -74,6 +77,7 @@ namespace Armageddon
             }
             return null;
         }
+
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         private static extern bool HasComponent_Internal(ulong EntityID, Type type);
     }

@@ -48,6 +48,12 @@ public:
         FinalPassPixel = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\CombinePixel.cso");
         m_Envmap = EnvMap(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\HDR\\sunset_jhbcentral_1k.hdr");
         m_PlayButton.Create(L"Ressources//Icones//Editor//PlayButton.png");
+
+        auto materialRef = AssetManager::GetOrCreateMaterial("LightMaterial");
+        AssetManager::m_MaterialMap[materialRef].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
+        AssetManager::m_MaterialMap[materialRef].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
+        AssetManager::m_MaterialMap[materialRef].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
+        AssetManager::m_MaterialMap[materialRef].RenderMode = 1;
 	}
 
 	~Editor()
@@ -734,9 +740,9 @@ void Editor::DrawImGuiScene()
 		const ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
        if (viewportPanelSize.x / viewportPanelSize.y > 0.0f) {
             /* on resize que le offscreen render target view*/
-            /* Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().ResizeRenderTargetView(
+             Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().ResizeRenderTargetView(
                 vMax.x - vMin.x, vMax.y - vMin.y,
-                nullptr);*/ 
+                nullptr);
           Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().CreateViewPort(vMax.x - vMin.x, vMax.y - vMin.y);
          // Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().ResizeBuffer(vMax.x - vMin.x, vMax.y - vMin.y);
 		    Armageddon::Application::GetWindow()->GetRenderer().m_camera.SetProjectionValues(90.0f, viewportPanelSize.x / viewportPanelSize.y, 0.1f, 10000.0f);
@@ -784,9 +790,8 @@ void Editor::DrawGuizmos()
 			DirectX::XMStoreFloat4x4(&ProjMat, Armageddon::Application::GetWindow()->GetRenderer().m_camera.GetProjectionMatrix());
 			DirectX::XMStoreFloat4x4(&TransformMat, component.GetTransformMatrix());
 
-            ImGuizmo::SetRect(vMin.x, vMin.y, static_cast<float>(Armageddon::Application::GetApplicationInsatnce()->GetWindow()->w_width),
-                static_cast<float>(Armageddon::Application::GetApplicationInsatnce()->GetWindow()->w_height));
-            //ImGui::GetForegroundDrawList()->AddRect(vMin, vMax, IM_COL32(255, 255, 0, 255));
+            ImGuizmo::SetRect(vMin.x, vMin.y, vMax.x - vMin.x, vMax.y - vMin.y);
+           // ImGui::GetForegroundDrawList()->AddRect(vMin, vMax, IM_COL32(255, 255, 0, 255));
             if (ImGuizmo::Manipulate(*ViewMat.m, *ProjMat.m, ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, *TransformMat.m))
             {
 				component.Translation.x = TransformMat.m[3][0];

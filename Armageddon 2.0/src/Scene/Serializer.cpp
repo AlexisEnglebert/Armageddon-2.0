@@ -11,7 +11,7 @@ void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Materi
 	emitter << YAML::Key << "PixelShader" << YAML::Value << mat.m_PixelShader.ShaderPath.string();
 	emitter << YAML::Key << "VertexShader" << YAML::Value << mat.m_VertexShader.ShaderPath.string();
 
-	emitter << YAML::Key << "Materials" << YAML::Value << YAML::BeginSeq;
+	/*emitter << YAML::Key << "Materials" << YAML::Value << YAML::BeginSeq;
 
 	for (UINT i = 0; i < mat.m_MaterialProperty.m_VTexure.size(); i++)
 	{
@@ -22,10 +22,8 @@ void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Materi
 		emitter << YAML::Key << "Texture" << mat.m_MaterialProperty.m_VTexure[i].m_Texture.m_AssetName.c_str();
 		emitter << YAML::EndMap;
 
-	}
-
-	emitter << YAML::Key << "AlbedoMap";
-	emitter << YAML::Value << mat.m_albedoMap.m_AssetName.c_str();
+	}*/
+	emitter << YAML::Key << "AlbedoMap" << YAML::Value << mat.m_albedoMap.m_AssetName.c_str();
 
 	emitter << YAML::Key << "NormalMap";
 	emitter << YAML::Value << mat.m_normalMap.m_AssetName.c_str();
@@ -35,7 +33,7 @@ void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Materi
 
 	emitter << YAML::Key << "AOMap";
 	emitter << YAML::Value << mat.m_ambiantOcclusionMap.m_AssetName.c_str();
-	
+
 	emitter << YAML::Key << "UseMetal";
 	emitter << YAML::Value << mat.m_PBRBUFFER.UseMetalMap;
 	if (mat.m_PBRBUFFER.UseMetalMap)
@@ -91,12 +89,14 @@ void Serializer::SerializeScene(const std::filesystem::path& FilePath,Entity& en
 			auto& Component = entity->second.GetComponent<MeshComponent>();
 			emitter << YAML::Key << "Mesh";
 			emitter << YAML::Value << Component.m_path.c_str();
-		/*	emitter << YAML::BeginSeq;
+			emitter << YAML::Key << "Materials";
+			emitter << YAML::Value<<  YAML::BeginSeq;
 			for (auto& mesh : Component.m_mesh.v_SubMeshes)
 			{
+				SerializeMaterial("Assets/Materials/"+AssetManager::m_MaterialMap[Component.m_mesh.v_MaterialReference[mesh.m_materialIndex]].m_AssetName + ".mat", AssetManager::m_MaterialMap[Component.m_mesh.v_MaterialReference[mesh.m_materialIndex]]);
 				emitter << YAML::Key << mesh.m_materialIndex << YAML::Value << YAML::Hex  << Component.m_mesh.v_MaterialReference[mesh.m_materialIndex] << YAML::Newline;
-			}*
-			emitter << YAML::EndSeq;*/
+			}
+			emitter << YAML::EndSeq;
 
 		}
 
@@ -163,23 +163,39 @@ void Serializer::SerializeScene(const std::filesystem::path& FilePath,Entity& en
 }
 void Serializer::SerializeRessourceMap(const std::filesystem::path& FilePath)
 {
-	YAML::Emitter emitter;
-	emitter.SetIndent(4);
-	emitter << YAML::BeginMap;
-
-	emitter << YAML::Key << "Entity" << YAML::Value << YAML::BeginMap;;
 	//Material Asset
+	std::ofstream fileOut(FilePath);
+	fileOut << "Hash , Name \n";
 	for (auto iterator = AssetManager::m_MaterialMap.begin(); iterator != AssetManager::m_MaterialMap.cend(); iterator++)
 	{
-		emitter << YAML::Key << YAML::Hex << iterator->first << YAML::Value << iterator->second.m_AssetName;
-		emitter << YAML::Key << "AssetType" << (int)iterator->second.m_AssetType;
-
+		fileOut << iterator->first << "," << iterator->second.m_AssetName <<"\n";
 	}
-	emitter << YAML::EndMap;
-	emitter << YAML::EndMap;
+	fileOut.close();
 
-	std::ofstream fileOut(FilePath);
-	fileOut << emitter.c_str();
+
+}
+void Serializer::DeserializeRessourceMap(const std::filesystem::path& Filepath)
+{
+ 	std::ifstream stream(Filepath);
+	//std::stringstream m_stringStream;
+	//m_stringStream << stream.rdbuf();
+	if (!stream.is_open()){Armageddon::Log::GetLogger()->error("CAN NOT OPEN THE FILE");}
+	std::string line, colname;
+	std::getline(stream, line);
+
+	while (std::getline(stream, line))
+	{
+		  
+		std::stringstream ss(line);
+		std::string Name;
+		std::string Hash;
+		std::getline(ss, Hash, ',');
+		std::getline(ss, Name, ',');
+		DeserializeMaterial("Assets/Materials/"+Name+".mat");
+
+		
+	}
+
 }
 void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 {
@@ -187,7 +203,10 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 	std::stringstream m_stringStream;
 	m_stringStream << stream.rdbuf();
 	YAML::Node node = YAML::Load(m_stringStream);
-
+	if (node["Ressources"])
+	{
+		DeserializeRessourceMap(node["Ressources"].as<std::string>());
+	}
 	if (node["Scene"])
 	{
 		auto entities = node["Entities"];
@@ -277,29 +296,43 @@ uint64_t Serializer::DeserializeMaterial(const std::filesystem::path& FilePath)
 {
 	std::ifstream stream(FilePath);
 	std::stringstream m_stringStream;
-	m_stringStream << stream.rdbuf();
-	std::string MatName = FilePath.stem().string();
-	YAML::Node node = YAML::Load(m_stringStream);
-	Material mat(MatName);
-	auto Hash = HashUtils::_64BitHash(MatName);
-	if (node["Name"]) 
-	{
-			if (node["Materials"])
-			{
-			/*	for (auto material : node["Materials"])
+	if (stream.is_open()) {
+		m_stringStream << stream.rdbuf();
+		YAML::Node node = YAML::Load(m_stringStream);
+
+
+
+		std::string MatName = FilePath.stem().string();
+		Material mat(MatName);
+		auto Hash = HashUtils::_64BitHash(MatName);
+
+		if (node["Name"])
+		{
+					for (auto material : node["Materials"])
+					{
+						//if (material["Name"]) { Armageddon::Log::GetLogger()->trace("Texture Load From material : {0}", node["Name"].as<std::string>()); }
+						
+					}
+
+
+				if (node["PixelShader"]) AssetManager::m_MaterialMap[Hash].m_PixelShader = AssetManager::GetOrCreatePixelShader(node["PixelShader"].as<std::string>());
+				if (node["VertexShader"]) AssetManager::m_MaterialMap[Hash].m_VertexShader = AssetManager::GetOrCreateVertexShader(node["VertexShader"].as<std::string>());
+				if (node["AlbedoMap"])
 				{
-					if (material["Name"]) { Armageddon::Log::GetLogger()->trace("Texture Load From material : {0}", node["Name"].as<std::string>()); }
-				}*/
-			}
-			if (node["PixelShader"]) AssetManager::m_MaterialMap[Hash].m_PixelShader = AssetManager::GetOrCreatePixelShader(node["PixelShader"].as<std::string>());
-			if (node["VertexShader"]) AssetManager::m_MaterialMap[Hash].m_VertexShader = AssetManager::GetOrCreateVertexShader(node["VertexShader"].as<std::string>());
-			if (node["AlbedoMap"]) AssetManager::m_MaterialMap[Hash].m_albedoMap = AssetManager::GetOrCreateTexture(node["AlbedoMap"].as<std::string>());
-			if (node["NormalMap"]) AssetManager::m_MaterialMap[Hash].m_normalMap = AssetManager::GetOrCreateTexture(node["NormalMap"].as<std::string>());
-			if (node["SpecMap"]) AssetManager::m_MaterialMap[Hash].m_specularMap = AssetManager::GetOrCreateTexture(node["SpecMap"].as<std::string>());
-			if (node["AOMap"]) AssetManager::m_MaterialMap[Hash].m_ambiantOcclusionMap = AssetManager::GetOrCreateTexture(node["AOMap"].as<std::string>());
-			if (node["MetalMap"]) AssetManager::m_MaterialMap[Hash].m_metalicMap = AssetManager::GetOrCreateTexture(node["MetalMap"].as<std::string>());
+					Armageddon::Log::GetLogger()->trace(MatName.c_str());
+					//	std::string test = material["AlbedoMap"].as<std::string>();
+					AssetManager::m_MaterialMap[Hash].m_albedoMap = AssetManager::GetOrCreateTexture(node["AlbedoMap"].as<std::string>() );
+				}
+				if (node["NormalMap"]) AssetManager::m_MaterialMap[Hash].m_normalMap = AssetManager::GetOrCreateTexture(node["NormalMap"].as<std::string>());
+				if (node["SpecMap"]) AssetManager::m_MaterialMap[Hash].m_specularMap = AssetManager::GetOrCreateTexture(node["SpecMap"].as<std::string>());
+				if (node["AOMap"]) AssetManager::m_MaterialMap[Hash].m_ambiantOcclusionMap = AssetManager::GetOrCreateTexture(node["AOMap"].as<std::string>());
+				if (node["MetalMap"]) AssetManager::m_MaterialMap[Hash].m_metalicMap = AssetManager::GetOrCreateTexture(node["MetalMap"].as<std::string>());
 
+			
+			
+		}
+
+		return Hash;
 	}
-
-	return Hash;
+	return 0;
 }
