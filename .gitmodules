@@ -24,3 +24,9 @@
 	url = https://github.com/NVIDIAGameWorks/PhysX
 [submodule "Armageddon Editor/includes"]
 	url = https://github.com/Alexisloic21/ImGuizmo
+[submodule "Armageddon 2.0/glfw"]
+	path = Armageddon 2.0/glfw
+	url = https://github.com/glfw/glfw
+[submodule "Armageddon 2.0/glm"]
+	path = Armageddon 2.0/glm
+	url = https://github.com/g-truc/glm
