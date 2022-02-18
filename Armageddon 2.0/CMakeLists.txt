@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_policy(VERSION 2.8)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(NAME Armageddon-2.0)
+
+project(Armageddon-2.0)
+file(GLOB_RECURSE LIBRARY_SOURCE src/*.cpp)
+
+
+
+include_directories(includes/imgui-docking)
+include_directories(includes/spdlog/include)
+include_directories(includes/assimp/include)
+include_directories(includes/assimp/build/include)
+include_directories(includes/entt/src)
+include_directories(includes/DirectXTex)
+include_directories(includes/yaml-cpp/include)
+include_directories(includes/ImGuizmo)
+include_directories(includes/PhysX/physx/include)
+include_directories(includes/PhysX/pxshared/include)
+include_directories(includes/mono)
+
+add_library(Armageddon-2.0 SHARED ${LIBRARY_SOURCE})
+#Executable ? 
+#add_executable(Armageddon_test_library)
