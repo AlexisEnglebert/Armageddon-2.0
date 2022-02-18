@@ -241,6 +241,7 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 						n_entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
 						Armageddon::Renderer::g_PointLightsVector.push_back(component.m_pointLight);
 						auto& MeshComp = n_entity.GetComponent<MeshComponent>();
+						MeshComp.m_mesh.v_MaterialReference[0] = AssetManager::GetOrCreateMaterial("LightMaterial");
 						//MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
 						//MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
 						//MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
@@ -262,6 +263,8 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 						n_entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
 						Armageddon::Renderer::g_DirectLightsVector.push_back(component.m_directionalLight);
 						auto& MeshComp = n_entity.GetComponent<MeshComponent>();
+						MeshComp.m_mesh.v_MaterialReference[0] = AssetManager::GetOrCreateMaterial("LightMaterial");
+
 					//	MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
 						//MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
 						//MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
@@ -308,11 +311,6 @@ uint64_t Serializer::DeserializeMaterial(const std::filesystem::path& FilePath)
 
 		if (node["Name"])
 		{
-					for (auto material : node["Materials"])
-					{
-						//if (material["Name"]) { Armageddon::Log::GetLogger()->trace("Texture Load From material : {0}", node["Name"].as<std::string>()); }
-						
-					}
 
 
 				if (node["PixelShader"]) AssetManager::m_MaterialMap[Hash].m_PixelShader = AssetManager::GetOrCreatePixelShader(node["PixelShader"].as<std::string>());

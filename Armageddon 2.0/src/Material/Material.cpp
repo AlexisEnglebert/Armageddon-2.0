@@ -96,15 +96,37 @@ void Material::SetPixelShader(const std::filesystem::path& ShaderPath)
 
 }
 
+void Material::BindRessources()
+{
+	
+
+	Armageddon::Renderer::g_PBRCBuffer.SetDynamicData(&m_PBRBUFFER);
+	Armageddon::Renderer::g_PBRCBuffer.BindPS();
+	Armageddon::Renderer::g_PBRCBuffer.BindVS();
+
+
+
+	Armageddon::Interface::GetDeviceContext()->IASetInputLayout(m_VertexShader.GetInputLayout());
+	Armageddon::Interface::GetDeviceContext()->PSSetSamplers(0, 1, Armageddon::Interface::GetSamplerState().GetAddressOf());
+	Armageddon::Interface::GetDeviceContext()->PSSetSamplers(1, 1, Armageddon::Interface::GetClampSampler().GetAddressOf());
+
+	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 1, m_albedoMap.GetRessourceViewPtr());
+	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(1, 1, m_normalMap.GetRessourceViewPtr());
+	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(2, 1, m_specularMap.GetRessourceViewPtr());
+	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(3, 1, m_metalicMap.GetRessourceViewPtr());
+	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(4, 1, m_ambiantOcclusionMap.GetRessourceViewPtr());
+	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(5, 1, m_EmissiveMap.GetRessourceViewPtr());
+}
+
 Material::Material(Texture* m_albedoMap, Texture* m_normalMap, Texture* m_specularMap, Texture* m_metalicMap, Texture* m_ambiantOcclusionMap)
 {
 	
 }
 
-void Material::Bind()
+void Material::BindShaders()
 {
 	/*
-	* 
+	*  TODO MIEUX OIT
 	*/
 	if (RenderMode == 1)
 	{
@@ -117,28 +139,14 @@ void Material::Bind()
 
 	}
 
-	Armageddon::Renderer::g_PBRCBuffer.SetDynamicData(&m_PBRBUFFER);
-	Armageddon::Renderer::g_PBRCBuffer.BindPS();
-	Armageddon::Renderer::g_PBRCBuffer.BindVS();
-
-	Armageddon::Interface::GetDeviceContext()->IASetInputLayout(m_VertexShader.GetInputLayout());
-	Armageddon::Interface::GetDeviceContext()->PSSetSamplers(0, 1, Armageddon::Interface::GetSamplerState().GetAddressOf());
-	Armageddon::Interface::GetDeviceContext()->PSSetSamplers(1, 1, Armageddon::Interface::GetClampSampler().GetAddressOf());
-
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 1, m_albedoMap.GetRessourceViewPtr());
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(1, 1, m_normalMap.GetRessourceViewPtr());
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(2, 1, m_specularMap.GetRessourceViewPtr());
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(3, 1, m_metalicMap.GetRessourceViewPtr());
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(4, 1, m_ambiantOcclusionMap.GetRessourceViewPtr());
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(5, 1, m_EmissiveMap.GetRessourceViewPtr());
-
-	/*for (UINT i = 0; i < m_MaterialProperty.m_VTexure.size(); i++)
-	{
-		Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(i, 1, m_MaterialProperty.m_VTexure[0].m_Texture.GetRessourceViewPtr());
-	}*/
 
 	Armageddon::Interface::GetDeviceContext()->VSSetShader(m_VertexShader.GetShader(), NULL, 0);
 	Armageddon::Interface::GetDeviceContext()->PSSetShader(m_PixelShader.GetShader(), NULL, 0);
 
 
+
+	/*for (UINT i = 0; i < m_MaterialProperty.m_VTexure.size(); i++)
+	{
+		Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(i, 1, m_MaterialProperty.m_VTexure[0].m_Texture.GetRessourceViewPtr());
+	}*/
 }

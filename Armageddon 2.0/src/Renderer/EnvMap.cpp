@@ -54,4 +54,7 @@ void EnvMap::Render(Armageddon::Camera* m_camera)
 	Viewport.MaxDepth = 1.0f;
 	Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &Viewport);
 
+	Armageddon::Interface::GetDeviceContext()->RSSetState(Armageddon::Interface::GetDefaultRasterizerState().Get());
+
+
 }

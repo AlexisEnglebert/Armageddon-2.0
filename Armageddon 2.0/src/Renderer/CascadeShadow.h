@@ -26,6 +26,7 @@ namespace Armageddon
 	private:
 		Scene& m_scene;
 		Camera* m_pCamera;
+		int NUM_CASCADES = 3;
 		float m_CascadePartition[3];
 		
 	};

@@ -35,7 +35,7 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
     m_FrameBuffer.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
     FinalPass.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
 
-        CreateViewPort(width, height);
+    CreateViewPort(width, height);
 
 
     /*Default Rasterizer Description*/
@@ -81,7 +81,6 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
 
     CreateAlphaBlendState();
     CreateDefaultBlendState();
-
     /*Init ImGui pour DirectX11*/
     IMGUI_CHECKVERSION();
     this->m_Context = ImGui::CreateContext();
@@ -260,12 +259,15 @@ void Armageddon::Renderer::ResizeBuffer(float width, float height)
     FinalPass.CleanRenderTargetView();
     ResetDephtStencileBuffer();
 
+  
+
     HRESULT hr = Armageddon::Interface::GetSwapChain()->ResizeBuffers(0, (UINT)width, (UINT)height, DXGI_FORMAT_UNKNOWN, 0);
 
     if (FAILED(hr))
     {
         Armageddon::Log::GetLogger()->error("ERROR WHEN RESIZING THE BUFFER  :[{0}]", hr);
     }
+
 
     CreateRenderTargetView(width,height);
     m_OffScreenRenderTarget.ResizeRenderTargetView(width, height,nullptr);
@@ -429,6 +431,8 @@ void Armageddon::Renderer::CleanRenderTargetView()
         Armageddon::Interface::GetRenderTargetView() = (std::nullptr_t) NULL;
 }
 
+
+
 void Armageddon::Renderer::CreateViewPort(float width, float height)
 {
     ZeroMemory(&Armageddon::Renderer::ViewPort, sizeof(D3D11_VIEWPORT));
@@ -448,7 +452,7 @@ void Armageddon::Renderer::CreateViewPort(float width, float height)
 
 void Armageddon::Renderer::CreateRasterizer(D3D11_RASTERIZER_DESC rDesc)
 {
-    HRESULT result = Armageddon::Interface::GetDevice()->CreateRasterizerState(&rDesc, this->RasterizerState.GetAddressOf());
+    HRESULT result = Armageddon::Interface::GetDevice()->CreateRasterizerState(&rDesc, Armageddon::Interface::GetDefaultRasterizerState().GetAddressOf());
     if (FAILED(result))
     {
         Armageddon::Log::GetLogger()->error("FAILED CREATING THE RASTERIZER STATE");
@@ -457,7 +461,7 @@ void Armageddon::Renderer::CreateRasterizer(D3D11_RASTERIZER_DESC rDesc)
 
 void Armageddon::Renderer::ChangeRasterizer(D3D11_RASTERIZER_DESC rDesc)
 {
-    this->RasterizerState.Reset();
+    Armageddon::Interface::GetDefaultRasterizerState().Reset();
     CreateRasterizer(rDesc);
 }
 bool show_demo_window = true;
@@ -474,7 +478,7 @@ void Armageddon::Renderer::RenderFrame()
     Armageddon::Interface::GetDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     //Armageddon::Interface::GetDeviceContext()->OMSetDepthStencilState(this->DephtStencilState.Get(), 0);
-    Armageddon::Interface::GetDeviceContext()->RSSetState(this->RasterizerState.Get());
+    Armageddon::Interface::GetDeviceContext()->RSSetState(Armageddon::Interface::GetDefaultRasterizerState().Get());
     Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &Armageddon::Renderer::ViewPort);
 
     Armageddon::Application::GetApplicationInsatnce()->ImGuiBegin();

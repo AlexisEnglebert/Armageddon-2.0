@@ -45,9 +45,12 @@ void MaterialEditor::DrawMaterial(uint64_t& matRef)
 		 ImGui::Combo("Rendering mode ", &AssetManager::m_MaterialMap[matRef].RenderMode, items,ARRAYSIZE(items));
 		 ImGui::DragFloat("Rougness", &AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.Roughness, 0.01, 0, 1);
 		 ImGui::DragFloat("Metalic", &AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.Metalic, 0.01, 0, 1);
-		DrawTextureTree(matRef);
-		
+		 RenderMaterial(matRef);
+		 ImGui::Image(
+			 m_previewTexture.GetRessourceView()
+			 , { m_previewTexture.GetImageX(),m_previewTexture.GetImageY() });
 
+		DrawTextureTree(matRef);
 		ImGui::TreePop();
 	}
 }
@@ -270,4 +273,32 @@ void MaterialEditor::DrawTextureTree(uint64_t& matRef)
 		ImGui::Checkbox(Bool.m_name.c_str() , &Bool.boolean);
 
 	}
+}
+
+void MaterialEditor::RenderMaterial(uint64_t& matRef)
+{
+	ID3D11ShaderResourceView* null[] = { nullptr, nullptr , nullptr , nullptr , nullptr , nullptr , nullptr , nullptr , nullptr , nullptr };
+	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 10, null);
+	Armageddon::Interface::GetDeviceContext()->OMSetRenderTargets(1, &m_previewTexture.RenderTargetView ,nullptr);	
+	float color[] = { 0.1f,0.8f,0.1f,1.0f };
+	Armageddon::Interface::GetDeviceContext()->ClearRenderTargetView(m_previewTexture.RenderTargetView, color);
+
+
+	// Render Sphere With Current Material applied;
+
+	AssetManager::m_MaterialMap[matRef].BindRessources();
+	AssetManager::m_MaterialMap[matRef].BindShaders();
+	m_previewSphere.UpdtateTransform(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
+
+	Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(m_previewSphere.GetTransform());
+	Armageddon::Renderer::g_TransformCBuffer.BindPS();
+	Armageddon::Renderer::g_TransformCBuffer.BindVS();
+	for (auto& submesh : m_previewSphere.v_SubMeshes)
+	{
+		submesh.BindVertexBuffer();
+		submesh.BindIndexBuffer();
+		submesh.DrawIndexed();
+	}
+
+
 }

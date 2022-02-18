@@ -49,7 +49,8 @@ public:
 	 std::vector<SubMesh> v_SubMeshes;
 	 std::vector<uint64_t> v_MaterialReference;
 	 Skeleton m_skeleton;
-
+	 void BindRessource(int MatIndex);
+	 void BindShaders(int MaterialIndex);
 	 void BindMaterial(int MatIndex);
 
 private:

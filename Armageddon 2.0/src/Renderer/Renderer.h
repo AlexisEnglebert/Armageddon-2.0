@@ -15,7 +15,7 @@
 #include "backends/imgui_impl_win32.h"
 #include "backends/imgui_impl_dx11.h"
 #include "../Material/AssetManager.h"
-
+#include "../Material/Texture.h"
 #pragma comment(lib, "dxgi.lib")
 
 namespace Armageddon
@@ -49,6 +49,9 @@ namespace Armageddon
 		static D3D11_VIEWPORT ViewPort;
 		OffScreenRenderTarget m_FrameBuffer;
 		OffScreenRenderTarget FinalPass;
+
+
+
 		void CreateViewPort(float width, float height);
 
 	private:
@@ -77,8 +80,6 @@ namespace Armageddon
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DephtStencilState;
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> DephtStencilBuffer;
 
-		/*RasterRizer*/
-		Microsoft::WRL::ComPtr<ID3D11RasterizerState> RasterizerState;
 
 		/*Off Screen Render Target View*/
 		OffScreenRenderTarget m_OffScreenRenderTarget;

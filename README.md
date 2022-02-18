@@ -16,3 +16,5 @@ Armageddon 2.0 is a free 3D/2D game engine under DirectX11.
 * [ImGuizmo](https://github.com/CedricGuillemet/ImGuizmo)
 * [Spdlog](https://github.com/gabime/spdlog)
 * [Yaml-cpp](https://github.com/jbeder/yaml-cpp)
+* [GLFW](https://github.com/glfw/glfw)
+* [GLM](https://github.com/g-truc/glm)

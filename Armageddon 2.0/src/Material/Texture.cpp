@@ -648,4 +648,71 @@ RenderTexture::RenderTexture(float width, float height, DXGI_FORMAT format)
 	desc.Texture2D.MipSlice = 0;
 
 	Armageddon::Interface::GetDevice()->CreateRenderTargetView(TextureRessource.Get(), &desc, &RenderTargetView);
+
+
+
+	// TEMP
+
+	D3D11_TEXTURE2D_DESC DephtStencilDesc;
+	DephtStencilDesc.Width = width;
+	DephtStencilDesc.Height = height;
+	DephtStencilDesc.MipLevels = 1;
+	DephtStencilDesc.ArraySize = 1;
+	DephtStencilDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+	DephtStencilDesc.SampleDesc.Count = 1;
+	DephtStencilDesc.SampleDesc.Quality = 0;
+	DephtStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+	DephtStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+	DephtStencilDesc.CPUAccessFlags = 0;
+	DephtStencilDesc.MiscFlags = 0;
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	dsvDesc.Flags = 0;
+	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Texture2D.MipSlice = 0;
+
+	Armageddon::Interface::GetDevice()->CreateTexture2D(&DephtStencilDesc, NULL, this->DephtStencilBuffer.GetAddressOf());
+
+	HRESULT result = Armageddon::Interface::GetDevice()->CreateDepthStencilView(this->DephtStencilBuffer.Get(), &dsvDesc, this->DephtStencilView.GetAddressOf());
+	if (FAILED(result))
+	{
+		Armageddon::Log::GetLogger()->error("Erreur lors de la crétion du DephtStencilDesc {0}", result);
+	}
+
+	ImageX = width;
+	ImageY = height;
+}
+
+
+RenderTextureDepht::RenderTextureDepht(float width, float height, DXGI_FORMAT format) 
+{
+	D3D11_TEXTURE2D_DESC DephtStencilDesc;
+	DephtStencilDesc.Width = width;
+	DephtStencilDesc.Height = height;
+	DephtStencilDesc.MipLevels = 1;
+	DephtStencilDesc.ArraySize = 1;
+	DephtStencilDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+	DephtStencilDesc.SampleDesc.Count = 1;
+	DephtStencilDesc.SampleDesc.Quality = 0;
+	DephtStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+	DephtStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+	DephtStencilDesc.CPUAccessFlags = 0;
+	DephtStencilDesc.MiscFlags = 0;
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	dsvDesc.Flags = 0;
+	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Texture2D.MipSlice = 0;
+
+	Armageddon::Interface::GetDevice()->CreateTexture2D(&DephtStencilDesc, NULL, this->DephtStencilBuffer.GetAddressOf());
+
+	HRESULT result = Armageddon::Interface::GetDevice()->CreateDepthStencilView(this->DephtStencilBuffer.Get(), &dsvDesc, this->DephtStencilView.GetAddressOf());
+	if (FAILED(result))
+	{
+		Armageddon::Log::GetLogger()->error("Erreur lors de la crétion du DephtStencilDesc {0}", result);
+	}
+
+	
 }

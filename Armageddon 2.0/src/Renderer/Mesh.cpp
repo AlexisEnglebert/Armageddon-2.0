@@ -254,9 +254,22 @@ Mesh::Mesh(std::vector<Vertex> Vertices, std::vector<DWORD> Indices)
 	 m_TransForm.MVP =   DirectX::XMMatrixMultiply(m_camera->GetViewMatrix() , m_camera->GetProjectionMatrix());
  }
 
+ void Mesh::BindRessource(int MatIndex)
+ {
+	 AssetManager::m_MaterialMap[v_MaterialReference[MatIndex]].BindRessources();
+
+ }
+
+ void Mesh::BindShaders(int MaterialIndex)
+ {
+	 AssetManager::m_MaterialMap[v_MaterialReference[MaterialIndex]].BindShaders();
+
+ }
+
  void Mesh::BindMaterial(int MatIndex)
  {
-	 AssetManager::m_MaterialMap[v_MaterialReference[MatIndex]].Bind();
+	 BindRessource(MatIndex);
+	 BindShaders(MatIndex);
  }
 
 

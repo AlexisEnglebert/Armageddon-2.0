@@ -25,13 +25,12 @@ public:
 	ID3D11ShaderResourceView** GetRessourceViewPtr() {return TextureRessourceView.GetAddressOf();};
 	ID3D11Resource* GetRessource() {return TextureRessource.Get();};
 	ID3D11Resource** GetRessourcePtr() {return TextureRessource.GetAddressOf();};
-private:
 protected:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> TextureRessourceView;
 	Microsoft::WRL::ComPtr<ID3D11Resource> TextureRessource;
 	float ImageX = 0, ImageY = 0;
 };
-class DECL RenderTexture : Texture
+class DECL RenderTexture : public Texture
 {
 public:
 	RenderTexture() = default;
@@ -39,7 +38,25 @@ public:
 	ID3D11RenderTargetView* RenderTargetView;
 	ID3D11ShaderResourceView* GetRessourceView() { return TextureRessourceView.Get(); };
 	ID3D11ShaderResourceView** GetRessourceViewPtr() { return TextureRessourceView.GetAddressOf(); };
+	//TODO RESIZE 
+	//TODO BIND AND UNBIND
 
+
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DephtStencilView;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DephtStencilState;
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> DephtStencilBuffer;
+
+private : 
+
+
+};
+class DECL RenderTextureDepht : public RenderTexture
+{
+	RenderTextureDepht() = default;
+	RenderTextureDepht(float width, float height, DXGI_FORMAT format);
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DephtStencilView;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DephtStencilState;
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> DephtStencilBuffer;
 };
 class DECL EnvTexture : public Texture
 {

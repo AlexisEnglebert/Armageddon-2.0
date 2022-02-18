@@ -41,11 +41,21 @@ public:
     Armageddon::PixelShaders  FinalPassPixel;
     Armageddon::VertexShaders FinalPassVertex;
 
+    Armageddon::PixelShaders  GbufferPixel;
+    Armageddon::PixelShaders  GbufferCombine;
+
 	Editor()
 	{
         m_Scene.m_SceneState = SceneState::Editor;
         FinalPassVertex = AssetManager::GetOrCreateVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BloomThresholdVertex.cso");
         FinalPassPixel = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\CombinePixel.cso");
+
+
+       //TODO REORGANISER TOUT LE PROJET
+
+        GbufferPixel = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\Gbuffer.cso");
+        GbufferCombine = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\GbufferCombine.cso");
+
         m_Envmap = EnvMap(L"..\\Armageddon Editor\\Assets\\Texture\\Skybox\\HDR\\sunset_jhbcentral_1k.hdr");
         m_PlayButton.Create(L"Ressources//Icones//Editor//PlayButton.png");
 
@@ -256,6 +266,7 @@ void Editor::OnRender()
 
      Shadow.~Profiler();
 
+
      Profiler FramePass("FrameBufferPass");
 
      Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.Bind(Armageddon::Interface::GetDeviceContext().Get());
@@ -303,6 +314,13 @@ void Editor::OnRender()
      }
      m_Envmap.Render(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
      FramePass.~Profiler();
+
+
+
+
+
+
+
      Profiler BloomTimer("BloomPass");
      Armageddon::Renderer::g_WorldCBuffer.BindVS();
      Armageddon::Renderer::g_WorldCBuffer.BindPS();
@@ -346,6 +364,8 @@ void Editor::OnRender()
     m_bloom.Render();
 
     BloomTimer.~Profiler();
+
+
     Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().Bind(Armageddon::Interface::GetDeviceContext().Get());
     Armageddon::Renderer::g_WorldCBuffer.BindVS();
     Armageddon::Renderer::g_WorldCBuffer.BindPS();
@@ -397,16 +417,33 @@ void Editor::ImGuiRender()
 	/*ImGui::Image(
         Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetShaderRessource()
 		, { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetImageX(),
-       Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetImageY() });*/
-    ImGui::Image(
+       Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetImageY() });
+       */
+  /*  ImGui::Image(*
         Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetShaderRessource()
 		, { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetImageX(),
       Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetImageY() });
+      */
+
+   /** ImGui::Image(
+        Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[0].GetRessourceView()
+        , { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetImageX(),Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetImageY() });
    
-   /*ImGui::Image(
+    ImGui::Image(
+        Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[1].GetRessourceView()
+        , { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetImageX(),Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetImageY() });
+    ImGui::Image(
+        Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[2].GetRessourceView()
+        , { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetImageX(),Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetImageY() });
+    /*
+    ImGui::Image(
+        Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetRessourceView()
+        , { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetImageX(),Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetImageY() });
+   */
+   ImGui::Image(
        m_Cascade.m_CascadeLightTex.DephtResourceView.Get()
 		, { m_Cascade.m_CascadeLightTex.GetImageX(),
-       m_Cascade.m_CascadeLightTex.GetImageY() });*/
+       m_Cascade.m_CascadeLightTex.GetImageY() });
    
     ImGui::End();
 }
@@ -563,6 +600,7 @@ void Editor::RenderScene(bool BindMat)
 				Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(7, 1, m_Envmap.m_PreFilteredEnvMap.GetRessourceViewPtr());
 				Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(8, 1, m_Envmap.m_BRFLutTexture.GetRessourceViewPtr());
 				Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(9, 1, m_Cascade.m_CascadeLightTex.DephtResourceView.GetAddressOf());
+                
 
                 
 				//TEST DEBUG 

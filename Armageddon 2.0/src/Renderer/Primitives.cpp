@@ -1,5 +1,9 @@
 ﻿#include "Primitives.h"
-
+Mesh Armageddon::Primitives::Sphere;
+Armageddon::Primitives::Primitives()
+{
+    Sphere = Mesh("..\\Armageddon 2.0\\Assets\\Models\\Defaultsphere.obj");
+}
 Mesh Armageddon::Primitives::GenerateCube()
 {
     std::vector<Vertex> vertices;

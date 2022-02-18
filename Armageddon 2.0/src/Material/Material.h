@@ -149,7 +149,8 @@
 		void SetAOMap(const std::filesystem::path& m_AOPath);
 		void SetVertexShader(const std::filesystem::path& ShaderPath);
 		void SetPixelShader(const std::filesystem::path& ShaderPath);
-		void Bind();
+		void BindRessources();
+		void BindShaders();
 
 		int RenderMode = 0; //Par défaut il est opaque
 

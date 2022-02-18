@@ -83,19 +83,87 @@ void Armageddon::CascadeShadow::Update()
 {
 	if (Armageddon::Renderer::g_DirectLightsVector.size() > 0) 
 	{
-		DirectX::XMVECTOR InvLightDir = DirectX::XMVectorSet(Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.x, Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.y, Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.z, 0.0f);
-		LightView = DirectX::XMMatrixLookAtLH( InvLightDir ,DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
-		LightProjection = DirectX::XMMatrixOrthographicLH(100, 100, 1.0f, 100.5);
+		DirectX::XMVECTOR LightDir = DirectX::XMVectorSet(Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.x, Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.y, Armageddon::Renderer::g_LightBufferData.DirectionalLights[0].Direction.z, 0.0f);
+		LightView = DirectX::XMMatrixLookAtLH(LightDir,DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+		LightProjection = DirectX::XMMatrixOrthographicLH(100, 100, 1.0f, 1000.5);
 
 		//compute AA Bounding Box with the corner of the view frustum
-		
-		//Fov = ouverture du champ (groso modo) 
 
-		float TanHeight = tanf(((Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.FOV / 2.0f) / 360.0f) * DirectX::XM_2PI);
-		float TanView = tanf((((Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.FOV * Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.AspectRatio) / 2.0f) / 360.0f) * DirectX::XM_2PI);
-		float near_X = Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.NearZ;
-		
-		
+
+		DirectX::XMMATRIX ViewProjection = DirectX::XMMatrixMultiply(m_pCamera->GetViewMatrix(), m_pCamera->GetProjectionMatrix());
+		DirectX::XMMATRIX InverseViewProjection = DirectX::XMMatrixInverse(nullptr, ViewProjection);
+
+		for (size_t cascade = 0; cascade < NUM_CASCADES; cascade++)
+		{
+			DirectX::XMVECTOR FrustumCorners[8] =
+			{
+				//Near face
+				{  1.0f,  1.0f, -1.0f ,1.0f},
+				{ -1.0f,  1.0f, -1.0f ,1.0f},
+				{  1.0f, -1.0f, -1.0f ,1.0f},
+				{ -1.0f, -1.0f, -1.0f,1.0f},
+
+				//Far face
+				{  1.0f,  1.0f, 1.0f ,1.0f},
+				{ -1.0f,  1.0f, 1.0f ,1.0f},
+				{  1.0f, -1.0f, 1.0f ,1.0f},
+				{ -1.0f, -1.0f, 1.0f ,1.0f},
+			};
+			//Transfom les corners de la clîp à la world space
+			for (auto frustumCorner : FrustumCorners)
+			{
+				auto invCorner = DirectX::XMVector3Transform(frustumCorner, InverseViewProjection);
+				frustumCorner = invCorner / invCorner.m128_f32[3];
+			}
+
+			XMFLOAT3 frustumCenter = { 0, 0, 0 };
+			FrustumCorners;
+			for (size_t i = 0; i < 8; i++)
+			{
+				frustumCenter = XMFLOAT3(frustumCenter.x + FrustumCorners[i].m128_f32[0],
+					frustumCenter.y + FrustumCorners[i].m128_f32[1],
+					frustumCenter.z + FrustumCorners[i].m128_f32[2]);
+			}
+			// On récupère le centre (moyenne des pts)	régression linéaire :O 
+			frustumCenter.x /= 8;
+			frustumCenter.y /= 8;
+			frustumCenter.z /= 8;
+
+
+			//On Calcule la viewMatrix dans la light space 
+			DirectX::XMVECTOR Direction = DirectX::XMLoadFloat3(&frustumCenter) + LightDir;
+			LightView = DirectX::XMMatrixLookAtLH(Direction, DirectX::XMLoadFloat3(&frustumCenter), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+
+
+			//On récupère les 4 points de la AA Bouding Box
+			float minX = std::numeric_limits<float>::max();
+			float maxX = std::numeric_limits<float>::min();
+			float minY = std::numeric_limits<float>::max();
+			float maxY = std::numeric_limits<float>::min();
+			float minZ = std::numeric_limits<float>::max();
+			float maxZ = std::numeric_limits<float>::min();
+
+			/*
+			* On transforme chaque poin dans la light space :
+			*/
+			for (auto corner : FrustumCorners)
+			{
+				const auto lightCorner = DirectX::XMVector3Transform(corner, LightView);
+				minX = std::min(minX, lightCorner.m128_f32[0]);
+				maxX = std::min(minX, lightCorner.m128_f32[0]);
+				minX = std::min(minX, lightCorner.m128_f32[1]);
+				maxX = std::min(minX, lightCorner.m128_f32[1]);
+				minX = std::min(minX, lightCorner.m128_f32[2]);
+				maxX = std::min(minX, lightCorner.m128_f32[2]);
+
+			}
+		//	LightProjection = DirectX::XMMatrixOrthographicLH(maxX - minX, maxY - minY, 1.0f, 100.5);
+
+		}
+
+ 
+
+	
 		
 		//	DirectX::XMVECTOR InvLightDir = -DirectX::XMVectorSet(-2.0f, 4.0f,-1.0f, 0.0f);
 
