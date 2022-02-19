@@ -20,6 +20,12 @@ include_directories(includes/ImGuizmo)
 include_directories(includes/PhysX/physx/include)
 include_directories(includes/PhysX/pxshared/include)
 include_directories(includes/mono)
+include_directories(includes/mono)
+include_directories(includes/glfw/include)
+include_directories($ENV{%VULKAN_SDK%}/Include)
+
+add_subdirectory(includes/glfw)
+add_subdirectory(includes/glm)
 
 add_library(Armageddon-2.0 SHARED ${LIBRARY_SOURCE})
 #Executable ? 
