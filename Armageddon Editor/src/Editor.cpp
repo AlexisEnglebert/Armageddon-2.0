@@ -46,7 +46,7 @@ public:
 
 	Editor()
 	{
-        m_Scene.m_SceneState = SceneState::Editor;
+       /* m_Scene.m_SceneState = SceneState::Editor;
         FinalPassVertex = AssetManager::GetOrCreateVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BloomThresholdVertex.cso");
         FinalPassPixel = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\CombinePixel.cso");
 
@@ -63,21 +63,21 @@ public:
         AssetManager::m_MaterialMap[materialRef].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
         AssetManager::m_MaterialMap[materialRef].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
         AssetManager::m_MaterialMap[materialRef].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
-        AssetManager::m_MaterialMap[materialRef].RenderMode = 1;
+        AssetManager::m_MaterialMap[materialRef].RenderMode = 1;*/
 	}
 
 	~Editor()
 	{
         for (auto& mat : AssetManager::v_material)
         {
-            m_serializer.SerializeMaterial("Assets/Materials/" + mat.m_AssetName + ".mat", mat);
+            //m_serializer.SerializeMaterial("Assets/Materials/" + mat.m_AssetName + ".mat", mat);
         }
 	}
     
 private:
     ImVec2 CurrentWindowSize;
     
-    Scene m_Scene;
+    /**Scene m_Scene;
     Serializer m_serializer = {&m_Scene};
     //Editor Panel
     ContentBrowser                  m_ContentBrowser;
@@ -86,19 +86,20 @@ private:
     MaterialEditor                  m_MaterialEditor = { m_Scene };
     BoneDebug                       m_BoneDebug = { m_Scene };
     RessourceManager                m_RessourceManager = { m_Scene };
+    */
     bool cameraControlsActive = false;
-
+    
     void CreateDockSpace();
     void DrawImGuiScene();
 	void DrawGuizmos();
 
-	EnvMap m_Envmap;
+	/*/EnvMap m_Envmap;
     Armageddon::CascadeShadow m_Cascade = { &Armageddon::Application::GetWindow()->GetRenderer().m_camera,m_Scene };
     Armageddon::Bloom m_bloom;
 
     Mesh m_quad = Armageddon::Renderer2D::GeneratePlane();
 
-    Texture m_PlayButton;
+    Texture m_PlayButton;*/
 
 
 
@@ -157,7 +158,8 @@ void Editor::OnUpdate()
 */
 void Editor::OnRender()
 {
-    m_Scene.UpdateScene();
+    /*
+   // m_Scene.UpdateScene();
 
     m_Scene.m_SceneBuffer.Time = m_Scene.Scenetime;
     Armageddon::Renderer::g_WorldCBuffer.SetDynamicData(&m_Scene.m_SceneBuffer);
@@ -397,12 +399,13 @@ void Editor::OnRender()
     }
 
 	m_Envmap.Render(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
-
+    */
 }
 
 static float i; 
 void Editor::ImGuiRender()
 {
+    /*
      CreateDockSpace();
      DrawImGuiScene();
 
@@ -440,30 +443,33 @@ void Editor::ImGuiRender()
         Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetRessourceView()
         , { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetImageX(),Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().gBuffer[3].GetImageY() });
    */
+    /*
    ImGui::Image(
        m_Cascade.m_CascadeLightTex.DephtResourceView.Get()
 		, { m_Cascade.m_CascadeLightTex.GetImageX(),
        m_Cascade.m_CascadeLightTex.GetImageY() });
    
     ImGui::End();
+    */
 }
 
 void Editor::OnInit()
 {
-	Armageddon::Log::GetLogger()->trace("OnInit Event Reached");
+   // ImGui::SetCurrentContext(Armageddon::Application::GetWindow()->GetRenderer().GetImGuiContext());
+   // ImGuizmo::SetImGuiContext(Armageddon::Application::GetWindow()->GetRenderer().GetImGuiContext());
+	/*/Armageddon::Log::GetLogger()->trace("OnInit Event Reached");
     Armageddon::Application::GetWindow()->SetMouseCallBack(std::bind(&Editor::onMouseEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     Armageddon::Application::GetWindow()->setKeyBoardCallBack(std::bind(&Editor::onKeyBoardEvent, this, std::placeholders::_1));
   
     Armageddon::Application::GetWindow()->GetRenderer().m_camera.SetPosition(0.0f,0.0f,-1.0f);
     Armageddon::Application::GetWindow()->GetRenderer().m_camera.SetProjectionValues(90.0f,Armageddon::Application::GetWindow()->GetAspectRatio(),0.1f,10000.0f);
 
-    ImGui::SetCurrentContext(Armageddon::Application::GetWindow()->GetRenderer().GetImGuiContext());
-    ImGuizmo::SetImGuiContext(Armageddon::Application::GetWindow()->GetRenderer().GetImGuiContext());
+   
     Armageddon::Log::GetLogger()->trace("OnInit Event Reached");
 
     //m_Scene.LoadScene("Assets/Scenes/TestScene.mat");
-    m_serializer.DeserializeScene("Assets/Scenes/TestScene.mat");
-   // Armageddon::Renderer
+    m_serializer.DeserializeScene("Assets/Scenes/TestScene.mat");*/
+   // Armageddon::Renderer*/
 
    // Mesh model = Mesh("..\\Armageddon Editor\\Assets\\Models\\suzanne.obj");
 
@@ -481,7 +487,7 @@ static float CameraZoom = 1.0f;
 
 void Editor::onMouseEvent(MouseEvent::MEventType e, float x, float y)
 {
-    if (cameraControlsActive) 
+   /* if (cameraControlsActive)
     {
         switch (e)
         {
@@ -502,13 +508,13 @@ void Editor::onMouseEvent(MouseEvent::MEventType e, float x, float y)
             Armageddon::Application::GetWindow()->GetRenderer().m_camera.AdjustRotation(y * -0.01f, x * 0.01f, 0.0f);
             break;
         }
-    }
+    }*/
 }
 
 void Editor::onKeyBoardEvent(const unsigned char keyCode)
 {
 
-    if (Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_ctrl))
+    /*/if (Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_ctrl))
     {
         if (!Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_D) && keyCode == AG_KEY_D)
         {
@@ -529,23 +535,23 @@ void Editor::onKeyBoardEvent(const unsigned char keyCode)
     if (keyCode == AG_KEY_O)
     {
         
-    }
+    }*/
 }
 
 void Editor::RenderScene(bool BindMat)
 {
-    Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &Armageddon::Renderer::ViewPort);
+   /* Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &Armageddon::Renderer::ViewPort);
 
     for (auto iterator = m_Scene.EntityMap.begin(); iterator != m_Scene.EntityMap.cend(); iterator++)
     {
 
         //Armageddon::Interface::GetDeviceContext()->CSSetShader()
-       /*/ if (ent.HasComponent<RigidBodyComponent>())
+       /*//* if (ent.HasComponent<RigidBodyComponent>())
         {
            auto& component = ent.GetComponent<RigidBodyComponent>();
            component.update();
         }*/
-		if (iterator->second.HasComponent<MeshComponent>())
+		/*/if (iterator->second.HasComponent<MeshComponent>())
 		{
 			auto& component = iterator->second.GetComponent<MeshComponent>();
 			if (!component.m_mesh.IsEmpty()) {
@@ -626,13 +632,13 @@ void Editor::RenderScene(bool BindMat)
   //  Armageddon::PhysicsInterface::g_PhysxScene->simulate(0.01);
   //  Armageddon::PhysicsInterface::g_PhysxScene->fetchResults(true);
     m_Envmap.Render(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
-
+    */
 }
 
 
 void Editor::CreateDockSpace()
 {
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+	/*/ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -715,12 +721,12 @@ void Editor::CreateDockSpace()
 
     }
     ProfilerData::Clear();
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void Editor::DrawImGuiScene()
 {
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0.0f,0.0f});
+    /*/ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0.0f,0.0f});
     ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, { 0.0f,0.0f });
     ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.0862745098f, 0.0862745098f, 0.0862745098f, 1.0f));
 
@@ -778,7 +784,7 @@ void Editor::DrawImGuiScene()
 		const ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
        if (viewportPanelSize.x / viewportPanelSize.y > 0.0f) {
             /* on resize que le offscreen render target view*/
-             Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().ResizeRenderTargetView(
+           /* Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().ResizeRenderTargetView(
                 vMax.x - vMin.x, vMax.y - vMin.y,
                 nullptr);
           Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().CreateViewPort(vMax.x - vMin.x, vMax.y - vMin.y);
@@ -797,13 +803,13 @@ void Editor::DrawImGuiScene()
         Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().GetOffScreenRenderTarget().GetImageY() });
 
 
-    ImGui::End();
+    ImGui::End();*/
 }
 
 void Editor::DrawGuizmos()
 {
 
-    ImGuizmo::SetOrthographic(false);
+   /* ImGuizmo::SetOrthographic(false);
     ImGuizmo::Enable(true);
 	ImGuizmo::SetDrawlist(ImGui::GetForegroundDrawList());
 
@@ -837,5 +843,5 @@ void Editor::DrawGuizmos()
 				component.Translation.z = TransformMat.m[3][2];
             }
         }
-    }
+    }*/
 }

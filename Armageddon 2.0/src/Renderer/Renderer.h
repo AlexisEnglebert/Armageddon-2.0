@@ -16,6 +16,7 @@
 #include "backends/imgui_impl_dx11.h"
 #include "../Material/AssetManager.h"
 #include "../Material/Texture.h"
+#include "RendererAPI.h"
 #pragma comment(lib, "dxgi.lib")
 
 namespace Armageddon
@@ -55,24 +56,27 @@ namespace Armageddon
 		void CreateViewPort(float width, float height);
 
 	private:
+
+		/*Vulkan*/
+
+
+		/*DirectX11*/
 		bool InitSwapChain(HWND& hwnd);
-	
 		bool CreateDephtStencilBuffer(int width, int height);
 		void ResetDephtStencileBuffer();
-
 		void CreateRenderTargetView(float width, float height);
 		void CleanRenderTargetView();
 
-
 		void CreateRasterizer(D3D11_RASTERIZER_DESC rDesc);
 		void ChangeRasterizer(D3D11_RASTERIZER_DESC rDesc);
-
 		void CreateAlphaBlendState();
 		void CreateDefaultBlendState();
 
+		void LoadImGuiStyle();
+
 		AssetManager m_AssetManager;
 
-		/*DirectX11 Base*/
+		
 
 
 		/*DephtStencil*/

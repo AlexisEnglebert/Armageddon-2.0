@@ -7,11 +7,81 @@ Armageddon::Window* Armageddon::Window::WindowInstance = nullptr;
 Armageddon::Window::Window(int height, int width, std::wstring title, std::wstring wclass) : w_height(height), w_width(width), w_title(title), w_class(wclass)
 {
 	WindowInstance = this;
+
+	if (Armageddon::RendererAPI::m_CurrentAPI == Armageddon::RendererAPI::API::Vulkan) {
+		glfwInit();
+
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+		GLFWwindow* window = glfwCreateWindow(height, width, "Armageddon Editor", NULL, NULL);
+		VkSurfaceKHR surface;
+		VkInstance instance;
+
+		//Initialisation of vulkan 
+
+		VkApplicationInfo appInfo{};
+		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO; //Define struct type
+		appInfo.pApplicationName = "Armageddon 2.0";
+		appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+		appInfo.pEngineName = "Armageddon 2.0";
+		appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+		appInfo.apiVersion = VK_API_VERSION_1_0;
+
+		//This next struct is not optional and tells the Vulkan driver which global extensions and validation layers we want to use.
+		uint32_t glfwExtensionCount = 0;
+		const char** glfwExtensions;
+
+		glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount); // use gltf exetensions for vulkan 
+		VkInstanceCreateInfo createInfo{};
+		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+		createInfo.pApplicationInfo = &appInfo;
+		createInfo.enabledExtensionCount = glfwExtensionCount; // Need extension to handle every platforms
+		createInfo.ppEnabledExtensionNames = glfwExtensions;// Need extension to handle every platforms
+		createInfo.enabledLayerCount = 0; // reste obscur pour l'instant
+
+		VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
+		if (result != VK_SUCCESS)
+		{
+			Armageddon::Log::GetLogger()->error("Error while creating Vulkan Instance : {0}", result);
+			exit(-1);
+		}
+		VkResult err = glfwCreateWindowSurface(instance, window, NULL, &surface);
+
+		uint32_t deviceCount = 0;
+		vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+		std::vector<VkPhysicalDevice> devices(deviceCount);
+		vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+
+		if (deviceCount <= 0)
+		{
+			Armageddon::Log::GetLogger()->error("No device Found : {0}", deviceCount);
+			exit(-1);
+		}
+		Armageddon::Log::GetLogger()->info("Number of devices : {0}", deviceCount);
+		VkPhysicalDeviceProperties deviceProperty;
+		vkGetPhysicalDeviceProperties(devices[0], &deviceProperty);
+		Armageddon::Log::GetLogger()->info("Device : {0}", deviceProperty.deviceName);
+		Armageddon::Log::GetLogger()->info("VendorID : {0}", deviceProperty.vendorID);
+		Armageddon::Log::GetLogger()->info("DeviceID : {0}", deviceProperty.deviceID);
+		Armageddon::Log::GetLogger()->info("DeviceType : {0}", deviceProperty.deviceType);
+
+		while (!glfwWindowShouldClose(window)) {
+			glfwPollEvents();
+		}
+		vkDestroyInstance(instance, nullptr);
+	}
+	else {
+		Win32Window(width, height, title, wclass);
+	}
+}
+
+void Armageddon::Window::Win32Window(int width, int height, std::wstring title, std::wstring wclass)
+{
 	this->ModuleInstance = (HINSTANCE)GetModuleHandle(NULL);
 
 	this->RegisterWindowClass();
 
-	
+
 	this->WindowHandle = CreateWindowEx(
 		0,										// Optional window styles.
 		this->w_class.c_str(),							// Window class
@@ -32,17 +102,21 @@ Armageddon::Window::Window(int height, int width, std::wstring title, std::wstri
 
 	}
 
-	if (!m_Renderer.Init(this->WindowHandle, this->w_height, this->w_width))
-	{
-		Armageddon::Log::GetLogger()->trace("Erreur lors de la crétation du renderer");
+	/*if (!m_Renderer.Init(this->WindowHandle, this->w_height, this->w_width))
+		{
+			Armageddon::Log::GetLogger()->trace("Erreur lors de la crétation du renderer");
 
-	}
-	m_PhysEngine.init();
+		}*/
+		//	m_PhysEngine.init();
 
 
 	ShowWindow(this->WindowHandle, SW_MAXIMIZE);
 	SetForegroundWindow(this->WindowHandle);
 	SetFocus(this->WindowHandle);
+}
+
+void Armageddon::Window::GLFWindow(int width, int height, std::wstring title, std::wstring wclass)
+{
 }
 
 

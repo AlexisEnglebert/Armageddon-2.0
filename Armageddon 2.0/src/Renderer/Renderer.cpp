@@ -19,75 +19,166 @@ std::vector<PointLight>  Armageddon::Renderer::g_PointLightsVector;
 
 
 
-bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
-{
-    if (!InitSwapChain(hwnd))
-    {
-        return false;
-    }
-    if (!CreateDephtStencilBuffer(width, height))
-    {
-        return false;
-    }
+ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
+ {
+     //TODO : Faire en sorte que ça soit bien foutu
 
-    CreateRenderTargetView(width,height);
-    m_OffScreenRenderTarget.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
-    m_FrameBuffer.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
-    FinalPass.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
-
-    CreateViewPort(width, height);
+     IMGUI_CHECKVERSION();
+     this->m_Context = ImGui::CreateContext();
+     Armageddon::Log::GetLogger()->info("IMGUI : CREATE CONTEXT");
+     LoadImGuiStyle();
 
 
-    /*Default Rasterizer Description*/
-    D3D11_RASTERIZER_DESC rDesc;
-    ZeroMemory(&rDesc, sizeof(D3D11_RASTERIZER_DESC));
-    rDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-    rDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
-    CreateRasterizer(rDesc);
-
-    D3D11_SAMPLER_DESC sDesc;
-    ZeroMemory(&sDesc, sizeof(D3D11_SAMPLER_DESC));
-    sDesc.Filter = D3D11_FILTER_ANISOTROPIC;
-    sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-    sDesc.MaxAnisotropy = D3D11_REQ_MAXANISOTROPY;
-    sDesc.MipLODBias = 0.0f;
-    sDesc.MinLOD = 0.0f;
-    sDesc.MaxLOD = D3D11_FLOAT32_MAX;
-    HRESULT hr =  Armageddon::Interface::GetDevice()->CreateSamplerState(&sDesc, Armageddon::Interface::GetSamplerState().GetAddressOf());
-    if (FAILED(hr))
-    {
-        Armageddon::Log::GetLogger()->error("Failed Creating Default Sampler State");
-    }
-
-    sDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
-
-    hr = Armageddon::Interface::GetDevice()->CreateSamplerState(&sDesc, Armageddon::Interface::GetTrilinearSampler().GetAddressOf());
-    if (FAILED(hr))
-    {
-        Armageddon::Log::GetLogger()->error("Failed Creating Trilinear Sampler State");
-    }
-    sDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-    sDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-    sDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-
-     hr = Armageddon::Interface::GetDevice()->CreateSamplerState(&sDesc, Armageddon::Interface::GetClampSampler().GetAddressOf());
-
-     if (FAILED(hr))
+     if (Armageddon::RendererAPI::m_CurrentAPI == Armageddon::RendererAPI::API::Vulkan)
      {
-         Armageddon::Log::GetLogger()->error("Failed Creating Clamp Sampler State");
      }
+     else
+     {
+         if (!InitSwapChain(hwnd))
+         {
+             return false;
+         }
+         if (!CreateDephtStencilBuffer(width, height))
+         {
+             return false;
+         }
 
-    CreateAlphaBlendState();
-    CreateDefaultBlendState();
-    /*Init ImGui pour DirectX11*/
-    IMGUI_CHECKVERSION();
-    this->m_Context = ImGui::CreateContext();
-    Armageddon::Log::GetLogger()->info("IMGUI : CREATE CONTEXT");
+         CreateRenderTargetView(width, height);
+         m_OffScreenRenderTarget.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
+         m_FrameBuffer.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
+         FinalPass.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
+
+         CreateViewPort(width, height);
+
+
+         /*Default Rasterizer Description*/
+         D3D11_RASTERIZER_DESC rDesc;
+         ZeroMemory(&rDesc, sizeof(D3D11_RASTERIZER_DESC));
+         rDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+         rDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+         CreateRasterizer(rDesc);
+
+         D3D11_SAMPLER_DESC sDesc;
+         ZeroMemory(&sDesc, sizeof(D3D11_SAMPLER_DESC));
+         sDesc.Filter = D3D11_FILTER_ANISOTROPIC;
+         sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+         sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+         sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+         sDesc.MaxAnisotropy = D3D11_REQ_MAXANISOTROPY;
+         sDesc.MipLODBias = 0.0f;
+         sDesc.MinLOD = 0.0f;
+         sDesc.MaxLOD = D3D11_FLOAT32_MAX;
+         HRESULT hr = Armageddon::Interface::GetDevice()->CreateSamplerState(&sDesc, Armageddon::Interface::GetSamplerState().GetAddressOf());
+         if (FAILED(hr))
+         {
+             Armageddon::Log::GetLogger()->error("Failed Creating Default Sampler State");
+         }
+
+         sDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+
+         hr = Armageddon::Interface::GetDevice()->CreateSamplerState(&sDesc, Armageddon::Interface::GetTrilinearSampler().GetAddressOf());
+         if (FAILED(hr))
+         {
+             Armageddon::Log::GetLogger()->error("Failed Creating Trilinear Sampler State");
+         }
+         sDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+         sDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+         sDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+
+         hr = Armageddon::Interface::GetDevice()->CreateSamplerState(&sDesc, Armageddon::Interface::GetClampSampler().GetAddressOf());
+
+         if (FAILED(hr))
+         {
+             Armageddon::Log::GetLogger()->error("Failed Creating Clamp Sampler State");
+         }
+
+         CreateAlphaBlendState();
+         CreateDefaultBlendState();
+         /*Init ImGui pour DirectX11*/
+ 
+         //..\\Armageddon Editor\\Assets\\Texture\\Skybox\\HDR\\Arches_E_PineTree\\Arches_E_PineTree_3k.hdr
+         //io.FontDefault =  io.Fonts->AddFontFromFileTTF("..\\Armageddon 2.0\\Assets\\fonts\\Roboto-Medium.ttf", 14.0f);
+
+         ImGui_ImplWin32_Init(hwnd);
+         ImGui_ImplDX11_Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetDeviceContext().Get());
+
+         /*
+         * Constant Buffer Index :
+         * 0 - Transform
+         * 1 - Light
+         * 2 - RougnessBuffer ( for the prefileterd envmap)
+         */
+
+         g_TransformCBuffer.Create(D3D11_USAGE_DYNAMIC, 0);
+         g_LightCBuffer.Create(D3D11_USAGE_DYNAMIC, 1);
+         g_RoughnessCBuffer.Create(D3D11_USAGE_DYNAMIC, 2);
+         g_PBRCBuffer.Create(D3D11_USAGE_DYNAMIC, 3);
+         g_WorldCBuffer.Create(D3D11_USAGE_DYNAMIC, 4);
+
+
+
+
+
+         return true;
+     }
+     return true;
+}
+
+void Armageddon::Renderer::CreateAlphaBlendState()
+{
+    D3D11_BLEND_DESC BlendDesc;
+	ZeroMemory(&BlendDesc, sizeof(D3D11_BLEND_DESC));
+    BlendDesc.AlphaToCoverageEnable = true;
+    BlendDesc.RenderTarget[0].BlendEnable = true;
+    BlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+    BlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+    BlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+    BlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+    BlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+    BlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    BlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	HRESULT hr = Armageddon::Interface::GetDevice()->CreateBlendState(&BlendDesc, Armageddon::Renderer::AlphaBlendState.GetAddressOf());
+    if (FAILED(hr))
+    {
+        Armageddon::Log::GetLogger()->error("Error creating Alpha Blend state");
+    }
+
+}
+
+void Armageddon::Renderer::CreateDefaultBlendState()
+{
+	D3D11_BLEND_DESC BlendDesc;
+	ZeroMemory(&BlendDesc, sizeof(D3D11_BLEND_DESC));
+	BlendDesc.RenderTarget[0].BlendEnable = FALSE;
+	BlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	BlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	BlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	BlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	BlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	BlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	BlendDesc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
+
+	Armageddon::Interface::GetDevice()->CreateBlendState(&BlendDesc, Armageddon::Renderer::DefaultBlendState.GetAddressOf());
+    BlendDesc.AlphaToCoverageEnable = false;
+    BlendDesc.IndependentBlendEnable = false;
+    BlendDesc.RenderTarget[0].BlendEnable = false;
+    BlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+    BlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ZERO;
+    BlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+    BlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+    BlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+    BlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    BlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+    Armageddon::Interface::GetDevice()->CreateBlendState(&BlendDesc, Armageddon::Interface::GetColorBlendState().GetAddressOf());
+
+}
+
+void Armageddon::Renderer::LoadImGuiStyle()
+{
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    
+
     constexpr auto ColorFromBytes = [](uint8_t r, uint8_t g, uint8_t b)
     {
         return ImVec4((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, 1.0f);
@@ -168,87 +259,8 @@ bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
     style->ScrollbarRounding = 6;
     style->GrabRounding = 4;
     style->TabRounding = 4;
- //   style->
-
-
     style->WindowTitleAlign = ImVec2(1.0f, 0.5f);
- 
-
     style->DisplaySafeAreaPadding = ImVec2(4, 4);
-    //..\\Armageddon Editor\\Assets\\Texture\\Skybox\\HDR\\Arches_E_PineTree\\Arches_E_PineTree_3k.hdr
-	//io.FontDefault =  io.Fonts->AddFontFromFileTTF("..\\Armageddon 2.0\\Assets\\fonts\\Roboto-Medium.ttf", 14.0f);
-
-    ImGui_ImplWin32_Init(hwnd);
-    ImGui_ImplDX11_Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetDeviceContext().Get());
-
-    /*
-    * Constant Buffer Index : 
-    * 0 - Transform
-    * 1 - Light 
-    * 2 - RougnessBuffer ( for the prefileterd envmap) 
-    */
-
-    g_TransformCBuffer.Create(D3D11_USAGE_DYNAMIC, 0);
-    g_LightCBuffer.Create(D3D11_USAGE_DYNAMIC, 1);
-    g_RoughnessCBuffer.Create(D3D11_USAGE_DYNAMIC, 2);
-    g_PBRCBuffer.Create(D3D11_USAGE_DYNAMIC, 3);
-    g_WorldCBuffer.Create(D3D11_USAGE_DYNAMIC, 4);  
-    
-
-
-
-
-    return true;
-}
-
-void Armageddon::Renderer::CreateAlphaBlendState()
-{
-    D3D11_BLEND_DESC BlendDesc;
-	ZeroMemory(&BlendDesc, sizeof(D3D11_BLEND_DESC));
-    BlendDesc.AlphaToCoverageEnable = true;
-    BlendDesc.RenderTarget[0].BlendEnable = true;
-    BlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-    BlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-    BlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-    BlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-    BlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-    BlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-    BlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-
-	HRESULT hr = Armageddon::Interface::GetDevice()->CreateBlendState(&BlendDesc, Armageddon::Renderer::AlphaBlendState.GetAddressOf());
-    if (FAILED(hr))
-    {
-        Armageddon::Log::GetLogger()->error("Error creating Alpha Blend state");
-    }
-
-}
-
-void Armageddon::Renderer::CreateDefaultBlendState()
-{
-	D3D11_BLEND_DESC BlendDesc;
-	ZeroMemory(&BlendDesc, sizeof(D3D11_BLEND_DESC));
-	BlendDesc.RenderTarget[0].BlendEnable = FALSE;
-	BlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	BlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-	BlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	BlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	BlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-	BlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	BlendDesc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
-
-	Armageddon::Interface::GetDevice()->CreateBlendState(&BlendDesc, Armageddon::Renderer::DefaultBlendState.GetAddressOf());
-    BlendDesc.AlphaToCoverageEnable = false;
-    BlendDesc.IndependentBlendEnable = false;
-    BlendDesc.RenderTarget[0].BlendEnable = false;
-    BlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
-    BlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ZERO;
-    BlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-    BlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-    BlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-    BlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-    BlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-    Armageddon::Interface::GetDevice()->CreateBlendState(&BlendDesc, Armageddon::Interface::GetColorBlendState().GetAddressOf());
-
 }
 
 void Armageddon::Renderer::ResizeBuffer(float width, float height)

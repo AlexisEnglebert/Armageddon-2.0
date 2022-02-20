@@ -21,6 +21,7 @@
 #include <string.h>
 #include <tchar.h>
 #include "../Physics/PhysicsEngine.h"
+#include "../Renderer/RendererAPI.h"
 namespace Armageddon
 {
 	class DECL Window
@@ -29,18 +30,26 @@ namespace Armageddon
 		Window(){}
 		~Window(){}
 		Window(int height, int width, std::wstring title, std::wstring wclass);
+		void Win32Window(int width, int height, std::wstring title, std::wstring wclass);
+		void GLFWindow(int width, int height, std::wstring title, std::wstring wclass);
 		LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wparam, LPARAM lparam);
-		bool ProcessMessage();
 
 		inline Renderer& GetRenderer() { return m_Renderer;			 };
 		inline KeyBoard& GetKeyBoard() { return m_KeyBoard;			 };
 		inline 	Armageddon::PhyicsEngine GetPhysicEngine() {return m_PhysEngine;};
 		float GetAspectRatio()		   { return(w_width / w_height); };
 
+		/*Use maximum of absatraction tu */
 		void SetMouseCallBack(const std::function<void(MouseEvent::MEventType e, float x, float y)>& callbackfunc) { MouseCallBack = callbackfunc; };
 		void setKeyBoardCallBack(const std::function<void(const unsigned char Key)>& CallbackFunc) { KeyBoardCallBack = CallbackFunc; };
+		std::function<void()> ProceedMessages;
+
+
+
 		std::wstring OpenDialog(const char* filter = "All Files (*.*)\0*.*\0", HWND owner = NULL);
 		int w_height, w_width;
+
+		bool ProcessMessage();
 
 	private:
 		void RegisterWindowClass();
