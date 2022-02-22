@@ -25,8 +25,8 @@
 [submodule "Armageddon Editor/includes"]
 	url = https://github.com/Alexisloic21/ImGuizmo
 [submodule "Armageddon 2.0/includes/glfw"]
-	path = Armageddon 2.0/glfw
+	path = Armageddon 2.0/includes/glfw
 	url = https://github.com/glfw/glfw
 [submodule "Armageddon 2.0/includes/glm"]
-	path = Armageddon 2.0/glm
+	path = Armageddon 2.0/includes/glm
 	url = https://github.com/g-truc/glm

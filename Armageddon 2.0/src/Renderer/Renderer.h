@@ -1,8 +1,14 @@
 #pragma once
+#if __linux__
+//rien pour l'instant
+#else
 #include <dxgi.h>
 #include <d3d11.h>
-#include <vector>
 #include <wrl\client.h>
+
+#endif
+
+#include <vector>
 #include "../Macros.h"
 #include "../Log.h"
 #include "ConstantBuffer.h"

@@ -7,12 +7,16 @@
 
 #include <vector>
 #include <stdlib.h>
+#if __linux__
+#else
 #include <wrl/client.h>
+#endif
+
 #include<string>
 #include<filesystem>
 
-#include <assimp\Importer.hpp>
-#include <assimp\scene.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "../Material/AssetManager.h"
 #include "../Material/Material.h"	

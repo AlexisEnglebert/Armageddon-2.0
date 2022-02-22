@@ -1,7 +1,7 @@
 #pragma once
 #include "../Log.h"
 #include "../Macros.h"
-#include "Events\KeyBoardEvents.h"
+#include "Events/KeyBoardEvents.h"
 #include <queue>
 
 class DECL KeyBoard

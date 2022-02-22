@@ -1,8 +1,12 @@
 #pragma once
 #include "../../Macros.h"
 #include "../../Log.h"
+#if __linux__
+//pass pour l'instant
+#else
 #include <d3d11.h>
 #include<DirectXMath.h>
+#endif
 
 #pragma comment(lib,"d3d11.lib")
 using namespace DirectX;

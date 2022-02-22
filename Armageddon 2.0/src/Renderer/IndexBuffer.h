@@ -1,7 +1,9 @@
 #pragma once
+#if __linux__
+#else
 #include <wrl/client.h>
 #include <d3d11.h>
-
+#endif
 template<class t>
 class IndexBuffer
 {

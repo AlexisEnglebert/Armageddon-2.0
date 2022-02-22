@@ -1,7 +1,10 @@
 #pragma once
 
+#if __linux__
+#else
 #include <d3d11.h>
 #include <wrl/client.h>
+#endif
 #include <memory>	
 #include "Vertex.h"
 #include "../Log.h"

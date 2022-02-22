@@ -1,6 +1,10 @@
 #pragma once
+#if __linux__
+//pass pour l'instant 
+#else
 #include <d3d11.h>
 #include <wrl/client.h>
+#endif
 #include "../Macros.h"
 #include "../Log.h"
 #include "Interface.h"

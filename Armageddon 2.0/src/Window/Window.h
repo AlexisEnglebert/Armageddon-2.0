@@ -1,5 +1,20 @@
 #pragma once
 #define GLFW_INCLUDE_VULKAN
+
+#if __linux__
+//pass pour l'instant
+#else
+#include "backends/imgui_impl_win32.h"
+#include "backends/imgui_impl_dx11.h"
+#include <WinUser.h>
+#include <windef.h>
+#include <hidusage.h>
+#include <strsafe.h>
+#include <windows.h>
+#include <tchar.h>
+
+#endif
+
 #include <GLFW/glfw3.h>
 #include "../Macros.h"
 #include "../Log.h"
@@ -7,19 +22,12 @@
 #include "KeyBoard.h"
 #include "Events/MouseEvent.h"
 #include "imgui.h"
-#include "backends/imgui_impl_win32.h"
-#include "backends/imgui_impl_dx11.h"
 #include <stdio.h>
 #include <string>
-#include <WinUser.h>
-#include <windef.h>
 #include <future>
-#include <hidusage.h>
-#include <strsafe.h>
+
 #include <iostream>
-#include <windows.h>
 #include <string.h>
-#include <tchar.h>
 #include "../Physics/PhysicsEngine.h"
 #include "../Renderer/RendererAPI.h"
 namespace Armageddon

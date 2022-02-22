@@ -1,5 +1,9 @@
 #pragma once
+#if __linux__
+//pas pour l'instant
+#else
 #include <DirectXMath.h>
+#endif
 #include "../Macros.h"
 struct DECL SkyLight
 {

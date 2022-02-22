@@ -1,9 +1,12 @@
 ﻿#pragma once
 #include "../Macros.h"
-#include <vector>;
+#include <vector>
 #include <string>
+#if __linux__
+//pass pour l'instant
+#else
 #include <DirectXMath.h>
-
+#endif
 /*
 
 Local Pos = Coordonates System from the parent Joint

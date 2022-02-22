@@ -1,5 +1,9 @@
 #pragma once
+#if __linux__
+//pass pour l'instant
+#else
 #include <DirectXMath.h>
+#endif
 #include "Lights.h"
 #include "../Macros.h"
 /*attention tout doit être alligné sur 16 bytes donc*/

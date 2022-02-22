@@ -2,8 +2,11 @@
 #include "../Macros.h"
 #include "Interface.h"
 #include "../Log.h"
+#if __linux__
+//pass pour l'instant
+#else
 #include <d3d11.h>
-
+#endif
 template <class T>
 class ConstantBuffer
 {

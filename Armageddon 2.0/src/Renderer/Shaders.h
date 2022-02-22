@@ -2,13 +2,16 @@
 
 #include "../Macros.h"
 #include "../Log.h"
+#if __linux__
+#else
 #include <d3d11.h>
 #include <wrl/client.h>
-#include <string>
 #include <d3dcompiler.h>
+#include <d3d11shader.h>
+#endif
+#include <string>
 #include <filesystem>
 #include "Interface.h"
-#include <d3d11shader.h>
 #pragma comment(lib,"D3DCompiler.lib")
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"dxguid.lib")

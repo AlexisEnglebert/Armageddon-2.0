@@ -1,14 +1,18 @@
 #pragma once
+#if __linux__
+//pass pour l'instant
+#else
 #include <d3d11.h>
-#include <vector>
 #include <wrl\client.h>
+#include "DirectXTex/DirectXTex.h"
+#include "WICTextureLoader/WICTextureLoader11.h"
+#endif
+#include <vector>
 #include <string>
 #include <filesystem>
 #include "../Macros.h"
 #include "../Log.h"
 #include "../Renderer/Interface.h"
-#include "WICTextureLoader/WICTextureLoader11.h"
-#include "DirectXTex/DirectXTex.h"
 #include "../Renderer/Shaders.h"	
 #include "AssetManager.h"
 

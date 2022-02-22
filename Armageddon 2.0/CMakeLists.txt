@@ -7,14 +7,16 @@ set(NAME Armageddon-2.0)
 project(Armageddon-2.0)
 file(GLOB_RECURSE LIBRARY_SOURCE src/*.cpp)
 
-
+ if(WIN32) 
+	include_directories(includes/DirectXTex)
+endif()
 
 include_directories(includes/imgui-docking)
 include_directories(includes/spdlog/include)
 include_directories(includes/assimp/include)
+include_directories(includes/assimp/include/assimp)
 include_directories(includes/assimp/build/include)
 include_directories(includes/entt/src)
-include_directories(includes/DirectXTex)
 include_directories(includes/yaml-cpp/include)
 include_directories(includes/ImGuizmo)
 include_directories(includes/PhysX/physx/include)
@@ -26,6 +28,7 @@ include_directories($ENV{%VULKAN_SDK%}/Include)
 
 add_subdirectory(includes/glfw)
 add_subdirectory(includes/glm)
+add_subdirectory(includes/assimp)
 
 add_library(Armageddon-2.0 SHARED ${LIBRARY_SOURCE})
 #Executable ? 

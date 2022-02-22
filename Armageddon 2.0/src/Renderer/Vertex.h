@@ -1,5 +1,8 @@
 #pragma once
+#if __linux__
+#else
 #include<DirectXMath.h>
+#endif
 
 	
 

@@ -9,7 +9,7 @@ include_directories(external)
 message(Building \ Armageddon \ Library)
 add_subdirectory(Armageddon\ 2.0)
 message(Building \ The \ editor)
-add_subdirectory(Armageddon\ Editor)
+#add_subdirectory(Armageddon\ Editor)
 
 
 #Pour linux : 
