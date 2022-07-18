@@ -1,15 +1,22 @@
-# Ignore all text files
+#Ignore all text files
 *.txt
 
-# Ignore files related to API keys
+#Ignore files related to API keys
 .env
 
-#Ingore all 3D models
+#Ignore all 3D models
 Armageddon Editor/Assets/Models/*
 
-#Ingore all Texures
+#Ignore all Texures
 Armageddon Editor/Assets/Texture/*
 
-#Ingore all Materials
+#Ignore all Materials
 Armageddon Editor/Assets/Materials/*
 
+#Ignore all Includes
+Armageddon 2.0/includes/*
+Armageddon Editor/includes/*
+
+#Ignore all compiler output
+bin/*
+bin-int/*
