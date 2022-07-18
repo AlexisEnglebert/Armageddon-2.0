@@ -1,3 +1,4 @@
+#include <Tonemap.hlsli>
 struct PointLight
 {
     //On alterne pour rester alligner sur 16 bytes
@@ -188,27 +189,6 @@ float CalculatePointLightEvaluation(float distance,float radius,float intensity)
 }
 
 
-
-float3 uncharted2_tonemap_partial(float3 x)
-{
-    float A = 0.15f;
-    float B = 0.50f;
-    float C = 0.10f;
-    float D = 0.20f;
-    float E = 0.02f;
-    float F = 0.30f;
-    return ((x * (A * x + C * B) + D * E) / (x * (A * x + B) + D * F)) - E / F;
-}
-
-float3 uncharted2_filmic(float3 v)
-{
-    float exposure_bias = 2.0f;
-    float3 curr = uncharted2_tonemap_partial(v * exposure_bias);
-
-    float3 W = float3(11.2f, 11.2f, 11.2f);
-    float3 white_scale = float3(1.0f, 1.0f, 1.0f) / uncharted2_tonemap_partial(W);
-    return curr * white_scale;
-}
 float3 CalculateBRDF(PSinput input,float3 View, float4 AlbedoTex,float3 Normal,float RoughnessTex,float AmbiantOclusionTex,float MetalicTex,float3 Light,float3 F0)
 {
     float3 Halfway = normalize(View + Light);
@@ -343,7 +323,6 @@ float4 main(PSinput input) : SV_TARGET
     color += EmisiveMap * EmisiveFactor * EmisiveTint ;
     
     
-   // color = ReinhardToneMap(color, 4.0f);
     //  color = color / (1 + color);
 
     //float3 ambient = float3(0.03f, 0.3f, 0.3f) * float3(1.0f, 1.0f, 1.0f) * 1.0f; //vec3(0.03) * albedo * ao;
@@ -352,7 +331,6 @@ float4 main(PSinput input) : SV_TARGET
   //  color = color / (color + float3(1.0f, 1.0f, 1.0f));
    // color = pow(color, float3(1.0f / 2.2f, 1.0f / 2.2f, 1.0f / 2.2f));
 	
-    color = uncharted2_filmic(color); 
   //  color = pow(abs(color), 1 / 2.22);
     
     
@@ -387,6 +365,7 @@ float4 main(PSinput input) : SV_TARGET
 
     }
  
-    
+   color = uncharted2_filmic(color);
+
     return float4(color, AlbedoTex.a);
 }

@@ -12,7 +12,7 @@ Entities:
             Type: 1
             Color: [1, 0.999989986, 0.999989986]
             Direction: [0.400000006, 1, 1]
-            Intensity: 20
+            Intensity: 0
     -   Entity: 1
         Tag: Entity
         Mesh: Assets\Models\Cube.fbx
@@ -30,9 +30,9 @@ Entities:
         Mesh: Assets\Models\Cube.fbx
         Materials:
             -   0
-            -   0xb19c9290038389c0
+            -   0x3efb4d9127ebcca3
 
         Transform:
-            [0.733302176, 2.93768239, -1.88616562,
+            [2.3805995, 2.89302182, -2.1815629,
         1.10000002, 1.20000005, 0,
         1.39999998, 1, 1]

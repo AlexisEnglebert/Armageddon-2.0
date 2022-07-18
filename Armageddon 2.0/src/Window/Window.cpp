@@ -102,11 +102,11 @@ void Armageddon::Window::Win32Window(int width, int height, std::wstring title, 
 
 	}
 
-	/*if (!m_Renderer.Init(this->WindowHandle, this->w_height, this->w_width))
+	if (!m_Renderer.Init(this->WindowHandle, this->w_height, this->w_width))
 		{
 			Armageddon::Log::GetLogger()->trace("Erreur lors de la crétation du renderer");
 
-		}*/
+		}
 		//	m_PhysEngine.init();
 
 

@@ -17,7 +17,7 @@ void OffScreenRenderTarget::CreateShaderResourceView(ID3D11Device* device)
 {
     //Input Texture -> ressource view on the Texture
     D3D11_SHADER_RESOURCE_VIEW_DESC sRenderTargetDesc;
-    sRenderTargetDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+    sRenderTargetDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
     sRenderTargetDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
     sRenderTargetDesc.Texture2D.MipLevels = 1;
     sRenderTargetDesc.Texture2D.MostDetailedMip = 0;
@@ -145,7 +145,7 @@ void OffScreenRenderTarget::CleanRenderTargetView()
 void OffScreenRenderTarget::CreateRenderTargetView(ID3D11Device* device, IDXGISwapChain* swapchain)
 {
     D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-    renderTargetViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+    renderTargetViewDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
     renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
     renderTargetViewDesc.Texture2D.MipSlice = 0;
 
@@ -161,7 +161,7 @@ void OffScreenRenderTarget::CreateScreenTexture(ID3D11Device* device, float widt
 {
     //crée la texture
     D3D11_TEXTURE2D_DESC SceneDesc;
-    SceneDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+    SceneDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
     SceneDesc.Width = width;
     SceneDesc.Height = height;
     SceneDesc.ArraySize = 1;

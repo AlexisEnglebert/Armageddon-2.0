@@ -9,12 +9,12 @@ Armageddon::Bloom::Bloom()
 	Bloompx = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BloomDownSamplePixel.cso");
 	BloomUpsample = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BloomUpsample.cso");
 	m_BloomConstant.Create(D3D11_USAGE_DYNAMIC, 4);
-	for (UINT i = 0; i < 7; i++)
+	for (UINT i = 0; i < BLOOM_PASS_COUNT; i++)
 	{
 		float width = 960 * pow(0.5, i);
 		float height = 540 * pow(0.5, i);
-		m_bloomDownSample[i] = { width,height,DXGI_FORMAT_R11G11B10_FLOAT };
-		m_bloomUpSample[i] = { width,height,DXGI_FORMAT_R11G11B10_FLOAT };
+		m_bloomDownSample[i] = { width,height,DXGI_FORMAT_R16G16B16A16_FLOAT };
+		m_bloomUpSample[i] = { width,height,DXGI_FORMAT_R16G16B16A16_FLOAT };
 	}
 }
 
@@ -28,7 +28,7 @@ void Armageddon::Bloom::Render()
 	Armageddon::Interface::GetDeviceContext()->VSSetShader(Bloomvx.GetShader(), NULL, 0);
 	Armageddon::Interface::GetDeviceContext()->PSSetShader(Bloompx.GetShader(), NULL, 0);
 
-	for (UINT i = 0; i < 5; i++)
+	for (UINT i = 0; i < BLOOM_PASS_COUNT; i++)
 	{
 
 		float factor = i <= 0 ? i : i - 1;
@@ -80,7 +80,7 @@ void Armageddon::Bloom::Render()
 	}
 	Armageddon::Interface::GetDeviceContext()->PSSetShader(BloomUpsample.GetShader(), NULL, 0);
 
-	for (int i = 3; i >= 0; i--)
+	for (int i = BLOOM_PASS_COUNT - 2; i >= 0; i--)
 	{
 		Armageddon::Interface::GetDeviceContext()->OMSetBlendState(Armageddon::Interface::GetColorBlendState().Get(), {}, UINT32_MAX);
 
@@ -113,10 +113,10 @@ void Armageddon::Bloom::Render()
 		m_BloomConstant.BindPS();
 
 		// +1 celui on est
-		if (i == 3)
+		if (i == BLOOM_PASS_COUNT-1)
 		{
 			Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 1, m_bloomDownSample[i + 1].GetRessourceViewPtr());
-			Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(1, 1, m_bloomDownSample[i ].GetRessourceViewPtr());
+			Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(1, 1, m_bloomDownSample[i].GetRessourceViewPtr());
 
 		}
 		else

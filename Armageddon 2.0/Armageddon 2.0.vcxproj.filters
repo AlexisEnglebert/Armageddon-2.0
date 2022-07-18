@@ -753,6 +753,9 @@
     <ClInclude Include="src\Window\Win32Window.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer\VolumetricFog.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -906,5 +909,8 @@
     <FxCompile Include="Shaders\BloomDownSamplePixel.hlsl" />
     <FxCompile Include="Shaders\BloomUpsample.hlsl" />
     <FxCompile Include="Shaders\CombinePixel.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Tonemap.hlsli" />
   </ItemGroup>
 </Project>

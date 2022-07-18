@@ -398,6 +398,7 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
     <ClInclude Include="src\Renderer\SubMesh.h" />
     <ClInclude Include="src\Renderer\Vertex.h" />
     <ClInclude Include="src\Renderer\VertexBuffer.h" />
+    <ClInclude Include="src\Renderer\VolumetricFog.h" />
     <ClInclude Include="src\Scene\Entity.h" />
     <ClInclude Include="src\Scene\Components.h" />
     <ClInclude Include="src\Scene\Scene.h" />
@@ -592,6 +593,9 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Tonemap.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

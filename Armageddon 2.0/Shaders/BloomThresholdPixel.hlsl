@@ -10,10 +10,8 @@ float4 main(PSinput input) : SV_TARGET
 {
     float3 color = FrameBuffer.Sample(Sampler,input.textCoord).rgb;
 
-
-    //TEST CELUI DE OPENGL : 
-    float knee = 0.1f;
-    float threshold = 0.8f;
+    float knee = 0.5f;
+    float threshold = 0.9f;
     float3 curve = float3(threshold - knee, knee * 2, 0.25 / knee);
 
     float br =color ;
@@ -22,5 +20,15 @@ float4 main(PSinput input) : SV_TARGET
 
     // Combine and apply the brightness response curve
     color *= max(rq, br - threshold) / max(br, 1e-4);
-	return float4(color, 1.0f);
+
+
+    //Test 
+   /* float4 BrightColor;
+    float brightness = dot(color, float3(0.2126, 0.7152, 0.0722));
+    if (brightness > 0.9f)
+        BrightColor = float4(color, 1.0);
+    else
+        BrightColor = float4(0.0, 0.0, 0.0, 1.0);*/
+
+	return float4(color,1.0f);
 }

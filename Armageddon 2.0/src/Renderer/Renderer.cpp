@@ -286,7 +286,7 @@ void Armageddon::Renderer::ResizeBuffer(float width, float height)
     m_FrameBuffer.ResizeRenderTargetView(width, height,nullptr);
     FinalPass.ResizeRenderTargetView(width, height,nullptr);
     CreateViewPort(width, height);
-    CreateDephtStencilBuffer(width, height);
+    CreateDephtStencilBuffer(width, height);  
 }
 
 bool Armageddon::Renderer::InitSwapChain(HWND& hwnd)

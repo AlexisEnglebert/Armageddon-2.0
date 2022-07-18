@@ -33,11 +33,13 @@ int main(int argc, char** argv)
 	std::cin >> result;
 	if (result == "Y" || result == "y")
 		Armageddon::RendererAPI::SetRenderer(Armageddon::RendererAPI::API::Vulkan);
+	else
+		Armageddon::RendererAPI::SetRenderer(Armageddon::RendererAPI::API::DirectX);
+
 	Armageddon::Log::GetLogger()->info(Armageddon::RendererAPI::m_CurrentAPI);
 #endif
     auto application = Armageddon::CreateApplication();
-
-	//application->ApplicationRun();
+	application->ApplicationRun();
 	delete application;
 
 

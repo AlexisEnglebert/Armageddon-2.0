@@ -6,14 +6,17 @@
 #else
 #include "backends/imgui_impl_win32.h"
 #include "backends/imgui_impl_dx11.h"
-#include <WinUser.h>
-#include <windef.h>
-#include <hidusage.h>
+
 #include <strsafe.h>
-#include <windows.h>
 #include <tchar.h>
 
 #endif
+
+#include <windows.h>
+#include <WinUser.h>
+#include <windef.h>
+#include <hidusage.h>
+
 
 #include <GLFW/glfw3.h>
 #include "../Macros.h"
