@@ -8,8 +8,8 @@ void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Materi
 	emitter << YAML::BeginMap;
 
 	emitter << YAML::Key << "Name" << YAML::Value << mat.m_AssetName;
-	emitter << YAML::Key << "PixelShader" << YAML::Value << mat.m_PixelShader.ShaderPath.string();
-	emitter << YAML::Key << "VertexShader" << YAML::Value << mat.m_VertexShader.ShaderPath.string();
+	emitter << YAML::Key << "PixelShader" << YAML::Value << mat.m_PixelShader.m_shaderPath.string();
+	emitter << YAML::Key << "VertexShader" << YAML::Value << mat.m_VertexShader.m_shaderPath.string();
 
 	/*emitter << YAML::Key << "Materials" << YAML::Value << YAML::BeginSeq;
 

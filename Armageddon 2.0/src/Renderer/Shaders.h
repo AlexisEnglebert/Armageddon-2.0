@@ -17,44 +17,53 @@
 #pragma comment(lib,"dxguid.lib")
 namespace Armageddon
 {
-	class DECL VertexShaders
+	class Shader
 	{
 	public:
-		bool Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::filesystem::path shaderPath);
-		bool CreateVertexShader();
+		bool virtual Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::filesystem::path shaderPath) { return false; };
+		virtual ID3D10Blob* GetBuffer();
+		virtual bool ReloadShader(const char* entry_point, const char* type);
+		virtual bool CreateShader() { return false; };
+		std::filesystem::path m_shaderPath;
+
+	protected:
+		Microsoft::WRL::ComPtr <ID3D10Blob> m_shaderBuffer;
+
+
+	};
+	class DECL VertexShaders : public Shader
+	{
+	public:
+		bool Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::filesystem::path shaderPath) override;
+		bool CreateShader() override;
+
 		ID3D11VertexShader* GetShader();
-		ID3D10Blob* GetBuffer();
 		ID3D11InputLayout* GetInputLayout();
-		std::filesystem::path ShaderPath;
 
 	private:
 		Microsoft::WRL::ComPtr <ID3D11VertexShader> VertexShader;
-		Microsoft::WRL::ComPtr <ID3D10Blob> VertexShaderBuffer;
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> InputLayout;
 	};
 
 
-	class DECL PixelShaders
+	class DECL PixelShaders : public Shader
 	{
 	public:
-		bool Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::filesystem::path shaderPath);
+		bool Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::filesystem::path shaderPath) override;
+		bool CreateShader() override;
+
 		ID3D11PixelShader* GetShader();
-		ID3D10Blob* GetBuffer();
-		std::filesystem::path ShaderPath;
 	private:
 		Microsoft::WRL::ComPtr <ID3D11PixelShader> PixelShader;
-		Microsoft::WRL::ComPtr <ID3D10Blob> PixelShaderBuffer;
 
 	};
 
-	class DECL ComputeShader
+	class DECL ComputeShader : public Shader
 	{
-		bool Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::filesystem::path shaderPath);
-		void CreateComputeShader();
+		bool Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::filesystem::path shaderPath) override;
+		bool CreateShader() override;
+
 		ID3D11ComputeShader* GetShader();
-		ID3D10Blob* GetBuffer();
-		std::filesystem::path ShaderPath;
 		Microsoft::WRL::ComPtr <ID3D11ComputeShader> m_ComputeShader;
-		Microsoft::WRL::ComPtr <ID3D10Blob> m_ComputeShaderBuffer;
 	};
 }

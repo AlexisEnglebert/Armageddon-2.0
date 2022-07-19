@@ -41,6 +41,11 @@ void MaterialEditor::DrawMaterial(uint64_t& matRef)
 	if (ImGui::TreeNodeEx(AssetManager::m_MaterialMap[matRef].m_AssetName.c_str(), 0))
 	{
 		//ImGui::InputText("")
+		if (ImGui::Button("Reload"))
+		{
+			AssetManager::m_MaterialMap[matRef].m_VertexShader.ReloadShader("main", "vs_5_0");
+			AssetManager::m_MaterialMap[matRef].m_PixelShader.ReloadShader("main", "ps_5_0");
+		}
 		const char* items[] = { "Opaque","Transparent" };
 		 ImGui::Combo("Rendering mode ", &AssetManager::m_MaterialMap[matRef].RenderMode, items,ARRAYSIZE(items));
 		 ImGui::DragFloat("Rougness", &AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.Roughness, 0.01, 0, 1);

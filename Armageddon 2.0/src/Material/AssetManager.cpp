@@ -73,7 +73,7 @@ Armageddon::PixelShaders AssetManager::GetOrCreatePixelShader(const std::filesys
 {
     for (UINT i = 0; i < v_PixelShaders.size(); i++)
     {
-        if (ShaderPath == v_PixelShaders[i].ShaderPath) {
+        if (ShaderPath == v_PixelShaders[i].m_shaderPath) {
 			Armageddon::Log::GetLogger()->trace("PixelShader alerady exist : {0}", ShaderPath);
             return v_PixelShaders[i];
         }
@@ -88,7 +88,7 @@ Armageddon::VertexShaders AssetManager::GetOrCreateVertexShader(const std::files
 {
 	for (UINT i = 0; i < v_VertexShaders.size(); i++)
 	{
-		if (ShaderPath == v_VertexShaders[i].ShaderPath) {
+		if (ShaderPath == v_VertexShaders[i].m_shaderPath) {
 			Armageddon::Log::GetLogger()->trace("PixelShader alerady exist : {0}", ShaderPath);
 			return v_VertexShaders[i];
 		}
