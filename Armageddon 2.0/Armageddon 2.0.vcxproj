@@ -405,6 +405,7 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
     <ClInclude Include="src\Scene\Serializer.h" />
     <ClInclude Include="src\Scripting\InternalsCall.h" />
     <ClInclude Include="src\Scripting\ScriptEngine.h" />
+    <ClInclude Include="src\Serialization\Tokenizer.h" />
     <ClInclude Include="src\Utils\HashUtils.h" />
     <ClInclude Include="src\Utils\Timer.h" />
     <ClInclude Include="src\Window\Events\Event.h" />
@@ -452,6 +453,7 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
     <ClCompile Include="src\Scene\Serializer.cpp" />
     <ClCompile Include="src\Scripting\InternalsCall.cpp" />
     <ClCompile Include="src\Scripting\ScriptEngine.cpp" />
+    <ClCompile Include="src\Serialization\Tokenizer.cpp" />
     <ClCompile Include="src\Utils\Timer.cpp" />
     <ClCompile Include="src\Window\Events\KeyBoardEvents.cpp" />
     <ClCompile Include="src\Window\Events\MouseEvent.cpp" />

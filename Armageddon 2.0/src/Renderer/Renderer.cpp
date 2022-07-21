@@ -3,11 +3,12 @@
 
 ConstantBuffer<LightBuffer> Armageddon::Renderer::g_LightCBuffer;
 ConstantBuffer<TransFormBuffer> Armageddon::Renderer::g_TransformCBuffer;
-ConstantBuffer<RoughnessBuffer> Armageddon::Renderer::g_RoughnessCBuffer;
 ConstantBuffer<MaterialBuffer>  Armageddon::Renderer::g_PBRCBuffer;
 ConstantBuffer<WorldBuffer>  Armageddon::Renderer::g_WorldCBuffer;
 
 LightBuffer Armageddon::Renderer::g_LightBufferData;
+WorldBuffer Armageddon::Renderer::g_WorldBufferData;
+
 D3D11_VIEWPORT  Armageddon::Renderer::ViewPort;
 
  Microsoft::WRL::ComPtr < ID3D11BlendState>		Armageddon::Renderer::AlphaBlendState;
@@ -48,11 +49,13 @@ std::vector<PointLight>  Armageddon::Renderer::g_PointLightsVector;
          m_FrameBuffer.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
          FinalPass.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
 
+         m_DepthPass = RenderTexture(height, width,DXGI_FORMAT_R8G8B8A8_UNORM);
+
          CreateViewPort(width, height);
 
 
          /*Default Rasterizer Description*/
-         D3D11_RASTERIZER_DESC rDesc;
+         D3D11_RASTERIZER_DESC rDesc; 
          ZeroMemory(&rDesc, sizeof(D3D11_RASTERIZER_DESC));
          rDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
          rDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
@@ -111,10 +114,8 @@ std::vector<PointLight>  Armageddon::Renderer::g_PointLightsVector;
 
          g_TransformCBuffer.Create(D3D11_USAGE_DYNAMIC, 0);
          g_LightCBuffer.Create(D3D11_USAGE_DYNAMIC, 1);
-         g_RoughnessCBuffer.Create(D3D11_USAGE_DYNAMIC, 2);
          g_PBRCBuffer.Create(D3D11_USAGE_DYNAMIC, 3);
          g_WorldCBuffer.Create(D3D11_USAGE_DYNAMIC, 4);
-
 
 
 

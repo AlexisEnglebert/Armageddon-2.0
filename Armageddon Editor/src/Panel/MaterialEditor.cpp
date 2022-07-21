@@ -43,9 +43,24 @@ void MaterialEditor::DrawMaterial(uint64_t& matRef)
 		//ImGui::InputText("")
 		if (ImGui::Button("Reload"))
 		{
-			AssetManager::m_MaterialMap[matRef].m_VertexShader.ReloadShader("main", "vs_5_0");
-			AssetManager::m_MaterialMap[matRef].m_PixelShader.ReloadShader("main", "ps_5_0");
+			if (!AssetManager::m_MaterialMap[matRef].m_VertexShader.ReloadShader("main", "vs_5_0"))
+			{
+				OutputWindow::AddLog(LogType::DANGER,AssetManager::m_MaterialMap[matRef].m_VertexShader.GetErrorMessage().c_str());
+			}
+			if (!AssetManager::m_MaterialMap[matRef].m_PixelShader.ReloadShader("main", "ps_5_0"))
+			{
+				OutputWindow::AddLog(LogType::DANGER,AssetManager::m_MaterialMap[matRef].m_PixelShader.GetErrorMessage().c_str());
+			}
 		}
+		for (size_t i = 0; i < AssetManager::m_MaterialMap[matRef].m_VertexShader.v_ShaderBindTexture.size(); i++)
+		{
+			ImGui::Text(AssetManager::m_MaterialMap[matRef].m_VertexShader.v_ShaderBindTexture[i].name);
+		}
+		for (size_t i = 0; i < AssetManager::m_MaterialMap[matRef].m_PixelShader.v_ShaderBindTexture.size(); i++)
+		{
+			ImGui::Text(AssetManager::m_MaterialMap[matRef].m_PixelShader.v_ShaderBindTexture[i].name);
+		}
+
 		const char* items[] = { "Opaque","Transparent" };
 		 ImGui::Combo("Rendering mode ", &AssetManager::m_MaterialMap[matRef].RenderMode, items,ARRAYSIZE(items));
 		 ImGui::DragFloat("Rougness", &AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.Roughness, 0.01, 0, 1);
@@ -55,6 +70,92 @@ void MaterialEditor::DrawMaterial(uint64_t& matRef)
 			 m_previewTexture.GetRessourceView()
 			 , { m_previewTexture.GetImageX(),m_previewTexture.GetImageY() });
 
+
+
+
+
+		 for (size_t i = 0, texture_idx = 0; i < AssetManager::m_MaterialMap[matRef].m_testToken.size(); i++)
+		 {
+
+
+			 //TODO REFAIRE CA CORRECTEMENT
+			 switch (AssetManager::m_MaterialMap[matRef].m_testToken[i].type)
+			 {
+			 case TokenType::FLOAT4:
+				 break;
+
+			 case TokenType::FLOAT3:
+				 break;
+
+			 case TokenType::FLOAT2:
+				 break;
+
+			 case TokenType::FLOAT:
+				 break;
+
+			 case TokenType::INT4:
+				 break;
+
+			 case TokenType::INT3:
+				 break;
+
+			 case TokenType::INT2:
+				 break;
+
+			 case TokenType::INT:
+				 break;
+
+			 case TokenType::COLOR:
+				 break;
+
+			 case TokenType::TEXTURE2D:
+			 {
+				 std::string label = "##" + AssetManager::m_MaterialMap[matRef].m_testToken[i].m_content;
+				 ImGui::Columns(2, 0, false);
+				 ImGui::Image(AssetManager::m_MaterialMap[matRef].m_Textures[texture_idx].GetRessourceView(), { 50,50 });
+				 ImGui::SameLine();
+				 ImGui::Text(AssetManager::m_MaterialMap[matRef].m_testToken[i].m_content.c_str());
+				 ImGui::NextColumn();
+				 ImGui::InputText(label.c_str(), AssetManager::m_MaterialMap[matRef].m_Textures[texture_idx].m_AssetName.data(), AssetManager::m_MaterialMap[matRef].m_Textures[texture_idx].m_AssetName.size(), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_ReadOnly);
+
+				 if (ImGui::BeginDragDropTarget())
+				 {
+					 if (auto payload = ImGui::AcceptDragDropPayload("ASSET", ImGuiInputTextFlags_ReadOnly))
+					 {
+						 const char* str = (const char*)payload->Data;
+
+						 //
+						 AssetManager::m_MaterialMap[matRef].m_Textures[texture_idx] = AssetManager::GetOrCreateTexture(str);
+
+						 Armageddon::Log::GetLogger()->trace(str);
+					 }
+
+					 ImGui::EndDragDropTarget();
+
+				 }
+
+				 ImGui::SameLine();
+				 ImGui::PushID("AlbedoButton");
+				 if (ImGui::Button("...", { 30.0f,20.0f }))
+				 {
+
+				 }
+
+				 ImGui::PopID();
+				 ImGui::Columns();
+
+				 texture_idx++;
+				 break;
+			 }
+			 default:
+				 break;
+			 }
+
+
+
+
+		 }
+
 		DrawTextureTree(matRef);
 		ImGui::TreePop();
 	}
@@ -63,134 +164,17 @@ void MaterialEditor::DrawMaterial(uint64_t& matRef)
 void MaterialEditor::DrawTextureTree(uint64_t& matRef)
 {
 	ImGui::Columns(2, 0, false);
-	//ImGui::SetColumnWidth(0, 150.0f);
 
-	ImGui::Image(AssetManager::m_MaterialMap[matRef].m_albedoMap.GetRessourceView(), { 50,50 });
-	ImGui::SameLine();
-	ImGui::Text("Albedo");
 	float color[] = { AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.AlbedoTint.x ,AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.AlbedoTint.y,AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.AlbedoTint.z };
 	ImGui::SameLine();
 	ImGui::ColorEdit3("Color", color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
 	AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.AlbedoTint.x = color[0];
 	AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.AlbedoTint.y = color[1];
 	AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.AlbedoTint.z = color[2];
-	ImGui::NextColumn();
-	ImGui::InputText("##Albedomap", AssetManager::m_MaterialMap[matRef].m_albedoMap.m_AssetName.data(), AssetManager::m_MaterialMap[matRef].m_albedoMap.m_AssetName.size(), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_ReadOnly);
-
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (auto payload = ImGui::AcceptDragDropPayload("ASSET", ImGuiInputTextFlags_ReadOnly))
-		{
-			const char* str = (const char*)payload->Data;
-			AssetManager::m_MaterialMap[matRef].m_albedoMap.m_AssetName = str;
-			AssetManager::m_MaterialMap[matRef].SetAlbedoMap(AssetManager::m_MaterialMap[matRef].m_albedoMap.m_AssetName);
-			Armageddon::Log::GetLogger()->trace(str);
-		}
-
-		ImGui::EndDragDropTarget();
-
-	}
-
-	ImGui::SameLine();
-	ImGui::PushID("AlbedoButton");
-	if (ImGui::Button("...", { 30.0f,20.0f }))
-	{
-
-	}
-
-	ImGui::PopID();
+	
 	ImGui::Columns();
 
-	ImGui::Columns(2, 0, false);
-	ImGui::Image(AssetManager::m_MaterialMap[matRef].m_normalMap.GetRessourceView(), { 50,50 });
-	ImGui::SameLine();
-	ImGui::Text("Normal");
-	ImGui::NextColumn();
-
-	ImGui::InputText("##NormalMap", AssetManager::m_MaterialMap[matRef].m_normalMap.m_AssetName.data(), AssetManager::m_MaterialMap[matRef].m_normalMap.m_AssetName.size(), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_ReadOnly);
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (auto payload = ImGui::AcceptDragDropPayload("ASSET", ImGuiInputTextFlags_ReadOnly))
-		{
-			const char* str = (const char*)payload->Data;
-			AssetManager::m_MaterialMap[matRef].m_normalMap.m_AssetName = str;
-			AssetManager::m_MaterialMap[matRef].SetNormalMap(AssetManager::m_MaterialMap[matRef].m_normalMap.m_AssetName);
-			Armageddon::Log::GetLogger()->trace(str);
-		}
-
-		ImGui::EndDragDropTarget();
-
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("##2...", { 30.0f,20.0f }))
-	{
-
-	}
-
-	ImGui::Columns();
-
-	ImGui::Columns(2, 0, false);
-	ImGui::Image(AssetManager::m_MaterialMap[matRef].m_specularMap.GetRessourceView(), { 50,50 });
-	ImGui::SameLine();
-	ImGui::Text("Specular map");
-	ImGui::NextColumn();
-
-	ImGui::InputText("##SpecularMap", AssetManager::m_MaterialMap[matRef].m_specularMap.m_AssetName.data(), AssetManager::m_MaterialMap[matRef].m_specularMap.m_AssetName.size(), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_ReadOnly);
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (auto payload = ImGui::AcceptDragDropPayload("ASSET", ImGuiInputTextFlags_ReadOnly))
-		{
-			const char* str = (const char*)payload->Data;
-			AssetManager::m_MaterialMap[matRef].m_specularMap.m_AssetName = str;
-			AssetManager::m_MaterialMap[matRef].SetSpecularMap(AssetManager::m_MaterialMap[matRef].m_specularMap.m_AssetName);
-			Armageddon::Log::GetLogger()->trace(str);
-		}
-
-		ImGui::EndDragDropTarget();
-
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("##3...", { 30.0f,20.0f }))
-	{
-
-	}
-	ImGui::Columns();
-
-
-	ImGui::Columns(2, 0, false);
-
-	ImGui::Image(AssetManager::m_MaterialMap[matRef].m_ambiantOcclusionMap.GetRessourceView(), { 50,50 });
-	ImGui::SameLine();
-	ImGui::Text("Ambient occlusion");
-
-	ImGui::NextColumn();
-
-	ImGui::InputText("##AOmap", AssetManager::m_MaterialMap[matRef].m_ambiantOcclusionMap.m_AssetName.data(), AssetManager::m_MaterialMap[matRef].m_ambiantOcclusionMap.m_AssetName.size(), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_ReadOnly);
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (auto payload = ImGui::AcceptDragDropPayload("ASSET", ImGuiInputTextFlags_ReadOnly))
-		{
-			const char* str = (const char*)payload->Data;
-			AssetManager::m_MaterialMap[matRef].m_ambiantOcclusionMap.m_AssetName = str;
-			AssetManager::m_MaterialMap[matRef].SetAOMap(AssetManager::m_MaterialMap[matRef].m_ambiantOcclusionMap.m_AssetName);
-			Armageddon::Log::GetLogger()->trace(str);
-		}
-
-		ImGui::EndDragDropTarget();
-
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("##4...", { 30.0f,20.0f }))
-	{
-
-	}
-
-
-	ImGui::Columns();
-
-
-	//ImGui::Image(vMat[i].GetAOMap(), { 50,50 });
-	//ImGui::SameLine();
+;
 	ImGui::Checkbox("Use MetalMap", &AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.UseMetalMap);
 	if (AssetManager::m_MaterialMap[matRef].m_PBRBUFFER.UseMetalMap)
 	{
@@ -262,22 +246,7 @@ void MaterialEditor::DrawTextureTree(uint64_t& matRef)
 		ImGui::Columns();
 	}
 
-	for (auto& Texture : AssetManager::m_MaterialMap[matRef].m_MaterialProperty.m_VTexure)
-	{
-		ImGui::Columns(2, 0, true);
-		ImGui::Image(Texture.m_Texture.GetRessourceView(), { 50,50 });
-		ImGui::SameLine();
-		ImGui::Text(Texture.m_name.c_str());
-		ImGui::NextColumn();
-		ImGui::InputText(""+Texture.ID, Texture.m_Texture.m_AssetName.data(), sizeof(char) * 255, ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_ReadOnly);
-		ImGui::Columns();
-
-	}
-	for (auto& Bool : AssetManager::m_MaterialMap[matRef].m_MaterialProperty.m_Vbool)
-	{
-		ImGui::Checkbox(Bool.m_name.c_str() , &Bool.boolean);
-
-	}
+	
 }
 
 void MaterialEditor::RenderMaterial(uint64_t& matRef)

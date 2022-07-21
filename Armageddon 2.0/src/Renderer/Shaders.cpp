@@ -11,12 +11,7 @@ bool Armageddon::PixelShaders::Init(Microsoft::WRL::ComPtr<ID3D11Device>& device
 			Armageddon::Log::GetLogger()->error("FAILED READING PIXEL SHADER : {0}", m_shaderPath.string().c_str());
 			return false;
 		}
-		hr = device->CreatePixelShader(this->m_shaderBuffer.Get()->GetBufferPointer(), this->m_shaderBuffer.Get()->GetBufferSize(), NULL, this->PixelShader.GetAddressOf());
-		if (FAILED(hr))
-		{
-			Armageddon::Log::GetLogger()->error("FAILED CREATING PIXEL SHADER : {0}", m_shaderPath.string().c_str());
-			return false;
-		}
+
 	}
 	else if (m_shaderPath.extension() == ".hlsl")
 	{
@@ -40,25 +35,73 @@ bool Armageddon::PixelShaders::Init(Microsoft::WRL::ComPtr<ID3D11Device>& device
 
 		if (FAILED(hr))
 		{
-
 			Armageddon::Log::GetLogger()->error("FAILED Compiling VertexShader [{0}]", hr);
 			return false;
-
 		}
 
 		
 	}
+
+	CreateShader();
     return true;
 }
 
 bool Armageddon::PixelShaders::CreateShader()
 {
+	v_ShaderBindTexture.clear();
+
 	UINT hr = Armageddon::Interface::GetDevice()->CreatePixelShader(m_shaderBuffer.Get()->GetBufferPointer(), m_shaderBuffer.Get()->GetBufferSize(), NULL, this->PixelShader.GetAddressOf());
 	if (FAILED(hr))
 	{
 		Armageddon::Log::GetLogger()->error("FAILED CREATING PIXEL SHADER");
 		return false;
 	}
+
+	ID3D11ShaderReflection* ShaderReflexion = nullptr;
+
+	hr = D3DReflect(m_shaderBuffer->GetBufferPointer(), m_shaderBuffer->GetBufferSize(), IID_ID3D11ShaderReflection, (void**)&ShaderReflexion);
+	if (FAILED(hr))
+	{
+		Armageddon::Log::GetLogger()->error("FAILED  REFLECTING SHADERS [{0}]", hr);
+
+	}
+	D3D11_SHADER_DESC ShaderDescription;
+	ZeroMemory(&ShaderDescription, sizeof(D3D11_SHADER_DESC));
+
+	ShaderReflexion->GetDesc(&ShaderDescription);
+
+	Armageddon::Log::GetLogger()->info("Number of Cbuffer {0}", ShaderDescription.ConstantBuffers);
+
+
+	for (unsigned int i = 0; i < ShaderDescription.ConstantBuffers; i++)
+	{
+		D3D11_SHADER_BUFFER_DESC shaderBufferDesc;
+		ID3D11ShaderReflectionConstantBuffer* cbuffer =  ShaderReflexion->GetConstantBufferByIndex(i);
+		cbuffer->GetDesc(&shaderBufferDesc);
+		Armageddon::Log::GetLogger()->info("Cbuffer name {0}", shaderBufferDesc.Name);
+
+	}
+	
+	for (unsigned int i = 0; i < ShaderDescription.BoundResources; i++)
+	{
+		D3D11_SHADER_INPUT_BIND_DESC inputBindDesc;
+		ShaderReflexion->GetResourceBindingDesc(i,&inputBindDesc);
+		if (D3D10_SHADER_INPUT_TYPE::D3D_SIT_TEXTURE == inputBindDesc.Type)
+		{
+			//TODO Improve this above 50, this is not user input texture but engine textures such as framebuffer,depht pass,envmap,shadowmap etc...
+			if (inputBindDesc.BindPoint < 50)
+			{
+				Armageddon::Log::GetLogger()->info("bound {0}", inputBindDesc.Name);
+
+				shaderTexture_t texture = { inputBindDesc.Name,inputBindDesc.Dimension };
+				v_ShaderBindTexture.push_back(texture);
+			}
+		}
+		
+	}
+
+	//TODO TEXTURES AND SAMPLER
+
 
 	return true;
 }
@@ -77,30 +120,34 @@ bool Armageddon::VertexShaders::Init(Microsoft::WRL::ComPtr<ID3D11Device>& devic
             return false;
 
         }
-		CreateShader();
 
     }
     else if (m_shaderPath.extension() == ".hlsl")
     {
-        Armageddon::Log::GetLogger()->info("No Compiled Shader given, trying to compile it");
+        Armageddon::Log::GetLogger()->info("No Compiled Shader given, trying to compile it (Vertex)");
 
 		Microsoft::WRL::ComPtr <ID3D10Blob> blob;
 
 		HRESULT hr = D3DReadFileToBlob(m_shaderPath.c_str(), blob.GetAddressOf());
-
+		if (FAILED(hr))
+		{
+			Armageddon::Log::GetLogger()->error("Failed reading Shader File");
+		}
+		ID3DBlob* pError;
         hr = D3DCompile(blob->GetBufferPointer(), blob->GetBufferSize(), NULL, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "vs_5_0",
-            0, 0, m_shaderBuffer.GetAddressOf(),NULL);
+            0, 0, m_shaderBuffer.GetAddressOf(),&pError);
 
 	   if (FAILED(hr))
 	   {
 
-		   Armageddon::Log::GetLogger()->error("FAILED Compiling VertexShader [{0}]", hr);
+		   Armageddon::Log::GetLogger()->error("FAILED Compiling VertexShader [{0}]", (char*)pError->GetBufferPointer());
 		   return false;
 
 	   }
 
-	   CreateShader();
     }
+
+	CreateShader();
 
     return true;
 }
@@ -132,6 +179,9 @@ bool Armageddon::VertexShaders::CreateShader()
 
 
 	std::vector< D3D11_INPUT_ELEMENT_DESC> v_ElementDesc;
+
+	Armageddon::Log::GetLogger()->info("Number of bound ressources: {0}",ShaderDescription.BoundResources);
+
 	for (UINT i = 0; i < ShaderDescription.InputParameters; i++)
 	{
 		D3D11_SIGNATURE_PARAMETER_DESC SignatureDesc;
@@ -270,6 +320,7 @@ bool Armageddon::Shader::ReloadShader(const char* entry_point, const char* type)
 	if (FAILED(hr))
 	{
 		Armageddon::Log::GetLogger()->error("Failed compiling {0} : {1}",m_shaderPath, (char*)pError->GetBufferPointer());
+		error_message = "Failed compiling" + m_shaderPath.string()+": "+ (char*)pError->GetBufferPointer();
 		return false;
 	}
 	m_shaderBuffer = tmp_shaderBuffer;
@@ -280,3 +331,8 @@ bool Armageddon::Shader::ReloadShader(const char* entry_point, const char* type)
 
 	return true;
 	}
+
+std::string Armageddon::Shader::GetErrorMessage()
+{
+	return error_message;
+}

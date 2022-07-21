@@ -18,7 +18,6 @@ SamplerState Sampler : register(s0);
 float4 main(PSinput input) : SV_TARGET
 {
     float4 FrameTex = FrameBuffer.Sample(Sampler, input.textCoord);
-    float4 BloomTex = BloomTexture.Sample(Sampler, input.textCoord);
     
     
     float4 d = TexelSize.xyxy * float4(1.0, 1.0, -1.0, 0.0);

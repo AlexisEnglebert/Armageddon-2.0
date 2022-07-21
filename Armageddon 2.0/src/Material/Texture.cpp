@@ -580,7 +580,6 @@ void EnvTexture::CreatePreFilteredMap(ID3D11ShaderResourceView** envmapRessource
 		for (UINT j = 0; j < 6; j++)
 		{
 			TransFormBuffer Buffer;
-			RoughnessBuffer RougnessB;
 			float BackGroundColor[] = { 0.1f,0.1f,0.1f,1.0f };
 			Armageddon::Interface::GetDeviceContext()->ClearRenderTargetView(RenderTargetView[i * 6 + j], BackGroundColor);
 			Armageddon::Interface::GetDeviceContext()->OMSetRenderTargets(1, &RenderTargetView[i * 6 + j], nullptr);
@@ -588,10 +587,6 @@ void EnvTexture::CreatePreFilteredMap(ID3D11ShaderResourceView** envmapRessource
 			Buffer.ProjectionMat = captureProjection;
 			Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(&Buffer);
 			Armageddon::Renderer::g_TransformCBuffer.BindVS();
-
-			RougnessB.Rougness = roughness;
-			Armageddon::Renderer::g_RoughnessCBuffer.SetDynamicData(&RougnessB);
-			Armageddon::Renderer::g_RoughnessCBuffer.BindPS();
 
 			Armageddon::Interface::GetDeviceContext()->Draw(14, 0);
 
@@ -682,6 +677,8 @@ RenderTexture::RenderTexture(float width, float height, DXGI_FORMAT format)
 
 	ImageX = width;
 	ImageY = height;
+
+	
 }
 
 

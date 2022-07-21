@@ -18,7 +18,7 @@
 
 class DECL Texture : public Asset
 {
-public:
+public:	
 	Texture() = default;
 	Texture(std::filesystem::path path);
 	void Create(const std::filesystem::path& path);

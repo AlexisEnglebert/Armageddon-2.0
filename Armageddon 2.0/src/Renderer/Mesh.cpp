@@ -221,6 +221,7 @@ Mesh::Mesh(std::vector<Vertex> Vertices, std::vector<DWORD> Indices)
 {
 
 	v_SubMeshes.push_back(SubMesh(Vertices, Indices,0));
+	//v_MaterialReference.push_back(AssetManager::GetOrCreateMaterial("DefaultMaterial"));
 	v_MaterialReference.push_back(AssetManager::GetOrCreateMaterial("DefaultMaterial"));
 
 }

@@ -72,18 +72,21 @@ Texture2D SpecularMap : register(t2);
 Texture2D MetalicMap : register(t3);
 Texture2D AmbiantOMap : register(t4);
 Texture2D EmissiveMap : register(t5);
-Texture2D ShadowMap   : register(t9);
 
 Texture2D TestColor : register(t20);
 Texture2D TestNormal : register(t21);
 Texture2D TestSpec : register(t22);
 
 
-TextureCube irradianceMap : register(t6);
-TextureCube Prefiltered : register(t7);
-Texture2D   BRDFIntegration : register(t8);
+TextureCube irradianceMap : register(t50);
+TextureCube Prefiltered : register(t51);
+Texture2D   BRDFIntegration : register(t52);
+Texture2D ShadowMap   : register(t53);
+
+
 SamplerState Sampler : register(s0);
 SamplerState ClampSampler : register(s1);
+
 
 
 static const float PI = 3.1415926535897932384626433832795f;

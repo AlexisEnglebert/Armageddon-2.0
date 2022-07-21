@@ -180,7 +180,6 @@ void Armageddon::Camera::UpdateViewMatrix()
     this->ViewMatrix = DirectX::XMMatrixLookAtLH(this->posVector, CamTarget, UpDir);
 
     DirectX::XMMATRIX vecRotationMatrix = DirectX::XMMatrixRotationRollPitchYaw(this->rotation.x, this->rotation.y, this->rotation.z);
-    Armageddon::Log::GetLogger()->trace("Cam pos  X: {0}  Y: {1}  Z: {2}",this->pos.x, this->pos.y, this->pos.z);
   //  Armageddon::Log::GetLogger()->trace("Cam ROT  X: {0}  Y: {1}  Z: {2}",this->rotation.x, this->rotation.y, this->rotation.z);
     this->vec_backward = XMVector3TransformCoord(this->DEFAULT_BACKWARD_VECTOR, vecRotationMatrix);
     this->vec_forward = XMVector3TransformCoord(this->DEFAULT_FORWARD_VECTOR, vecRotationMatrix);

@@ -295,42 +295,120 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 
 	
 }
+void Serializer::ParseExperimentalMaterial(const std::filesystem::path& FilePath)
+{
+	Tokenizer m_tokenizer;
+	std::vector<Token> tokens = m_tokenizer.Parse(FilePath);
+	Material n_material;
+	//TODO WITH ASSET MANAGER
+	uint64_t Hash;
+	for (size_t i = 0 ; i < tokens.size();i++)
+	{
+		if (tokens[i].type == TokenType::TEXTURE2D)
+		{
+			i+=2;
+			if (tokens[i].m_content == "location")
+			{
+				if (tokens[i].supplement.size() > 0)
+				{
+					n_material.m_Textures.push_back(AssetManager::GetOrCreateTexture(tokens[i].supplement));
+				}
+			}
+			else
+			{
+				n_material.m_Textures.push_back(Texture());
+			}
+		}
+		if (tokens[i].type == TokenType::ENTRYPOINT)
+		{
+			n_material.m_AssetName = tokens[i].m_content;
+			Hash = HashUtils::_64BitHash(tokens[i].m_content);
+
+			i+=2;
+			if (tokens[i].type == TokenType::ATTRIBUTE)
+			{
+				if (tokens[i].m_content == "ps")
+				{
+					n_material.m_PixelShader = AssetManager::GetOrCreatePixelShader(tokens[i].supplement);
+				}
+				i++;
+				if (tokens[i].m_content == "vs")
+				{
+					n_material.m_VertexShader = AssetManager::GetOrCreateVertexShader(tokens[i].supplement);
+
+				}
+			}
+
+		}
+	}
+	n_material.m_testToken = tokens;
+
+	AssetManager::m_AssetMap[Hash] = n_material;
+	AssetManager::m_MaterialMap[Hash] = n_material;
+	
+}
 uint64_t Serializer::DeserializeMaterial(const std::filesystem::path& FilePath)
 {
-	std::ifstream stream(FilePath);
-	std::stringstream m_stringStream;
-	if (stream.is_open()) {
-		m_stringStream << stream.rdbuf();
-		YAML::Node node = YAML::Load(m_stringStream);
-
-
-
-		std::string MatName = FilePath.stem().string();
-		Material mat(MatName);
-		auto Hash = HashUtils::_64BitHash(MatName);
-
-		if (node["Name"])
+	Tokenizer m_tokenizer;
+	std::vector<Token> tokens = m_tokenizer.Parse(FilePath);
+	Material n_material;
+	//TODO WITH ASSET MANAGER
+	uint64_t Hash;
+	for (size_t i = 0; i < tokens.size(); i++)
+	{
+		if (tokens[i].type == TokenType::TEXTURE2D)
 		{
-
-
-				if (node["PixelShader"]) AssetManager::m_MaterialMap[Hash].m_PixelShader = AssetManager::GetOrCreatePixelShader(node["PixelShader"].as<std::string>());
-				if (node["VertexShader"]) AssetManager::m_MaterialMap[Hash].m_VertexShader = AssetManager::GetOrCreateVertexShader(node["VertexShader"].as<std::string>());
-				if (node["AlbedoMap"])
+			i += 2;
+			if (tokens[i].m_content == "source")
+			{
+				if (tokens[i].supplement.size() > 0)
 				{
-					Armageddon::Log::GetLogger()->trace(MatName.c_str());
-					//	std::string test = material["AlbedoMap"].as<std::string>();
-					AssetManager::m_MaterialMap[Hash].m_albedoMap = AssetManager::GetOrCreateTexture(node["AlbedoMap"].as<std::string>() );
+					if (tokens[i].supplement == "Depth")
+					{
+						//TODO IMPROVE WITH TEXTURES HASMAP
+						n_material.m_Textures.push_back(Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_DepthPass);
+					}
+					else
+					{
+						n_material.m_Textures.push_back(AssetManager::GetOrCreateTexture(tokens[i].supplement));
+					}
 				}
-				if (node["NormalMap"]) AssetManager::m_MaterialMap[Hash].m_normalMap = AssetManager::GetOrCreateTexture(node["NormalMap"].as<std::string>());
-				if (node["SpecMap"]) AssetManager::m_MaterialMap[Hash].m_specularMap = AssetManager::GetOrCreateTexture(node["SpecMap"].as<std::string>());
-				if (node["AOMap"]) AssetManager::m_MaterialMap[Hash].m_ambiantOcclusionMap = AssetManager::GetOrCreateTexture(node["AOMap"].as<std::string>());
-				if (node["MetalMap"]) AssetManager::m_MaterialMap[Hash].m_metalicMap = AssetManager::GetOrCreateTexture(node["MetalMap"].as<std::string>());
-
-			
-			
+				else
+				{
+					n_material.m_Textures.push_back(Texture());
+				}
+			}
+			else
+			{
+				n_material.m_Textures.push_back(Texture());
+			}
 		}
+		if (tokens[i].type == TokenType::ENTRYPOINT)
+		{
+			n_material.m_AssetName = tokens[i].m_content;
+			Hash = HashUtils::_64BitHash(tokens[i].m_content);
 
-		return Hash;
+			i += 2;
+			if (tokens[i].type == TokenType::ATTRIBUTE)
+			{
+				if (tokens[i].m_content == "ps")
+				{
+					n_material.m_PixelShader = AssetManager::GetOrCreatePixelShader(tokens[i].supplement);
+				}
+				i++;
+				if (tokens[i].m_content == "vs")
+				{
+					n_material.m_VertexShader = AssetManager::GetOrCreateVertexShader(tokens[i].supplement);
+
+				}
+			}
+
+		}
 	}
+	n_material.m_testToken = tokens;
+
+	AssetManager::m_AssetMap[Hash] = n_material;
+	AssetManager::m_MaterialMap[Hash] = n_material;
+
 	return 0;
 }

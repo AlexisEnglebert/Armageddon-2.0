@@ -1,7 +1,6 @@
 #include "Material.h"
 #include "../Renderer/Renderer.h"
 
-uint32_t Property::PropertyID;
 
 
 Material::Material(const std::string& MaterialName) : m_usedMaterialName(m_usedMaterialName)
@@ -18,21 +17,10 @@ Material::Material(const std::string& MaterialName) : m_usedMaterialName(m_usedM
 	 m_PixelShader					 = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\PBR.cso");
 	 m_EmissiveMap					 = AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultAlbedo.png");
 
-	 m_MaterialProperty.AddTextureProperty("test Texture");
-	 m_MaterialProperty.AddTextureProperty("test Texture2");
-	 m_MaterialProperty.AddBoolProperty("TestBool");
 	 
 	 AssetManager::m_AssetMap[HashUtils::_64BitHash(MaterialName)] = *this;
 	 AssetManager::m_MaterialMap[HashUtils::_64BitHash(MaterialName)] = *this;
-	 //Armageddon::Log::GetLogger()->info("Before Buffer Size : {0} ", sizeof(TestBuffer));
-	 //TestBuffer.push_back(sizeof(float));
-	 //Armageddon::Log::GetLogger()->info("After Buffer Size : {0} ", sizeof(TestBuffer)); // doit être +4 
-	 //ON vas allouer dynamiquement de la mémoire pour notre buffer , il aura une taille maximale de 
-	 // 1024 bytes
-	 //TestConstBuffer = (char*) malloc(10);
-	 //assert(TestConstBuffer != NULL,"ConstBuffer Is Empty");
-
-	//Texture m_metalicMap;
+	
 
 }
 
@@ -110,12 +98,11 @@ void Material::BindRessources()
 	Armageddon::Interface::GetDeviceContext()->PSSetSamplers(0, 1, Armageddon::Interface::GetSamplerState().GetAddressOf());
 	Armageddon::Interface::GetDeviceContext()->PSSetSamplers(1, 1, Armageddon::Interface::GetClampSampler().GetAddressOf());
 
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 1, m_albedoMap.GetRessourceViewPtr());
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(1, 1, m_normalMap.GetRessourceViewPtr());
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(2, 1, m_specularMap.GetRessourceViewPtr());
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(3, 1, m_metalicMap.GetRessourceViewPtr());
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(4, 1, m_ambiantOcclusionMap.GetRessourceViewPtr());
-	Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(5, 1, m_EmissiveMap.GetRessourceViewPtr());
+	for (size_t i = 0; i < m_Textures.size(); i++)
+	{
+		Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(i, 1, m_Textures[i].GetRessourceViewPtr());
+		Armageddon::Interface::GetDeviceContext()->VSSetShaderResources(i, 1, m_Textures[i].GetRessourceViewPtr());
+	}
 }
 
 Material::Material(Texture* m_albedoMap, Texture* m_normalMap, Texture* m_specularMap, Texture* m_metalicMap, Texture* m_ambiantOcclusionMap)
@@ -150,3 +137,4 @@ void Material::BindShaders()
 		Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(i, 1, m_MaterialProperty.m_VTexure[0].m_Texture.GetRessourceViewPtr());
 	}*/
 }
+	

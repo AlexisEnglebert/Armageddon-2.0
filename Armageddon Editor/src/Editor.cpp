@@ -3,16 +3,17 @@
 #include "Application.h"
 #include "Main.h"
 #include "Log.h"
+
 #include "Renderer\Camera\Camera.h"
 #include "Renderer\Primitives.h"
 #include "Renderer\Interface.h"
-#include "imgui.h"
 #include "Panel/ContentBrowser.h"
 #include "Panel/EntityList.h"
 #include "Panel/EntityProperties.h"
 #include "Panel/MaterialEditor.h"
 #include "Panel/BoneDebug.h"
 #include "Panel/RessourceManager.h"
+#include "Panel/OuputLog.h"
 
 #include "Scene/Scene.h"
 #include "Renderer/EnvMap.h"
@@ -25,7 +26,9 @@
 
 #include "Scripting/ScriptEngine.h"
 #include "Utils/Timer.h"
+#include "imgui.h"
 #include "ImGuizmo.h"
+
 class Editor : public Armageddon::Application
 {
 public:
@@ -44,13 +47,15 @@ public:
     Armageddon::PixelShaders  GbufferPixel;
     Armageddon::PixelShaders  GbufferCombine;
 
+    Armageddon::VertexShaders defaultVertexShader;
+
 	Editor()
 	{
         m_Scene.m_SceneState = SceneState::Editor;
         FinalPassVertex = AssetManager::GetOrCreateVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BloomThresholdVertex.cso");
         FinalPassPixel = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\CombinePixel.cso");
 
-
+        defaultVertexShader = AssetManager::GetOrCreateVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\DefaultVertexShader.cso");
        //TODO REORGANISER TOUT LE PROJET
 
         GbufferPixel = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\Gbuffer.cso");
@@ -86,6 +91,8 @@ private:
     MaterialEditor                  m_MaterialEditor = { m_Scene };
     BoneDebug                       m_BoneDebug = { m_Scene };
     RessourceManager                m_RessourceManager = { m_Scene };
+    OutputWindow                    m_OutputWindow;
+
     
     bool cameraControlsActive = false;
     
@@ -160,6 +167,7 @@ void Editor::OnRender()
 {
    // m_Scene.UpdateScene();
 
+
     m_Scene.m_SceneBuffer.Time = m_Scene.Scenetime;
     Armageddon::Renderer::g_WorldCBuffer.SetDynamicData(&m_Scene.m_SceneBuffer);
     Armageddon::Renderer::g_WorldCBuffer.BindVS();
@@ -204,8 +212,71 @@ void Editor::OnRender()
 	//Armageddon::Interface::GetDeviceContext()->OMSetRenderTargets(1, m_Cascade.m_CascadeLightTex.pTargetView.GetAddressOf(), nullptr);
   
     
+
+
+    //Depth pass
+    ID3D11ShaderResourceView* null[] = { nullptr, nullptr , nullptr , nullptr , nullptr , nullptr , nullptr , nullptr , nullptr , nullptr };
+    Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 10, null);
+    Armageddon::Interface::GetDeviceContext()->OMSetRenderTargets(1, &Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_DepthPass.RenderTargetView,nullptr);
+    float color[] = { 0.1f,0.1f,0.1f,1.0f };
+    Armageddon::Interface::GetDeviceContext()->ClearRenderTargetView(Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_DepthPass.RenderTargetView, color);
+
+    
+    for (auto iterator = m_Scene.EntityMap.begin(); iterator != m_Scene.EntityMap.cend(); iterator++)
+    {
+        if (iterator->second.HasComponent<MeshComponent>() && !iterator->second.HasComponent<LightComponent>())
+        {
+
+            auto& comp = iterator->second.GetComponent<MeshComponent>();
+            if (iterator->second.HasComponent<TransformComponent>())
+            {
+                auto& transform = iterator->second.GetComponent<TransformComponent>();
+                // comp.m_mesh.GetTransform()->WorldMat *= transform.GetTransformMatrix();
+
+            }
+
+
+            Armageddon::Renderer::g_WorldBufferData.Time += 0.01f;
+            Armageddon::Renderer::g_WorldCBuffer.SetDynamicData(&Armageddon::Renderer::g_WorldBufferData);
+            Armageddon::Renderer::g_WorldCBuffer.BindPS();
+            Armageddon::Renderer::g_WorldCBuffer.BindVS();
+
+            Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(comp.m_mesh.GetTransform());
+            Armageddon::Renderer::g_TransformCBuffer.BindPS();
+            Armageddon::Renderer::g_TransformCBuffer.BindVS();
+
+            m_Cascade.Update();
+
+            Armageddon::Renderer::g_LightBufferData.LightViewProjection = m_Cascade.LightView * m_Cascade.LightProjection;
+            Armageddon::Renderer::g_LightBufferData.CameraPos = Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.GetPos();
+
+
+            Armageddon::Renderer::g_LightCBuffer.SetDynamicData(&Armageddon::Renderer::g_LightBufferData);
+            Armageddon::Renderer::g_LightCBuffer.BindPS();
+            Armageddon::Renderer::g_LightCBuffer.BindVS();
+
+
+            for (auto& submesh : comp.m_mesh.v_SubMeshes)
+            {
+                Armageddon::Interface::GetDeviceContext()->IASetInputLayout(m_Cascade.vx.GetInputLayout());
+                Armageddon::Interface::GetDeviceContext()->PSSetShader(m_Cascade.px.GetShader(), nullptr, 0);
+                Armageddon::Interface::GetDeviceContext()->VSSetShader(defaultVertexShader.GetShader(), nullptr, 0);
+
+                submesh.BindIndexBuffer();
+                submesh.BindVertexBuffer();
+                submesh.DrawIndexed();
+            }
+        }
+    }
+
+    
+    
     
     //HERE IS WHERE I Bind the RenderTargetView 
+
+
+
+
     m_Cascade.m_CascadeLightTex.Bind(Armageddon::Interface::GetDeviceContext().Get());
     m_Cascade.m_CascadeLightTex.Clear(Armageddon::Interface::GetDeviceContext().Get());
     Armageddon::Renderer::g_WorldCBuffer.BindVS();
@@ -238,11 +309,17 @@ void Editor::OnRender()
 			}
             
 
+            Armageddon::Renderer::g_WorldBufferData.Time += 0.01f;
+            Armageddon::Renderer::g_WorldCBuffer.SetDynamicData(&Armageddon::Renderer::g_WorldBufferData);
+            Armageddon::Renderer::g_WorldCBuffer.BindPS();
+            Armageddon::Renderer::g_WorldCBuffer.BindVS();
+
 			Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(comp.m_mesh.GetTransform());
 			Armageddon::Renderer::g_TransformCBuffer.BindPS();
 			Armageddon::Renderer::g_TransformCBuffer.BindVS();
 
 			m_Cascade.Update();
+
 			Armageddon::Renderer::g_LightBufferData.LightViewProjection = m_Cascade.LightView * m_Cascade.LightProjection;
 			Armageddon::Renderer::g_LightBufferData.CameraPos = Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera.GetPos();
 
@@ -298,10 +375,10 @@ void Editor::OnRender()
              Armageddon::Renderer::g_LightCBuffer.BindPS();
              Armageddon::Renderer::g_LightCBuffer.BindVS();
 
-             Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(6, 1, m_Envmap.m_convEnvMapTexture.GetRessourceViewPtr());
-             Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(7, 1, m_Envmap.m_PreFilteredEnvMap.GetRessourceViewPtr());
-             Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(8, 1, m_Envmap.m_BRFLutTexture.GetRessourceViewPtr());
-             Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(9, 1, m_Cascade.m_CascadeLightTex.DephtResourceView.GetAddressOf());
+             Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(50, 1, m_Envmap.m_convEnvMapTexture.GetRessourceViewPtr());
+             Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(51, 1, m_Envmap.m_PreFilteredEnvMap.GetRessourceViewPtr());
+             Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(52, 1, m_Envmap.m_BRFLutTexture.GetRessourceViewPtr());
+             Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(53, 1, m_Cascade.m_CascadeLightTex.DephtResourceView.GetAddressOf());
 
              for (auto& submesh : comp.m_mesh.v_SubMeshes)
              {
@@ -408,20 +485,17 @@ void Editor::ImGuiRender()
      CreateDockSpace();
      DrawImGuiScene();
 
-
     m_ContentBrowser.ImGuiDraw();
     m_EntityList.ImGuiDraw();
     m_EntityProperties.ImGuiDraw();
     m_MaterialEditor.ImGuiDraw();
     m_BoneDebug.ImGuiDraw();
     m_RessourceManager.ImGuiDraw();
+    m_OutputWindow.ImGuiDraw();
+
     ImGui::Begin("Debug shadow");
 
-	/*ImGui::Image(
-        Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetShaderRessource()
-		, { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetImageX(),
-       Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_FrameBuffer.GetImageY() });
-       */
+
     ImGui::Image(
         Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetShaderRessource()
 		, { Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().FinalPass.GetImageX(),
@@ -468,7 +542,9 @@ void Editor::OnInit()
     Armageddon::Log::GetLogger()->trace("OnInit Event Reached");
 
     //m_Scene.LoadScene("Assets/Scenes/TestScene.mat");
+    //m_serializer.ParseExperimentalMaterial("Assets/Materials/MaterialDeTeste.mat");
     m_serializer.DeserializeScene("Assets/Scenes/TestScene.mat");
+
    // Armageddon::Renderer*/
 
    // Mesh model = Mesh("..\\Armageddon Editor\\Assets\\Models\\suzanne.obj");

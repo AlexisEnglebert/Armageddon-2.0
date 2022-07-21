@@ -24,7 +24,10 @@ cbuffer LightCBuffer : register(b1)
 };
 
 
-
+cbuffer WorldCBuffer : register(b4)
+{
+    float time;
+}
 
 struct PSinput
 {
@@ -37,12 +40,15 @@ struct PSinput
 
 };
 
+Texture2D AlbedoMap : register(t10);
+SamplerState Sampler : register(s0);
+
 float4 main(PSinput input) : SV_TARGET
 {
-   
+    float4 AlbedoTex            = AlbedoMap.Sample(Sampler, input.textCoord);
     float  DiffuseIntensity = saturate(dot(input.normal, float3(0.5f,0.5f,0.5f)));
     float3 DiffuseColor = float3(1.0f, 1.0f, 1.0f);
     float4 Diffuse = float4((DiffuseIntensity * DiffuseColor).xyz, 1.0f);
 
-	return float4(CameraPos,1.0f);
+	return float4(abs(sin(time))* 3 + AlbedoTex.r,abs(sin(time))* 3,0.0,1.0f);
 }

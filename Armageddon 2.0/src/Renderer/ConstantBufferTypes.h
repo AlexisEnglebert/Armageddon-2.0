@@ -45,10 +45,6 @@ struct DECL SkyBoxBuffer
 	DirectX::XMFLOAT2 padding0; //8 ;
 };
 
-struct DECL RoughnessBuffer
-{
-	float Rougness;
-};
 
 
 struct DECL MaterialBuffer

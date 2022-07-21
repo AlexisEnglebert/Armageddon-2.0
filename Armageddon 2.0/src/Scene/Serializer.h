@@ -2,6 +2,7 @@
 #include "../Macros.h"
 #include <filesystem>
 #include <fstream>
+#include "../Serialization/Tokenizer.h"
 #include "yaml-cpp/yaml.h"
 #include "../Material/AssetManager.h"
 #include "../Material/Material.h"
@@ -18,6 +19,8 @@ public:
 	void SerializeRessourceMap(const std::filesystem::path& FilePath);
 	void DeserializeRessourceMap(const std::filesystem::path& Filepath);
 	void DeserializeScene(const std::filesystem::path& FilePath);
+	void ParseExperimentalMaterial(const std::filesystem::path& FilePath);
+
 	uint64_t DeserializeMaterial(const std::filesystem::path& FilePath);
 private:
 	Scene* m_Scene;

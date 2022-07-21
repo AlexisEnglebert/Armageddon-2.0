@@ -30,7 +30,7 @@ Entities:
         Mesh: Assets\Models\Cube.fbx
         Materials:
             -   0
-            -   0x3efb4d9127ebcca3
+            -   0x46693F072E087E23
 
         Transform:
             [2.3805995, 2.89302182, -2.1815629,

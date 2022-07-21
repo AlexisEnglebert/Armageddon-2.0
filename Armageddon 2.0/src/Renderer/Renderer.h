@@ -41,7 +41,6 @@ namespace Armageddon
 		Armageddon::Camera m_camera;
 		static ConstantBuffer<TransFormBuffer> g_TransformCBuffer;
 		static ConstantBuffer<LightBuffer> g_LightCBuffer;
-		static ConstantBuffer<RoughnessBuffer> g_RoughnessCBuffer;
 		static ConstantBuffer<MaterialBuffer> g_PBRCBuffer;
 		static ConstantBuffer<WorldBuffer> g_WorldCBuffer;
 		static std::vector<PointLight> g_PointLightsVector;
@@ -51,11 +50,16 @@ namespace Armageddon
 		static Microsoft::WRL::ComPtr < ID3D11BlendState>		DefaultBlendState;
 
 		std::vector<Mesh> m_Meshes;
+
+
 		static LightBuffer g_LightBufferData;
+		static WorldBuffer g_WorldBufferData;
 
 		static D3D11_VIEWPORT ViewPort;
 		OffScreenRenderTarget m_FrameBuffer;
 		OffScreenRenderTarget FinalPass;
+
+		RenderTexture m_DepthPass;
 
 
 

@@ -17,6 +17,11 @@
 #pragma comment(lib,"dxguid.lib")
 namespace Armageddon
 {
+	typedef struct
+	{
+		const char* name;
+		D3D_SRV_DIMENSION dimension;
+	}shaderTexture_t;
 	class Shader
 	{
 	public:
@@ -24,10 +29,13 @@ namespace Armageddon
 		virtual ID3D10Blob* GetBuffer();
 		virtual bool ReloadShader(const char* entry_point, const char* type);
 		virtual bool CreateShader() { return false; };
+		virtual std::string GetErrorMessage();
 		std::filesystem::path m_shaderPath;
+		std::vector<shaderTexture_t> v_ShaderBindTexture;
 
 	protected:
 		Microsoft::WRL::ComPtr <ID3D10Blob> m_shaderBuffer;
+		std::string error_message = "";
 
 
 	};
