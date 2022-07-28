@@ -919,6 +919,7 @@
     <FxCompile Include="Shaders\BloomUpsample.hlsl" />
     <FxCompile Include="Shaders\CombinePixel.hlsl" />
     <FxCompile Include="Shaders\VolumetricFog.hlsl" />
+    <FxCompile Include="Shaders\VolumetricDensityAndLight.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Tonemap.hlsli" />

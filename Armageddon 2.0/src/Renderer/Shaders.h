@@ -68,10 +68,12 @@ namespace Armageddon
 
 	class DECL ComputeShader : public Shader
 	{
+	public:
 		bool Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::filesystem::path shaderPath) override;
 		bool CreateShader() override;
-
 		ID3D11ComputeShader* GetShader();
+
+	private:
 		Microsoft::WRL::ComPtr <ID3D11ComputeShader> m_ComputeShader;
 	};
 }

@@ -414,6 +414,17 @@ void Editor::OnRender()
 
 
 
+
+     Profiler VolumetricCompute("VolumetricComputePass");
+
+
+     Armageddon::Interface::GetDeviceContext()->CSSetShader(Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_VolumetricFog.m_VolumetricInjectShader.GetShader(), NULL, 0);
+    // Armageddon::Interface::GetDeviceContext()->CSSetShaderResources(0, 1, Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_VolumetricFog.m_VolumetricIntegration.GetRessourceViewPtr());
+     Armageddon::Interface::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_VolumetricFog.m_VolumetricIntegration.m_UAV, NULL);
+     Armageddon::Interface::GetDeviceContext()->Dispatch(160/8,90/8,128/1);
+     VolumetricCompute.~Profiler();
+
+
      Profiler Volumetric("VolumetricPass");
 
      Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 10, null);
@@ -684,7 +695,7 @@ void Editor::RenderScene(bool BindMat)
     for (auto iterator = m_Scene.EntityMap.begin(); iterator != m_Scene.EntityMap.cend(); iterator++)
     {
 
-        Armageddon::Log::GetLogger()->info("Size of entity: [{0}]",sizeof(iterator->second));
+     //   Armageddon::Log::GetLogger()->info("Size of entity: [{0}]",sizeof(iterator->second));
 
         //Armageddon::Interface::GetDeviceContext()->CSSetShader()
        /*//* if (ent.HasComponent<RigidBodyComponent>())
@@ -696,7 +707,7 @@ void Editor::RenderScene(bool BindMat)
 		{
 			auto& component = iterator->second.GetComponent<MeshComponent>();
 			if (!component.m_mesh.IsEmpty()) {
-                Armageddon::Log::GetLogger()->info("Size of Mesh: [{0}]", component.m_mesh.v_SubMeshes.size() * sizeof(SubMesh));
+         //       Armageddon::Log::GetLogger()->info("Size of Mesh: [{0}]", component.m_mesh.v_SubMeshes.size() * sizeof(SubMesh));
                
 				component.m_mesh.UpdtateTransform(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
 				if (iterator->second.HasComponent<LightComponent>())
@@ -774,8 +785,8 @@ void Editor::RenderScene(bool BindMat)
                
 
                 }
-                Armageddon::Log::GetLogger()->info("VertexBufferSize: [{0}]", vertex_size);
-                Armageddon::Log::GetLogger()->info("IndexBufferSize: [{0}]", index_size);
+               // Armageddon::Log::GetLogger()->info("VertexBufferSize: [{0}]", vertex_size);
+               // Armageddon::Log::GetLogger()->info("IndexBufferSize: [{0}]", index_size);
 
 			}
 		}

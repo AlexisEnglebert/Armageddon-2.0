@@ -719,8 +719,8 @@ bool Texture3D::Init(UINT width, UINT height, UINT depth, UINT miplevel, DXGI_FO
 	textureDesc.MipLevels = miplevel;
 	textureDesc.Format = format;
 	textureDesc.Usage = D3D11_USAGE_DEFAULT;
-	textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
+	textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+	textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ ;
 	textureDesc.MiscFlags = 0;
 
 	ID3D11Texture3D* pTexture = NULL;
@@ -746,6 +746,19 @@ bool Texture3D::Init(UINT width, UINT height, UINT depth, UINT miplevel, DXGI_FO
 		return false;
 	}
 
+	D3D11_UNORDERED_ACCESS_VIEW_DESC descUAV;
+	ZeroMemory(&descUAV, sizeof(descUAV));
+	descUAV.Format = format;
+	descUAV.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE3D;
+	descUAV.Texture3D.MipSlice = 0;
+	descUAV.Texture3D.FirstWSlice = 1;
+	descUAV.Texture3D.WSize = 1;
+	hr = Armageddon::Interface::GetDevice()->CreateUnorderedAccessView(TextureRessource.Get(), &descUAV, &m_UAV);
+	if (FAILED(hr))
+	{
+		Armageddon::Log::GetLogger()->error("ERROR WHILE CREATING UAV [{0}]", hr);
+		return false;
+	}
 	/*/D3D11_RENDER_TARGET_VIEW_DESC desc = {};
 	desc.Format = format;
 	desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE3D;

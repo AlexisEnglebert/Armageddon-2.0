@@ -41,6 +41,7 @@ public:
 	Texture3D() = default;
 	bool Init(UINT width, UINT height, UINT depth, UINT miplevel, DXGI_FORMAT format);
 	ID3D11RenderTargetView* RenderTargetView; //PAS SUR DE ça !!!!! TODO
+	ID3D11UnorderedAccessView* m_UAV; //PAS SUR DE ça !!!!! TODO
 private:
 };
 

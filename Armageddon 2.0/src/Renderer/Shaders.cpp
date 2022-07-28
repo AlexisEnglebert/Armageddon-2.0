@@ -261,7 +261,7 @@ bool Armageddon::ComputeShader::Init(Microsoft::WRL::ComPtr<ID3D11Device>& devic
 			return false;
 
 		}
-		CreateShader();
+		return CreateShader();
 
 	}
 	else if (m_shaderPath.extension() == ".hlsl")
@@ -281,8 +281,9 @@ bool Armageddon::ComputeShader::Init(Microsoft::WRL::ComPtr<ID3D11Device>& devic
 			Armageddon::Log::GetLogger()->error("FAILED Compiling ComputeShader [{0}]", hr);
 			return false;
 		}
-		CreateShader();
+		return CreateShader();
 	}
+	return true;
 }
 
 bool Armageddon::ComputeShader::CreateShader()
@@ -294,6 +295,11 @@ bool Armageddon::ComputeShader::CreateShader()
 		return false;
 	}
 	return true;
+}
+
+ID3D11ComputeShader* Armageddon::ComputeShader::GetShader()
+{
+	return this->m_ComputeShader.Get();
 }
 
 ID3D10Blob* Armageddon::Shader::GetBuffer()

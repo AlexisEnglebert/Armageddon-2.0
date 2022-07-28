@@ -31,13 +31,18 @@ namespace Armageddon
 		* There is a temporal volumetric integration voxel grid (see slides 23 of Frostbite presentation)
 		* 
 		*So first create a 3D texture composed of "Voxel"  as BWRONSKI14 suggested (see slide 35 of his ppt)
+		* Then we will compute the density estimation of the participating media  & the lighting calculation
+		* 
+		* After that we will enter in the volumetricLight Raymarching
+		*
 		* 
 		* 
 		* A 3D texture is like an 
 		*/
 		RenderTexture m_VolumetricTexture;
-		Texture3D m_VolumetricIntegration;
+		Texture3D m_VolumetricIntegration; //its simply a cube of 160X90X128 so 720p surface
 		PixelShaders m_VolumetricPixelShader;
+		ComputeShader m_VolumetricInjectShader;
 
 	private:
 
