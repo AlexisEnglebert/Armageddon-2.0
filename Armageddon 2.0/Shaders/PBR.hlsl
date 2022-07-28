@@ -174,14 +174,14 @@ float3 fresnelSchlickRoughness(float cosTheta, float3 F0, float roughness)
 
 }
 
-float CalculatePointLightEvaluation(float distance,float radius,float intensity)
+float CalculatePointLightEvaluation(float dist,float radius,float intensity)
 {
     /*
     * Inverse square law(I / distance²) on ajouté un Bias
     * Car plus la distance est grande plus l'attenuation est petite donc on fixe une valeur pour limiter les calculs
     */
 
-    float DistanceSquare = distance * distance;
+    float DistanceSquare = dist * dist;
     float attenuation = intensity / max(DistanceSquare, pow(0.1, 2));
     float factor = DistanceSquare / radius;
     float SmoothFactor = saturate(1 - factor * factor);

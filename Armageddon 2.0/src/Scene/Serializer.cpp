@@ -4,6 +4,37 @@
 
 void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Material& mat)
 {
+	std::ofstream fileOut(FilePath);
+	//TODO FINISH THIS
+	for( int i = 0,TexIDX = 0 ; i < mat.m_testToken.size();i++)
+	{ 
+		if (mat.m_testToken[i].type == TokenType::ENTRYPOINT)
+		{
+			std::string result = "main(\"" + mat.m_testToken[i].m_content + "\")\n";
+			fileOut << result;
+		}
+		if (mat.m_testToken[i].type == TokenType::TEXTURE2D)
+		{
+			std::string result = "Texture2D(\"" + mat.m_testToken[i].m_content + "\")\n{\n\t source = <"+mat.m_Textures[TexIDX].m_AssetName+">\n}\n";
+			i+=3;
+			TexIDX++;
+			fileOut << result;
+			continue;
+		}
+		if (mat.m_testToken[i].type == TokenType::ATTRIBUTE)
+		{
+			std::string result = mat.m_testToken[i].m_content + " = <" + mat.m_testToken[i].supplement + ">\n";
+			fileOut << "\t" << result;
+
+		}
+		if (mat.m_testToken[i].type == TokenType::SCOPE)
+		{
+			fileOut <<mat.m_testToken[i].m_content + "\n";
+
+		}
+
+	}
+	return;
 	YAML::Emitter emitter;
 	emitter << YAML::BeginMap;
 
@@ -49,9 +80,7 @@ void Serializer::SerializeMaterial(const std::filesystem::path& FilePath, Materi
 		emitter << YAML::Value << mat.m_metalicMap.m_AssetName.c_str();
 	}
 
-	emitter << YAML::EndMap;
-	std::ofstream fileOut(FilePath);
-	fileOut << emitter.c_str();
+
 }
 void Serializer::SerializeScene(const std::filesystem::path& FilePath,Entity& ent, entt::registry& ere)
 {
@@ -295,65 +324,19 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 
 	
 }
-void Serializer::ParseExperimentalMaterial(const std::filesystem::path& FilePath)
-{
-	Tokenizer m_tokenizer;
-	std::vector<Token> tokens = m_tokenizer.Parse(FilePath);
-	Material n_material;
-	//TODO WITH ASSET MANAGER
-	uint64_t Hash;
-	for (size_t i = 0 ; i < tokens.size();i++)
-	{
-		if (tokens[i].type == TokenType::TEXTURE2D)
-		{
-			i+=2;
-			if (tokens[i].m_content == "location")
-			{
-				if (tokens[i].supplement.size() > 0)
-				{
-					n_material.m_Textures.push_back(AssetManager::GetOrCreateTexture(tokens[i].supplement));
-				}
-			}
-			else
-			{
-				n_material.m_Textures.push_back(Texture());
-			}
-		}
-		if (tokens[i].type == TokenType::ENTRYPOINT)
-		{
-			n_material.m_AssetName = tokens[i].m_content;
-			Hash = HashUtils::_64BitHash(tokens[i].m_content);
 
-			i+=2;
-			if (tokens[i].type == TokenType::ATTRIBUTE)
-			{
-				if (tokens[i].m_content == "ps")
-				{
-					n_material.m_PixelShader = AssetManager::GetOrCreatePixelShader(tokens[i].supplement);
-				}
-				i++;
-				if (tokens[i].m_content == "vs")
-				{
-					n_material.m_VertexShader = AssetManager::GetOrCreateVertexShader(tokens[i].supplement);
-
-				}
-			}
-
-		}
-	}
-	n_material.m_testToken = tokens;
-
-	AssetManager::m_AssetMap[Hash] = n_material;
-	AssetManager::m_MaterialMap[Hash] = n_material;
-	
-}
 uint64_t Serializer::DeserializeMaterial(const std::filesystem::path& FilePath)
 {
 	Tokenizer m_tokenizer;
 	std::vector<Token> tokens = m_tokenizer.Parse(FilePath);
 	Material n_material;
 	//TODO WITH ASSET MANAGER
-	uint64_t Hash;
+	uint64_t Hash= HashUtils::_64BitHash(FilePath.stem().string().c_str());
+	if (AssetManager::MaterialExist(FilePath.stem().string().c_str()))
+	{
+		return 0;
+	}
+
 	for (size_t i = 0; i < tokens.size(); i++)
 	{
 		if (tokens[i].type == TokenType::TEXTURE2D)
@@ -386,7 +369,6 @@ uint64_t Serializer::DeserializeMaterial(const std::filesystem::path& FilePath)
 		if (tokens[i].type == TokenType::ENTRYPOINT)
 		{
 			n_material.m_AssetName = tokens[i].m_content;
-			Hash = HashUtils::_64BitHash(tokens[i].m_content);
 
 			i += 2;
 			if (tokens[i].type == TokenType::ATTRIBUTE)

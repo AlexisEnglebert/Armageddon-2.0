@@ -14,12 +14,13 @@ public:
 	ConstantBuffer<T>() {};
 	HRESULT Create(D3D11_USAGE Usage, UINT slot)
 	{
+		UINT offset = sizeof(T) % 16 == 0 ? 0 : 16 - sizeof(T) % 16;
 		D3D11_BUFFER_DESC cbDesc;
 		cbDesc.Usage = Usage;
 		cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 		cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		cbDesc.MiscFlags = 0;
-		cbDesc.ByteWidth = static_cast<UINT>(sizeof(T) + (16 - (sizeof(T) % 16)));
+		cbDesc.ByteWidth = static_cast<UINT>(sizeof(T) + offset);
 		cbDesc.StructureByteStride = 0;
 		HRESULT hr = Armageddon::Interface::GetDevice()->CreateBuffer(&cbDesc, 0, mConstantBuffer.GetAddressOf());
 		if (FAILED(hr))

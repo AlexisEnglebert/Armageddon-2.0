@@ -34,21 +34,28 @@ protected:
 	Microsoft::WRL::ComPtr<ID3D11Resource> TextureRessource;
 	float ImageX = 0, ImageY = 0;
 };
+
+class DECL Texture3D : public Texture
+{
+public:
+	Texture3D() = default;
+	bool Init(UINT width, UINT height, UINT depth, UINT miplevel, DXGI_FORMAT format);
+	ID3D11RenderTargetView* RenderTargetView; //PAS SUR DE ça !!!!! TODO
+private:
+};
+
 class DECL RenderTexture : public Texture
 {
 public:
 	RenderTexture() = default;
 	RenderTexture(float width, float height, DXGI_FORMAT format);
+	bool Init(float& width, float& height, DXGI_FORMAT format);
 	ID3D11RenderTargetView* RenderTargetView;
 	ID3D11ShaderResourceView* GetRessourceView() { return TextureRessourceView.Get(); };
 	ID3D11ShaderResourceView** GetRessourceViewPtr() { return TextureRessourceView.GetAddressOf(); };
-	//TODO RESIZE 
+	bool ResizeTexture(float& width, float& height);
+	DXGI_FORMAT m_Format;
 	//TODO BIND AND UNBIND
-
-
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DephtStencilView;
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DephtStencilState;
-	Microsoft::WRL::ComPtr<ID3D11Texture2D> DephtStencilBuffer;
 
 private : 
 

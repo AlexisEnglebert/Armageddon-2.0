@@ -893,6 +893,9 @@
     <ClCompile Include="src\Serialization\Tokenizer.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer\VolumetricFog.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\DefaultPixelShader.hlsl" />
@@ -915,6 +918,7 @@
     <FxCompile Include="Shaders\BloomDownSamplePixel.hlsl" />
     <FxCompile Include="Shaders\BloomUpsample.hlsl" />
     <FxCompile Include="Shaders\CombinePixel.hlsl" />
+    <FxCompile Include="Shaders\VolumetricFog.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Tonemap.hlsli" />

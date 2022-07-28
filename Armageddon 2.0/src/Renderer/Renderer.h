@@ -23,6 +23,7 @@
 #include "../Material/AssetManager.h"
 #include "../Material/Texture.h"
 #include "RendererAPI.h"
+#include "VolumetricFog.h"
 #pragma comment(lib, "dxgi.lib")
 
 namespace Armageddon
@@ -43,6 +44,7 @@ namespace Armageddon
 		static ConstantBuffer<LightBuffer> g_LightCBuffer;
 		static ConstantBuffer<MaterialBuffer> g_PBRCBuffer;
 		static ConstantBuffer<WorldBuffer> g_WorldCBuffer;
+		static ConstantBuffer<VolumetricBuffer_t> g_VolumetricBuffer;
 		static std::vector<PointLight> g_PointLightsVector;
 		static std::vector<DirectionalLight> g_DirectLightsVector;
 
@@ -60,6 +62,10 @@ namespace Armageddon
 		OffScreenRenderTarget FinalPass;
 
 		RenderTexture m_DepthPass;
+
+		VolumetricFog m_VolumetricFog;
+
+
 
 
 

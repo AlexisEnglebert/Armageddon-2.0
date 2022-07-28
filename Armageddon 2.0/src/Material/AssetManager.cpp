@@ -48,12 +48,13 @@ Material AssetManager::GetOrCreateMaterial(const std::string& MaterialName)
 
 uint64_t AssetManager::GetOrCreateMaterial(const std::string& MaterialName)
 {
+    Armageddon::Log::GetLogger()->info("Adding matterial in the material map : {0}", MaterialName);
     uint64_t MatHash = HashUtils::_64BitHash(MaterialName);
     auto Key = AssetManager::m_MaterialMap.find(MatHash);
     if (Key == AssetManager::m_MaterialMap.end())
     {
         Material mat = Material(MaterialName);
-        return MatHash;
+        return MatHash; //TODO REMOVE AND BETTER HANDLING OF THE SYSTEM
 
     }
     return MatHash;
@@ -74,7 +75,7 @@ Armageddon::PixelShaders AssetManager::GetOrCreatePixelShader(const std::filesys
     for (UINT i = 0; i < v_PixelShaders.size(); i++)
     {
         if (ShaderPath == v_PixelShaders[i].m_shaderPath) {
-			Armageddon::Log::GetLogger()->trace("PixelShader alerady exist : {0}", ShaderPath);
+			Armageddon::Log::GetLogger()->trace("PixelShader already exist : {0}", ShaderPath);
             return v_PixelShaders[i];
         }
     }
@@ -89,7 +90,7 @@ Armageddon::VertexShaders AssetManager::GetOrCreateVertexShader(const std::files
 	for (UINT i = 0; i < v_VertexShaders.size(); i++)
 	{
 		if (ShaderPath == v_VertexShaders[i].m_shaderPath) {
-			Armageddon::Log::GetLogger()->trace("PixelShader alerady exist : {0}", ShaderPath);
+			Armageddon::Log::GetLogger()->trace("VertexShader  already exist : {0}", ShaderPath);
 			return v_VertexShaders[i];
 		}
 	}

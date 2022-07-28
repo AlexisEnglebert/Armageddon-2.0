@@ -7,16 +7,30 @@ Material::Material(const std::string& MaterialName) : m_usedMaterialName(m_usedM
 {
 	 m_AssetName = MaterialName;
 	 m_AssetType = AssetType::MaterialAsset;
-	 Armageddon::Log::GetLogger()->error("POUF");
-	 m_albedoMap					 = AssetManager::GetOrCreateTexture( "Ressources//Textures//DefaultAlbedo.png" );
-	 m_normalMap					 = AssetManager::GetOrCreateTexture( "Ressources//Textures//DefaultNormal.tiff" );
-	 m_specularMap					 = AssetManager::GetOrCreateTexture( "Ressources//Textures//DefaultAlbedo.png" );
-	 m_ambiantOcclusionMap			 = AssetManager::GetOrCreateTexture( "Ressources//Textures//DefaultAlbedo.png" );
 
 	 m_VertexShader					 = AssetManager::GetOrCreateVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\DefaultVertexShader.cso");
 	 m_PixelShader					 = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\PBR.cso");
 	 m_EmissiveMap					 = AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultAlbedo.png");
 
+
+	 //TODO TOKEN SHOULD BE IN THE SHADER
+	 m_Textures = { AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultAlbedo.png"),AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultNormal.tiff"),
+		 AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultAlbedo.png"),AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultAlbedo.png"),AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultAlbedo.png")
+	 ,AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultAlbedo.png") };
+	 
+
+	 //TODO REFERENCE THAT TO AVOID MEMORY USAGE
+	 //with default material loaded dirrectly when the engine loads
+	//m_testToken = AssetManager::m_MaterialMap[AssetManager::GetOrCreateMaterial("PBR")].m_testToken;
+
+	 m_testToken = { Token(TokenType::ENTRYPOINT,MaterialName),Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"ps","..\\bin\\Debug-x64\\Armageddon 2.0\\PBR.cso"),
+		 Token(TokenType::ATTRIBUTE,"vs","..\\bin\\Debug-x64\\Armageddon 2.0\\DefaultVertexShader.cso"),Token(TokenType::SCOPE,"}")
+		 , Token(TokenType::TEXTURE2D,"Albedo"),Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"source","Ressources//Textures//DefaultAlbedo.png"),Token(TokenType::SCOPE,"}"),
+		 Token(TokenType::TEXTURE2D,"Normal"),Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"source","Ressources//Textures//DefaultNormal.png"),Token(TokenType::SCOPE,"}"),
+		 Token(TokenType::TEXTURE2D,"Specular"),Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"source","Ressources//Textures//DefaultAlbedo.png"),Token(TokenType::SCOPE,"}")
+		 ,Token(TokenType::TEXTURE2D,"Metallic"), Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"source","Ressources//Textures//DefaultAlbedo.png"),Token(TokenType::SCOPE,"}")
+		 ,Token(TokenType::TEXTURE2D,"AO"),Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"source","Ressources//Textures//DefaultAlbedo.png"),Token(TokenType::SCOPE,"}")
+		 ,Token(TokenType::TEXTURE2D,"Emissive"),Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"source","Ressources//Textures//DefaultAlbedo.png"),Token(TokenType::SCOPE,"}")};
 	 
 	 AssetManager::m_AssetMap[HashUtils::_64BitHash(MaterialName)] = *this;
 	 AssetManager::m_MaterialMap[HashUtils::_64BitHash(MaterialName)] = *this;

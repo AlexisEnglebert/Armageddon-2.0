@@ -5,6 +5,7 @@ ConstantBuffer<LightBuffer> Armageddon::Renderer::g_LightCBuffer;
 ConstantBuffer<TransFormBuffer> Armageddon::Renderer::g_TransformCBuffer;
 ConstantBuffer<MaterialBuffer>  Armageddon::Renderer::g_PBRCBuffer;
 ConstantBuffer<WorldBuffer>  Armageddon::Renderer::g_WorldCBuffer;
+ConstantBuffer<Armageddon::VolumetricBuffer_t> Armageddon::Renderer::g_VolumetricBuffer;
 
 LightBuffer Armageddon::Renderer::g_LightBufferData;
 WorldBuffer Armageddon::Renderer::g_WorldBufferData;
@@ -49,7 +50,7 @@ std::vector<PointLight>  Armageddon::Renderer::g_PointLightsVector;
          m_FrameBuffer.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
          FinalPass.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
 
-         m_DepthPass = RenderTexture(height, width,DXGI_FORMAT_R8G8B8A8_UNORM);
+         m_DepthPass = RenderTexture((float)height, (float)width,DXGI_FORMAT_R8G8B8A8_UNORM);
 
          CreateViewPort(width, height);
 
@@ -116,9 +117,11 @@ std::vector<PointLight>  Armageddon::Renderer::g_PointLightsVector;
          g_LightCBuffer.Create(D3D11_USAGE_DYNAMIC, 1);
          g_PBRCBuffer.Create(D3D11_USAGE_DYNAMIC, 3);
          g_WorldCBuffer.Create(D3D11_USAGE_DYNAMIC, 4);
+         g_VolumetricBuffer.Create(D3D11_USAGE_DYNAMIC, 5);
 
+         m_VolumetricFog.Init(width,height);
 
-
+         Armageddon::Log::GetLogger()->info("fffssssffffsss");
 
          return true;
      }
@@ -281,11 +284,14 @@ void Armageddon::Renderer::ResizeBuffer(float width, float height)
         Armageddon::Log::GetLogger()->error("ERROR WHEN RESIZING THE BUFFER  :[{0}]", hr);
     }
 
+    Armageddon::Log::GetLogger()->info("Resizing buffer");
 
     CreateRenderTargetView(width,height);
     m_OffScreenRenderTarget.ResizeRenderTargetView(width, height,nullptr);
     m_FrameBuffer.ResizeRenderTargetView(width, height,nullptr);
     FinalPass.ResizeRenderTargetView(width, height,nullptr);
+    m_DepthPass.ResizeTexture(width, height);
+    m_VolumetricFog.m_VolumetricTexture.ResizeTexture(width, height);
     CreateViewPort(width, height);
     CreateDephtStencilBuffer(width, height);  
 }
@@ -321,9 +327,9 @@ bool Armageddon::Renderer::InitSwapChain(HWND& hwnd)
     D3D_FEATURE_LEVEL featureLevel;
     const D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
     int flags = D3D11_CREATE_DEVICE_DISABLE_GPU_TIMEOUT;
-#if _DEBUG
+//#if _DEBUG
     flags = D3D11_CREATE_DEVICE_DISABLE_GPU_TIMEOUT | D3D11_CREATE_DEVICE_DEBUG;
-#endif
+//#endif
     HRESULT result = D3D11CreateDeviceAndSwapChain(Adaptater[0].ptrAdaptater,
         D3D_DRIVER_TYPE_UNKNOWN,
         NULL,
@@ -521,7 +527,19 @@ void Armageddon::Renderer::RenderFrame()
         ImGui::RenderPlatformWindowsDefault();
     }
 
-    Armageddon::Interface::GetSwapChain()->Present(1, 0);  //1 = Vsync
+   HRESULT hr =  Armageddon::Interface::GetSwapChain()->Present(1, 0);  //1 = Vsync
+   if (FAILED(hr))
+   {
+       Armageddon::Log::GetLogger()->error("ERROR WHILE PRESENTING [{0}]", hr);
+       if (hr == DXGI_ERROR_DEVICE_REMOVED)
+       {
+           Armageddon::Log::GetLogger()->error("DEVICE REMOVED");
+           HRESULT reason = Armageddon::Interface::GetDevice()->GetDeviceRemovedReason();
+           Armageddon::Log::GetLogger()->error("DEVICE REMOVED REASON : [{0}]",reason);
+
+
+       }
+   }
 
 }
 

@@ -19,9 +19,9 @@ extern Armageddon::Application* Armageddon::CreateApplication();
 
 int main(int argc, char** argv)
 {
-#if _DEBUG
+//#if _DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
+//#endif
 	//_CrtSetBreakAlloc(898);
 	CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
 	Armageddon::Log::Init();

@@ -42,6 +42,8 @@ cbuffer TransFormBuffer : register(b0)
     row_major float4x4 ProjectionMat;
     row_major float4x4 ViewMat;
     row_major float4x4 MVP;
+    row_major float4x4 InverseProjectionMat;
+
 };
 struct PSinput
 {

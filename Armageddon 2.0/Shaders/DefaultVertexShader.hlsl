@@ -5,6 +5,8 @@ cbuffer TransFormBuffer : register(b0)
     row_major float4x4  ProjectionMat;
     row_major float4x4  ViewMat;
     row_major float4x4  MVP;
+    row_major float4x4 InverseProjectionMat;
+    row_major float4x4 InverseViewMat;
 };
 cbuffer WorldCBuffer : register(b4)
 {
@@ -63,6 +65,7 @@ struct PSinput
 	float3 WorldPos : POSITION0;
     float4 LightPosition : LIGHTPOS;
     float3 WordNormal : NORMALPOS;
+    float3 teste : POSITION1;
 };
 PSinput main(VSinput input)
 {
@@ -78,6 +81,7 @@ PSinput main(VSinput input)
     output.Binormal = mul(input.Binormal, (float3x3) WorldMat);
     output.WorldPos = mul(input.position, (float3x3) WorldMat);
     output.WordNormal = input.normal;
+    output.teste = mul(mul(float4(input.position,1.0f), InverseProjectionMat), InverseProjectionMat);
     float4x4 mat = mul(WorldMat, LightViewProjection);
     output.LightPosition = mul(float4(input.position.xyz, 1.0f), mat); // X Y Z W
     return output;

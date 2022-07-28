@@ -313,6 +313,10 @@ bool Armageddon::Shader::ReloadShader(const char* entry_point, const char* type)
 	Microsoft::WRL::ComPtr <ID3D10Blob> tmp_shaderBuffer;
 
 	HRESULT hr = D3DReadFileToBlob(m_shaderPath.c_str(), blob.GetAddressOf());
+	if (FAILED(hr))
+	{
+		Armageddon::Log::GetLogger()->error("ERROR WHILE RELOADING SHADERS COULDN'T FIND IT");
+	}
 	ID3DBlob* pError;
 
 	hr = D3DCompile(blob->GetBufferPointer(), blob->GetBufferSize(), NULL, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, entry_point, type,

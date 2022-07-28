@@ -21,6 +21,7 @@ Mesh::Mesh(const std::filesystem::path& ModelPath)
 		Armageddon::Log::GetLogger()->error(importer.GetErrorString());
 		return;
 	}
+	Armageddon::Log::GetLogger()->trace("LOADING MESH {0}", ModelPath);
 	if (model->HasMaterials())
 	{
 		for (UINT i = 0; i < model->mNumMaterials; i++)
@@ -222,6 +223,7 @@ Mesh::Mesh(std::vector<Vertex> Vertices, std::vector<DWORD> Indices)
 
 	v_SubMeshes.push_back(SubMesh(Vertices, Indices,0));
 	//v_MaterialReference.push_back(AssetManager::GetOrCreateMaterial("DefaultMaterial"));
+	Armageddon::Log::GetLogger()->info("eeeeeeeeeeeeeeeeeeee");
 	v_MaterialReference.push_back(AssetManager::GetOrCreateMaterial("DefaultMaterial"));
 
 }
@@ -253,6 +255,12 @@ Mesh::Mesh(std::vector<Vertex> Vertices, std::vector<DWORD> Indices)
 	 m_TransForm.ProjectionMat = m_camera->GetProjectionMatrix();
 	 m_TransForm.ViewMat = m_camera->GetViewMatrix();
 	 m_TransForm.MVP =   DirectX::XMMatrixMultiply(m_camera->GetViewMatrix() , m_camera->GetProjectionMatrix());
+	 m_TransForm.InverseProjectionMat = DirectX::XMMatrixInverse(nullptr,m_camera->GetProjectionMatrix());
+	 m_TransForm.InverseViewMat = DirectX::XMMatrixInverse(nullptr, m_camera->GetViewMatrix());
+	
+	 Armageddon::Log::GetLogger()->trace(sizeof(m_TransForm));
+	 Armageddon::Log::GetLogger()->trace(sizeof(DirectX::XMMATRIX));
+
  }
 
  void Mesh::BindRessource(int MatIndex)

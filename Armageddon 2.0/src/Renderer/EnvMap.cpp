@@ -3,7 +3,7 @@
 
 EnvMap::EnvMap(const std::filesystem::path& HDRPath)
 {
-	m_Cube = Armageddon::Primitives::GenerateCube();
+	m_Cube = Armageddon::Primitives::GenerateCube();	
  
 
 	m_Cube.v_MaterialReference[0] = AssetManager::GetOrCreateMaterial("EnvmapMaterial");

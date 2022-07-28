@@ -22,6 +22,9 @@ struct DECL TransFormBuffer
 	DirectX::XMMATRIX ProjectionMat;
 	DirectX::XMMATRIX ViewMat;
 	DirectX::XMMATRIX MVP;
+	DirectX::XMMATRIX InverseProjectionMat;
+	DirectX::XMMATRIX InverseViewMat;
+
 };
 
 struct DECL LightBuffer

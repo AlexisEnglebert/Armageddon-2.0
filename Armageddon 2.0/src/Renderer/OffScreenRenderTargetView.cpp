@@ -105,6 +105,8 @@ void OffScreenRenderTarget::ResizeRenderTargetView(float width, float height, ID
 {
     if (width > 1 && height > 1 && Armageddon::Interface::GetDevice().Get()!= NULL)
     {
+        ImageX = width;
+        ImageY = height;
 
         CleanRenderTargetView();
         CleanDephtStencil();

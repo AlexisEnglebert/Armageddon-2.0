@@ -4,5 +4,5 @@ struct PSinput
 };
 float4 main(PSinput input) : SV_TARGET
 {
-    return input.position.z / input.position.w;
+    return float4(input.position.z / input.position.w,input.position.z / input.position.w,input.position.z / input.position.w,1.0f);
 }

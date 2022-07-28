@@ -609,6 +609,11 @@ void EnvTexture::CreatePreFilteredMap(ID3D11ShaderResourceView** envmapRessource
 
 RenderTexture::RenderTexture(float width, float height, DXGI_FORMAT format)
 {
+	Init(width, height, format);
+}
+
+bool RenderTexture::Init(float& width, float& height, DXGI_FORMAT format)
+{
 	D3D11_TEXTURE2D_DESC Texdesc;
 	Texdesc.Width = width;
 	Texdesc.Height = height;
@@ -626,6 +631,10 @@ RenderTexture::RenderTexture(float width, float height, DXGI_FORMAT format)
 	ID3D11Texture2D* pTexture = NULL;
 
 	HRESULT hr = Armageddon::Interface::GetDevice()->CreateTexture2D(&Texdesc, nullptr, &pTexture);
+	if (FAILED(hr))
+	{
+		return false;
+	}
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC ViewDesc;
 	ViewDesc.Format = format;
@@ -645,40 +654,27 @@ RenderTexture::RenderTexture(float width, float height, DXGI_FORMAT format)
 	Armageddon::Interface::GetDevice()->CreateRenderTargetView(TextureRessource.Get(), &desc, &RenderTargetView);
 
 
+	ImageX = width;
+	ImageY = height;
+	m_Format = format;
 
-	// TEMP
+	return true;
+}
 
-	D3D11_TEXTURE2D_DESC DephtStencilDesc;
-	DephtStencilDesc.Width = width;
-	DephtStencilDesc.Height = height;
-	DephtStencilDesc.MipLevels = 1;
-	DephtStencilDesc.ArraySize = 1;
-	DephtStencilDesc.Format = DXGI_FORMAT_R32_TYPELESS;
-	DephtStencilDesc.SampleDesc.Count = 1;
-	DephtStencilDesc.SampleDesc.Quality = 0;
-	DephtStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-	DephtStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
-	DephtStencilDesc.CPUAccessFlags = 0;
-	DephtStencilDesc.MiscFlags = 0;
 
-	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
-	dsvDesc.Flags = 0;
-	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
-	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	dsvDesc.Texture2D.MipSlice = 0;
 
-	Armageddon::Interface::GetDevice()->CreateTexture2D(&DephtStencilDesc, NULL, this->DephtStencilBuffer.GetAddressOf());
-
-	HRESULT result = Armageddon::Interface::GetDevice()->CreateDepthStencilView(this->DephtStencilBuffer.Get(), &dsvDesc, this->DephtStencilView.GetAddressOf());
-	if (FAILED(result))
-	{
-		Armageddon::Log::GetLogger()->error("Erreur lors de la crétion du DephtStencilDesc {0}", result);
-	}
-
+bool RenderTexture::ResizeTexture(float& width, float& height)
+{
 	ImageX = width;
 	ImageY = height;
 
-	
+	//Clear everything
+
+	TextureRessource.Get()->Release();
+	TextureRessource.Reset();
+	RenderTargetView->Release();
+
+	return this->Init(width, height, m_Format);
 }
 
 
@@ -712,4 +708,51 @@ RenderTextureDepht::RenderTextureDepht(float width, float height, DXGI_FORMAT fo
 	}
 
 	
+}
+
+bool Texture3D::Init(UINT width, UINT height, UINT depth, UINT miplevel, DXGI_FORMAT format)
+{
+	D3D11_TEXTURE3D_DESC textureDesc;
+	textureDesc.Width = width;
+	textureDesc.Height = height;
+	textureDesc.Depth = depth;
+	textureDesc.MipLevels = miplevel;
+	textureDesc.Format = format;
+	textureDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
+	textureDesc.MiscFlags = 0;
+
+	ID3D11Texture3D* pTexture = NULL;
+
+	HRESULT hr = Armageddon::Interface::GetDevice()->CreateTexture3D(&textureDesc, nullptr, &pTexture);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC ViewDesc;
+	ViewDesc.Format = format;
+	ViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE3D;
+	ViewDesc.Texture3D.MipLevels = textureDesc.MipLevels;
+	ViewDesc.Texture3D.MostDetailedMip = 0;
+
+	ID3D11ShaderResourceView* ressourceview;
+	hr = Armageddon::Interface::GetDevice()->CreateShaderResourceView(pTexture, &ViewDesc, TextureRessourceView.GetAddressOf());
+	TextureRessource = pTexture;
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	/*/D3D11_RENDER_TARGET_VIEW_DESC desc = {};
+	desc.Format = format;
+	desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE3D;
+	desc.Texture3D.MipSlice = 0;
+
+	Armageddon::Interface::GetDevice()->CreateRenderTargetView(TextureRessource.Get(), &desc, &RenderTargetView);*/
+
+
+	return true;
 }

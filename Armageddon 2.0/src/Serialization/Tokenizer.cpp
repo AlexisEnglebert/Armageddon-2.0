@@ -85,15 +85,16 @@ std::vector<Token> Tokenizer::Parse(const std::filesystem::path& file)
 				}
 				//Parse the header
 			}
-			else if(std::regex_search(line,std::regex("\\{|\\}")))
+			else if(std::regex_search(line,std::regex("\\{")))
 			{
-				// we start or end the scope
-				Token tok(TokenType::SCOPE, "");
-				//m_PrevToken = tok;
-				Armageddon::Log::GetLogger()->info("zs");
+				Token tok(TokenType::SCOPE, "{");
 				output.push_back(tok);
 			}
-			//TODO IMPROVE THIS NOT SUPPORTED CURRENTLY
+			else if (std::regex_search(line, std::regex("\\}")))
+			{
+				Token tok(TokenType::SCOPE, "}");
+				output.push_back(tok);
+			}
 			else if (std::regex_search(line, std::regex("\\="))) // check if we have opperation
 			{
 				/*if (m_PrevToken.type != TokenType::SCOPE && m_PrevToken.type != TokenType::ATTRIBUTE)
