@@ -2,6 +2,7 @@
 Armageddon 2.0 is a free 3D/2D game engine under DirectX11. 
 
 ![Alt text](https://github.com/Alexisloic21/Armageddon-2.0/blob/main/Preview/CerberusPreview.png?raw=true)
+![Alt text](https://github.com/Alexisloic21/Armageddon-2.0/blob/main/Preview/SponzaPreview.png?raw=true)
 ![Alt text](https://github.com/Alexisloic21/Armageddon-2.0/blob/main/Preview/BloomPreview.png?raw=true)
 
 ## Features
