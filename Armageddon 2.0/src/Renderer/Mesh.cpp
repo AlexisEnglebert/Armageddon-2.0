@@ -143,78 +143,112 @@ void Mesh::ProcessBones(aiMesh* mesh, std::vector<Vertex>& Vertices,const aiScen
 {
 		auto& InverseTransformation = scene->mRootNode->mTransformation;
 		InverseTransformation.Inverse();
-		ProcesBoneNode(mesh->mBones[0]->mNode,0);
-		for (UINT j = 0; j< mesh->mNumBones; j++)
+		std::shared_ptr<Joint> p = nullptr;
+		Armageddon::Log::GetLogger()->trace("Bones debug : {0}", mesh->mNumBones);
+		ProcesBoneNode(mesh->mBones[0]->mNode,0,p);
+		//Now we can bind the InverseBlindPose to each joint
+		for (size_t i = 0; i < mesh->mNumBones; i++)
 		{
-			//mesh->mBones[i]->
-	
+			DirectX::XMMATRIX mat;
+			mat.r[0].m128_f32[0] = mesh->mBones[i]->mOffsetMatrix.a1;
+			mat.r[0].m128_f32[1] = mesh->mBones[i]->mOffsetMatrix.b1;
+			mat.r[0].m128_f32[2] = mesh->mBones[i]->mOffsetMatrix.c1;
+			mat.r[0].m128_f32[3] = mesh->mBones[i]->mOffsetMatrix.d1;
 
-			std::string BoneName = (const char*)mesh->mBones[j]->mName.C_Str();
-
-			Armageddon::Log::GetLogger()->trace("Bones name: {0}", BoneName.c_str());
-
-
-			const aiMatrix4x4& offset = mesh->mBones[j]->mOffsetMatrix;
-			XMMATRIX meshToBoneTransform = XMMatrixTranspose(
-				XMMATRIX(offset.a1, offset.a2, offset.a3, offset.a4,
-					offset.b1, offset.b2, offset.b3, offset.b4,
-					offset.c1, offset.c2, offset.c3, offset.c4,
-					offset.d1, offset.d2, offset.d3, offset.d4));
-			auto weightInfluence =  mesh->mBones[j]->mWeights;
-			
+			mat.r[1].m128_f32[0] = mesh->mBones[i]->mOffsetMatrix.a2;
+			mat.r[1].m128_f32[1] = mesh->mBones[i]->mOffsetMatrix.b2;
+			mat.r[1].m128_f32[2] = mesh->mBones[i]->mOffsetMatrix.c2;
+			mat.r[1].m128_f32[3] = mesh->mBones[i]->mOffsetMatrix.d2;
 
 
-			for (UINT k = 0; k < mesh->mBones[j]->mNumWeights; k++)
-			{
-				UINT VertId = weightInfluence[k].mVertexId;
-				float weight = weightInfluence[k].mWeight;
-				if(VertId < Vertices.size())
-				{
-					for (UINT l = 0; l < 200; l++)
-					{
-						Vertices[VertId].weights[l] = weight;
-						Vertices[VertId].boneIDs[l] = m_skeleton.m_JointsCount;
+			mat.r[2].m128_f32[0] = mesh->mBones[i]->mOffsetMatrix.a3;
+			mat.r[2].m128_f32[1] = mesh->mBones[i]->mOffsetMatrix.b3;
+			mat.r[2].m128_f32[2] = mesh->mBones[i]->mOffsetMatrix.c3;
+			mat.r[2].m128_f32[3] = mesh->mBones[i]->mOffsetMatrix.d3;
 
-					}
-				}
-				else
-				{
-					Armageddon::Log::GetLogger()->error("Vertex ID out of range !  : {0}", VertId);
+			mat.r[3].m128_f32[0] = mesh->mBones[i]->mOffsetMatrix.a4;
+			mat.r[3].m128_f32[1] = mesh->mBones[i]->mOffsetMatrix.b4;
+			mat.r[3].m128_f32[2] = mesh->mBones[i]->mOffsetMatrix.c4;
+			mat.r[3].m128_f32[3] = mesh->mBones[i]->mOffsetMatrix.d4;
 
-				}
-				
-
-			
-			}
-			
-			
-
-			//m_skeleton
+			m_skeleton.m_Bonemap[mesh->mBones[i]->mName.C_Str()]->m_inverseBlindPose = mat ;
 		}
-	
 }
 
-void Mesh::ProcesBoneNode(aiNode* node, uint8_t ParentID)
+void Mesh::ProcesBoneNode(aiNode* node, uint8_t ParentID, std::shared_ptr<Joint>& parentJoint)
 {
-	uint8_t id = ParentID + 1 ;
-	Armageddon::Log::GetLogger()->trace("Bone name : {0}", node->mName.C_Str());
-	Armageddon::Log::GetLogger()->trace("Parent ID : {0}", id-1);
+	uint8_t id = ParentID+1;
+	std::shared_ptr<Joint> currentJoint;
+	if (ParentID == 0) //TODO C'EST MOCHE ON PEUT MIEUX FAIRE QUAND MEME...
+	{
+		//ROOT
+		Armageddon::Log::GetLogger()->trace("Root bone: {0} ",node->mName.C_Str());
+
+		JoinPose pos;
+		aiVector3D translation;
+		aiVector3D scale;
+		aiVector3D rotation;
+		
+		node->mTransformation.Decompose(scale, rotation, translation);
+
+		pos.m_translation = { translation.x,translation.y,translation.z };
+		pos.m_rotation = { rotation.x,rotation.y,rotation.z };
+		pos.m_scale = scale.x;
+
+		Armageddon::Log::GetLogger()->trace("bone translation: {0} {1} {2} ", translation.x , translation.y , translation.z);
+		Armageddon::Log::GetLogger()->trace("bone scale: {0} {1} {2} ", scale.x, scale.y, scale.z);
+		Armageddon::Log::GetLogger()->trace("bone rotation: {0} {1} {2} ", rotation.x, rotation.y, rotation.z);
+
+
+		currentJoint = std::make_shared<Joint>();
+		currentJoint->m_name = node->mName.C_Str();
+		currentJoint->m_Parentid = 0;
+		currentJoint->m_position = pos;
+
+		m_skeleton.m_Bonemap[node->mName.C_Str()] = currentJoint;
+		//Set the inverse blind pos:
+		m_skeleton.m_rootJoint = currentJoint;
+	}
+	else
+	{
 	
 
 
-	const aiMatrix4x4& Transformation = node->mTransformation;
-	XMMATRIX meshToBoneTransform = XMMatrixTranspose(
-		XMMATRIX(Transformation.a1, Transformation.a2, Transformation.a3, Transformation.a4,
-			Transformation.b1, Transformation.b2, Transformation.b3, Transformation.b4,
-			Transformation.c1, Transformation.c2, Transformation.c3, Transformation.c4,
-			Transformation.d1, Transformation.d2, Transformation.d3, Transformation.d4));
+		Armageddon::Log::GetLogger()->trace("Bone name : {0}", node->mName.C_Str());
+		
+		JoinPose pos;
+
+		aiVector3D translation;
+		aiVector3D scale;
+		aiVector3D rotation;
+
+		node->mTransformation.Decompose(scale, rotation, translation);
 
 
-	m_skeleton.m_aJoints.push_back(Joint(std::string(node->mName.C_Str()),(uint8_t)(id - 1) ,meshToBoneTransform));
+		pos.m_translation = { translation.x,translation.y,translation.z };
+		pos.m_rotation = { rotation.x,rotation.y,rotation.z };
+		pos.m_scale = scale.x;
+
+
+		Armageddon::Log::GetLogger()->trace("bone translation: {0} {1} {2} ", translation.x, translation.y, translation.z);
+		Armageddon::Log::GetLogger()->trace("bone scale: {0} {1} {2} ", scale.x, scale.y, scale.z);
+		Armageddon::Log::GetLogger()->trace("bone rotation: {0} {1} {2} ", rotation.x, rotation.y, rotation.z);
+
+		currentJoint = std::make_shared<Joint>();
+		currentJoint->m_name = node->mName.C_Str();
+		currentJoint->m_Parentid = ParentID - 1;
+		currentJoint->m_position = pos;
+		parentJoint->m_child.push_back(currentJoint);
+		m_skeleton.m_Bonemap[node->mName.C_Str()] = currentJoint;
+	}
+	
 	m_skeleton.m_JointsCount += 1;
+
+
+
 	for (UINT i = 0; i < node->mNumChildren; i++)
 	{
-		ProcesBoneNode(node->mChildren[i], id);
+		ProcesBoneNode(node->mChildren[i], id, currentJoint);
 	}
 }
 
@@ -222,8 +256,6 @@ Mesh::Mesh(std::vector<Vertex> Vertices, std::vector<DWORD> Indices)
 {
 
 	v_SubMeshes.push_back(SubMesh(Vertices, Indices,0));
-	//v_MaterialReference.push_back(AssetManager::GetOrCreateMaterial("DefaultMaterial"));
-	Armageddon::Log::GetLogger()->info("eeeeeeeeeeeeeeeeeeee");
 	v_MaterialReference.push_back(AssetManager::GetOrCreateMaterial("DefaultMaterial"));
 
 }
@@ -249,19 +281,6 @@ Mesh::Mesh(std::vector<Vertex> Vertices, std::vector<DWORD> Indices)
 	 return false;
  }
 
- void Mesh::UpdtateTransform(Armageddon::Camera* m_camera)
- {
-	 m_TransForm.WorldMat = DirectX::XMMatrixIdentity();
-	 m_TransForm.ProjectionMat = m_camera->GetProjectionMatrix();
-	 m_TransForm.ViewMat = m_camera->GetViewMatrix();
-	 m_TransForm.MVP =   DirectX::XMMatrixMultiply(m_camera->GetViewMatrix() , m_camera->GetProjectionMatrix());
-	 m_TransForm.InverseProjectionMat = DirectX::XMMatrixInverse(nullptr,m_camera->GetProjectionMatrix());
-	 m_TransForm.InverseViewMat = DirectX::XMMatrixInverse(nullptr, m_camera->GetViewMatrix());
-	
-	 Armageddon::Log::GetLogger()->trace(sizeof(m_TransForm));
-	 Armageddon::Log::GetLogger()->trace(sizeof(DirectX::XMMATRIX));
-
- }
 
  void Mesh::BindRessource(int MatIndex)
  {

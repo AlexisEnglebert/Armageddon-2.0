@@ -123,7 +123,7 @@
     <ClInclude Include="src\Window\Events\MouseEvent.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\EnvMap.h">
+    <ClInclude Include="src\Renderer\RenderPass\EnvMap.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer\SubMesh.h">
@@ -156,13 +156,13 @@
     <ClInclude Include="includes\ImGuizmo\ImZoomSlider.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\CascadeShadow.h">
+    <ClInclude Include="src\Renderer\RenderPass\CascadeShadow.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer\RenderPass.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\PostProcessing\Bloom.h">
+    <ClInclude Include="src\Renderer\RenderPass\PostProcessing\Bloom.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="src\Utils\HashUtils.h">
@@ -753,7 +753,7 @@
     <ClInclude Include="src\Window\Win32Window.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\VolumetricFog.h">
+    <ClInclude Include="src\Renderer\RenderPass\VolumetricFog.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="src\Serialization\Tokenizer.h">
@@ -830,7 +830,7 @@
     <ClCompile Include="src\Window\Events\MouseEvent.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\EnvMap.cpp">
+    <ClCompile Include="src\Renderer\RenderPass\EnvMap.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\SubMesh.cpp">
@@ -860,10 +860,10 @@
     <ClCompile Include="includes\ImGuizmo\ImSequencer.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\CascadeShadow.cpp">
+    <ClCompile Include="src\Renderer\RenderPass\CascadeShadow.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\PostProcessing\Bloom.cpp">
+    <ClCompile Include="src\Renderer\RenderPass\PostProcessing\Bloom.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\PhysicsEngine.cpp">
@@ -893,7 +893,10 @@
     <ClCompile Include="src\Serialization\Tokenizer.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\VolumetricFog.cpp">
+    <ClCompile Include="src\Renderer\RenderPass\VolumetricFog.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Animation\Joint.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -920,8 +923,12 @@
     <FxCompile Include="Shaders\CombinePixel.hlsl" />
     <FxCompile Include="Shaders\VolumetricFog.hlsl" />
     <FxCompile Include="Shaders\VolumetricDensityAndLight.hlsl" />
+    <FxCompile Include="Shaders\VolumetricRaymarching.hlsl" />
+    <FxCompile Include="Shaders\DisplayPixel.hlsl" />
+    <FxCompile Include="Shaders\DisplayVertex.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Tonemap.hlsli" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

@@ -110,7 +110,7 @@ void Serializer::SerializeScene(const std::filesystem::path& FilePath,Entity& en
 		{
 			auto& Component = entity->second.GetComponent<ScriptComponent>();
 			emitter << YAML::Key << "Script";
-			emitter << YAML::Value << Component.moduleName.c_str();
+			emitter << YAML::Value << Component.ClassName.c_str();
 		}
 
 		if (entity->second.HasComponent<MeshComponent>())
@@ -129,42 +129,41 @@ void Serializer::SerializeScene(const std::filesystem::path& FilePath,Entity& en
 
 		}
 
-		if (entity->second.HasComponent<LightComponent>())
+		if (entity->second.HasComponent<DirectionalLightComponent>())
 		{
-			auto& Component = entity->second.GetComponent<LightComponent>();
-			emitter << YAML::Key << "Light";
+			auto& Component = entity->second.GetComponent<DirectionalLightComponent>();
+			emitter << YAML::Key << "DirectionalLightComponent";
 			emitter << YAML::BeginMap;
+			emitter << YAML::Key << "Color";
+			emitter << YAML::Flow;
+			emitter << YAML::Value << YAML::BeginSeq << Component.m_directionalLight.Color.x << Component.m_directionalLight.Color.y << Component.m_directionalLight.Color.z << YAML::EndSeq;
 
-			emitter << YAML::Key << "Type" << YAML::Value << Component.type;
-			if (Component.type == 0)
-			{
-				emitter << YAML::Key << "Color";
-				emitter << YAML::Flow;
-				emitter << YAML::Value << YAML::BeginSeq << Component.m_pointLight.Color.x << Component.m_pointLight.Color.y << Component.m_pointLight.Color.z << YAML::EndSeq;
-				
-				emitter << YAML::Key << "Position";
-				emitter << YAML::Flow;
-				emitter << YAML::Value << YAML::BeginSeq << Component.m_pointLight.Position.x << Component.m_pointLight.Position.y << Component.m_pointLight.Position.z << YAML::EndSeq;
-				
-				emitter << YAML::Key << "Intensity" << YAML::Value << Component.m_pointLight.Intensity;
-				emitter << YAML::Key << "Radius" << YAML::Value << Component.m_pointLight.Radius;
+			emitter << YAML::Key << "Direction";
+			emitter << YAML::Flow;
+			emitter << YAML::Value << YAML::BeginSeq << Component.m_directionalLight.Direction.x << Component.m_directionalLight.Direction.y << Component.m_directionalLight.Direction.z << YAML::EndSeq;
 
-				
+			emitter << YAML::Key << "Intensity" << YAML::Value << Component.m_directionalLight.Intensity;
+			
 
-			}
-			else if (Component.type == 1)
-			{
-					emitter << YAML::Key << "Color";
-					emitter << YAML::Flow;
-					emitter << YAML::Value << YAML::BeginSeq << Component.m_directionalLight.Color.x << Component.m_directionalLight.Color.y << Component.m_directionalLight.Color.z << YAML::EndSeq;
+			emitter << YAML::EndMap;
 
-					emitter << YAML::Key << "Direction";
-					emitter << YAML::Flow;
-					emitter << YAML::Value << YAML::BeginSeq << Component.m_directionalLight.Direction.x << Component.m_directionalLight.Direction.y << Component.m_directionalLight.Direction.z << YAML::EndSeq;
+		}
+		if (entity->second.HasComponent<PointLightComponent>())
+		{
+			auto& Component = entity->second.GetComponent<PointLightComponent>();
+			emitter << YAML::Key << "PointLightComponent";
+			emitter << YAML::BeginMap;
+			emitter << YAML::Key << "Color";
+			emitter << YAML::Flow;
+			emitter << YAML::Value << YAML::BeginSeq << Component.m_pointLight.Color.x << Component.m_pointLight.Color.y << Component.m_pointLight.Color.z << YAML::EndSeq;
 
-					emitter << YAML::Key << "Intensity" << YAML::Value << Component.m_directionalLight.Intensity;
-			}
+			emitter << YAML::Key << "Position";
+			emitter << YAML::Flow;
+			emitter << YAML::Value << YAML::BeginSeq << Component.m_pointLight.Position.x << Component.m_pointLight.Position.y << Component.m_pointLight.Position.z << YAML::EndSeq;
 
+			emitter << YAML::Key << "Intensity" << YAML::Value << Component.m_pointLight.Intensity;
+			emitter << YAML::Key << "Radius" << YAML::Value << Component.m_pointLight.Radius;
+			
 			emitter << YAML::EndMap;
 
 		}
@@ -253,54 +252,44 @@ void Serializer::DeserializeScene(const std::filesystem::path& FilePath)
 					n_entity.AddComponent<MeshComponent>(ent["Mesh"].as<std::string>());
 				}
 
-				if (ent["Light"])
+				if (ent["PointLightComponent"])
 				{
-					if (ent["Light"]["Type"].as<int>() == 0)
-					{
-						n_entity.AddComponent<LightComponent>();
-						auto& component = n_entity.GetComponent<LightComponent>();
-						component.type = 0;
-						auto color = ent["Light"]["Color"];
-						auto Position = ent["Light"]["Position"];
-						component.m_pointLight.Color    = { color[0].as<float>() , color[1].as<float>() ,color[2].as<float>() };
-						component.m_pointLight.Position = { Position[0].as<float>() , Position[1].as<float>() ,Position[2].as<float>() };
-						component.m_pointLight.Intensity = ent["Light"]["Intensity"].as<float>();
-						component.m_pointLight.Radius = ent["Light"]["Radius"].as<float>();
+					n_entity.AddComponent<PointLightComponent>();
+					auto& component = n_entity.GetComponent<PointLightComponent>();
+					auto color = ent["PointLightComponent"]["Color"];
+					auto Position = ent["PointLightComponent"]["Position"];
+					component.m_pointLight.Color = { color[0].as<float>() , color[1].as<float>() ,color[2].as<float>() };
+					component.m_pointLight.Position = { Position[0].as<float>() , Position[1].as<float>() ,Position[2].as<float>() };
+					component.m_pointLight.Intensity = ent["PointLightComponent"]["Intensity"].as<float>();
+					component.m_pointLight.Radius = ent["PointLightComponent"]["Radius"].as<float>();
 
-						n_entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
-						Armageddon::Renderer::g_PointLightsVector.push_back(component.m_pointLight);
-						auto& MeshComp = n_entity.GetComponent<MeshComponent>();
-						MeshComp.m_mesh.v_MaterialReference[0] = AssetManager::GetOrCreateMaterial("LightMaterial");
-						//MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
-						//MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
-						//MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
-						//MeshComp.m_mesh.v_Materials[0].RenderMode = 1;
-						MeshComp.ShowComponent = false;
+					n_entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
+					Armageddon::Renderer::g_PointLightsVector.push_back(component.m_pointLight);
+					auto& MeshComp = n_entity.GetComponent<MeshComponent>();
+					MeshComp.m_mesh.v_MaterialReference[0] = AssetManager::GetOrCreateMaterial("LightMaterial");
 
-					}
-					else
-					{
-						n_entity.AddComponent<LightComponent>();
-						auto& component = n_entity.GetComponent<LightComponent>();
-						component.type = 1;
-						auto color = ent["Light"]["Color"];
-						auto Direction = ent["Light"]["Direction"];
-						component.m_directionalLight.Color = { color[0].as<float>() , color[1].as<float>() ,color[2].as<float>() };
-						component.m_directionalLight.Direction = { Direction[0].as<float>() , Direction[1].as<float>() ,Direction[2].as<float>() };
-						component.m_directionalLight.Intensity = ent["Light"]["Intensity"].as<float>();
+					MeshComp.ShowComponent = false;
 
-						n_entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
-						Armageddon::Renderer::g_DirectLightsVector.push_back(component.m_directionalLight);
-						auto& MeshComp = n_entity.GetComponent<MeshComponent>();
-						MeshComp.m_mesh.v_MaterialReference[0] = AssetManager::GetOrCreateMaterial("LightMaterial");
-
-					//	MeshComp.m_mesh.v_Materials[0].SetVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardVertex.cso");
-						//MeshComp.m_mesh.v_Materials[0].SetPixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\BillBoardPixel.cso");
-						//MeshComp.m_mesh.v_Materials[0].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
-						//MeshComp.m_mesh.v_Materials[0].RenderMode = 1;
-						MeshComp.ShowComponent = false;
-					}
 				}
+				if (ent["DirectionalLightComponent"])
+				{
+					n_entity.AddComponent<DirectionalLightComponent>();
+					auto& component = n_entity.GetComponent<DirectionalLightComponent>();
+					auto color = ent["DirectionalLightComponent"]["Color"];
+					auto Direction = ent["DirectionalLightComponent"]["Direction"];
+					component.m_directionalLight.Color = { color[0].as<float>() , color[1].as<float>() ,color[2].as<float>() };
+					component.m_directionalLight.Direction = { Direction[0].as<float>() , Direction[1].as<float>() ,Direction[2].as<float>() };
+					component.m_directionalLight.Intensity = ent["DirectionalLightComponent"]["Intensity"].as<float>();
+
+					n_entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
+					Armageddon::Renderer::g_DirectLightsVector.push_back(component.m_directionalLight);
+					auto& MeshComp = n_entity.GetComponent<MeshComponent>();
+					MeshComp.m_mesh.v_MaterialReference[0] = AssetManager::GetOrCreateMaterial("LightMaterial");
+
+
+					MeshComp.ShowComponent = false;
+				}
+
 				if (ent["Script"])
 				{
 					auto a = ent["Script"];

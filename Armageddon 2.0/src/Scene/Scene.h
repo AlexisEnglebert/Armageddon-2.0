@@ -1,9 +1,10 @@
 #pragma once
+#include <filesystem>
 #include "entt/entt.hpp"
 #include "../Log.h"
 #include "../Macros.h"
 #include "Components.h"
-#include <filesystem>
+#include "../utils/Timer.h"
 class Entity;
 
 	enum class SceneState
@@ -21,9 +22,12 @@ class Entity;
 		Entity& GetEntityByID(entt::entity ID);
 		void ClearScene();
 		void UpdateScene();
+		void RenderScene();
+		void OnRuntimeStart();
 		void LoadScene(const std::filesystem::path& path);
 		void DuplicateEntity(Entity RefEntity);
 		void DeleteEntity(Entity& entity);
+		void InitScene();
 
 		const char* m_sceneName = "Untilted";
 		entt::registry g_registry;

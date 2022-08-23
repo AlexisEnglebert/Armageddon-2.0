@@ -18,19 +18,26 @@ Buffer Registry:
 */
 struct DECL TransFormBuffer
 {
-	DirectX::XMMATRIX WorldMat;
+	DirectX::XMMATRIX WorldMat = DirectX::XMMatrixIdentity();
+
+};
+
+struct CameraBuffer_t
+{
 	DirectX::XMMATRIX ProjectionMat;
 	DirectX::XMMATRIX ViewMat;
 	DirectX::XMMATRIX MVP;
 	DirectX::XMMATRIX InverseProjectionMat;
 	DirectX::XMMATRIX InverseViewMat;
+	DirectX::XMMATRIX InverseMVP;
 
+	DirectX::XMFLOAT3 CameraPos; //12 
+	float nearPlane;
+	float farPlane;
 };
 
 struct DECL LightBuffer
 {
-	DirectX::XMFLOAT3 CameraPos; //12 
-	float Padding0; // 4 
 	int PointLightCount = 0; //4
 	int DirectionalLightCount = 0; //4
 	DirectX::XMFLOAT2 padding1; //8 
@@ -38,7 +45,10 @@ struct DECL LightBuffer
 	PointLight PointLights[50];
 	DirectionalLight DirectionalLights[50];
 
-	DirectX::XMMATRIX LightViewProjection;
+	DirectX::XMMATRIX LightViewProjectionCascade[3];
+	DirectX::XMFLOAT3 FarPlane = {0.0f,0.0f,0.0f};
+	int CascadeIndice = 0 ;
+
 };
 
 struct DECL SkyBoxBuffer
@@ -58,9 +68,6 @@ struct DECL MaterialBuffer
 	float _Padding0;//13
 	bool UseEmisive;//14
 	DirectX::XMFLOAT3 AlbedoTint = {1.0f,1.0f,1.0f}; //26
-	//float _Padding1;//30
-	//bool _Padding3; //31
-	//bool _Padding2; //32
 	float EmisiveFactor;//4
 	DirectX::XMFLOAT3 EmisiveTint;//12
 };

@@ -262,7 +262,6 @@ void MaterialEditor::RenderMaterial(uint64_t& matRef)
 
 	AssetManager::m_MaterialMap[matRef].BindRessources();
 	AssetManager::m_MaterialMap[matRef].BindShaders();
-	m_previewSphere.UpdtateTransform(&Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer().m_camera);
 
 	Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(m_previewSphere.GetTransform());
 	Armageddon::Renderer::g_TransformCBuffer.BindPS();

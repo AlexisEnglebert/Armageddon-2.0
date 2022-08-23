@@ -5,23 +5,27 @@ ConstantBuffer<LightBuffer> Armageddon::Renderer::g_LightCBuffer;
 ConstantBuffer<TransFormBuffer> Armageddon::Renderer::g_TransformCBuffer;
 ConstantBuffer<MaterialBuffer>  Armageddon::Renderer::g_PBRCBuffer;
 ConstantBuffer<WorldBuffer>  Armageddon::Renderer::g_WorldCBuffer;
+ConstantBuffer<CameraBuffer_t>  Armageddon::Renderer::g_CameraCBuffer;
+
 ConstantBuffer<Armageddon::VolumetricBuffer_t> Armageddon::Renderer::g_VolumetricBuffer;
 
 LightBuffer Armageddon::Renderer::g_LightBufferData;
 WorldBuffer Armageddon::Renderer::g_WorldBufferData;
+CameraBuffer_t Armageddon::Renderer::g_CameraBufferData;
+Armageddon::VolumetricBuffer_t Armageddon::Renderer::g_volumetricBufferData;
 
 D3D11_VIEWPORT  Armageddon::Renderer::ViewPort;
 
- Microsoft::WRL::ComPtr < ID3D11BlendState>		Armageddon::Renderer::AlphaBlendState;
- Microsoft::WRL::ComPtr < ID3D11BlendState>		Armageddon::Renderer::DefaultBlendState;
+Microsoft::WRL::ComPtr < ID3D11BlendState>		Armageddon::Renderer::AlphaBlendState;
+Microsoft::WRL::ComPtr < ID3D11BlendState>		Armageddon::Renderer::DefaultBlendState;
 
 std::vector<PointLight>  Armageddon::Renderer::g_PointLightsVector;
- std::vector<DirectionalLight> Armageddon::Renderer::g_DirectLightsVector;
+std::vector<DirectionalLight> Armageddon::Renderer::g_DirectLightsVector;
 
 
 
 
- bool Armageddon::Renderer::Init(HWND hwnd, int height, int width)
+ bool Armageddon::Renderer::Init(HWND hwnd, float width,float height)
  {
      //TODO : Faire en sorte que ça soit bien foutu
 
@@ -47,13 +51,16 @@ std::vector<PointLight>  Armageddon::Renderer::g_PointLightsVector;
 
          CreateRenderTargetView(width, height);
          m_OffScreenRenderTarget.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
-         m_FrameBuffer.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
-         FinalPass.Init(Armageddon::Interface::GetDevice().Get(), Armageddon::Interface::GetSwapChain().Get(), width, height);
+         m_FrameBuffer.Init(width, height,DXGI_FORMAT_R16G16B16A16_FLOAT);
+         m_Composite.Init(width, height, DXGI_FORMAT_R16G16B16A16_FLOAT);
+         m_DepthPass = RenderTexture((float)width, (float)height, DXGI_FORMAT_R8G8B8A8_UNORM);
+         FinalPassVertex = AssetManager::GetOrCreateVertexShader(L"Assets/Shaders/BloomThresholdVertex.cso");
+         FinalPassPixel = AssetManager::GetOrCreatePixelShader(L"Assets/Shaders/CombinePixel.cso");
 
-         m_DepthPass = RenderTexture((float)height, (float)width,DXGI_FORMAT_R8G8B8A8_UNORM);
-
+         DisplayVertex = AssetManager::GetOrCreateVertexShader(L"Assets/Shaders/DisplayVertex.cso");
+         DisplayPixel = AssetManager::GetOrCreatePixelShader(L"Assets/Shaders/DisplayPixel.cso");
+         
          CreateViewPort(width, height);
-
 
          /*Default Rasterizer Description*/
          D3D11_RASTERIZER_DESC rDesc; 
@@ -96,6 +103,21 @@ std::vector<PointLight>  Armageddon::Renderer::g_PointLightsVector;
              Armageddon::Log::GetLogger()->error("Failed Creating Clamp Sampler State");
          }
 
+         //CompareSamplerState
+
+         sDesc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
+         sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+         sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+         sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+         sDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+
+         hr = Armageddon::Interface::GetDevice()->CreateSamplerState(&sDesc, Armageddon::Interface::GetCompareSampler().GetAddressOf());
+
+         if (FAILED(hr))
+         {
+             Armageddon::Log::GetLogger()->error("Failed Creating Compare Sampler State");
+         }
+
          CreateAlphaBlendState();
          CreateDefaultBlendState();
          /*Init ImGui pour DirectX11*/
@@ -115,12 +137,16 @@ std::vector<PointLight>  Armageddon::Renderer::g_PointLightsVector;
 
          g_TransformCBuffer.Create(D3D11_USAGE_DYNAMIC, 0);
          g_LightCBuffer.Create(D3D11_USAGE_DYNAMIC, 1);
+         g_CameraCBuffer.Create(D3D11_USAGE_DYNAMIC, 2);
          g_PBRCBuffer.Create(D3D11_USAGE_DYNAMIC, 3);
          g_WorldCBuffer.Create(D3D11_USAGE_DYNAMIC, 4);
          g_VolumetricBuffer.Create(D3D11_USAGE_DYNAMIC, 5);
 
          m_VolumetricFog.Init(width,height);
-
+         m_Envmap = EnvMap(L"Assets/Texture/Skybox/HDR/orbita_4k.hdr");
+         m_quad = Armageddon::Renderer2D::GeneratePlane();
+         m_bloom.Init();
+         m_Cascade.Init(&m_camera);
          Armageddon::Log::GetLogger()->info("fffssssffffsss");
 
          return true;
@@ -270,9 +296,9 @@ void Armageddon::Renderer::LoadImGuiStyle()
 void Armageddon::Renderer::ResizeBuffer(float width, float height)
 {
     CleanRenderTargetView();
+
     m_OffScreenRenderTarget.CleanRenderTargetView();
-    m_FrameBuffer.CleanRenderTargetView();
-    FinalPass.CleanRenderTargetView();
+
     ResetDephtStencileBuffer();
 
   
@@ -288,12 +314,13 @@ void Armageddon::Renderer::ResizeBuffer(float width, float height)
 
     CreateRenderTargetView(width,height);
     m_OffScreenRenderTarget.ResizeRenderTargetView(width, height,nullptr);
-    m_FrameBuffer.ResizeRenderTargetView(width, height,nullptr);
-    FinalPass.ResizeRenderTargetView(width, height,nullptr);
+    m_FrameBuffer.ResizeTexture(width, height);
+    m_Composite.ResizeTexture(width, height);
     m_DepthPass.ResizeTexture(width, height);
     m_VolumetricFog.m_VolumetricTexture.ResizeTexture(width, height);
     CreateViewPort(width, height);
     CreateDephtStencilBuffer(width, height);  
+    m_camera.SetProjectionValues(90.0f, width / height, 0.1f, 100.0f);
 }
 
 bool Armageddon::Renderer::InitSwapChain(HWND& hwnd)
@@ -490,26 +517,16 @@ ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 void Armageddon::Renderer::RenderFrame()
 {
     float BackGroundColor[] = { 0.1f,0.1f,0.1f,1.0f };
-    //Clear the Offscreen renderTarget
-    m_OffScreenRenderTarget.Bind(Armageddon::Interface::GetDeviceContext().Get());
-    m_OffScreenRenderTarget.Clear(Armageddon::Interface::GetDeviceContext().Get());
 
     Armageddon::Interface::GetDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-    //Armageddon::Interface::GetDeviceContext()->OMSetDepthStencilState(this->DephtStencilState.Get(), 0);
     Armageddon::Interface::GetDeviceContext()->RSSetState(Armageddon::Interface::GetDefaultRasterizerState().Get());
     Armageddon::Interface::GetDeviceContext()->RSSetViewports(1, &Armageddon::Renderer::ViewPort);
 
-    Armageddon::Application::GetApplicationInsatnce()->ImGuiBegin();
    
     //ICI
+    Armageddon::Application::GetApplicationInsatnce()->ImGuiBegin();
     Armageddon::Application::GetApplicationInsatnce()->ImGuiRender();
-
-    ImGui::Begin("TEST");
-    ImGui::Text("ceci est un test ");
-    ImGui::End();
 	Armageddon::Application::GetApplicationInsatnce()->OnRender();
-
     ImGui::Render();
 
     m_OffScreenRenderTarget.BindBackBuffer(Armageddon::Interface::GetDeviceContext().Get(),Armageddon::Interface::GetRenderTargetView().GetAddressOf(), this->DephtStencilView.Get()); // on remet le buffer normal
@@ -517,7 +534,23 @@ void Armageddon::Renderer::RenderFrame()
     Armageddon::Interface::GetDeviceContext()->ClearRenderTargetView(Armageddon::Interface::GetRenderTargetView().Get(), BackGroundColor);
     Armageddon::Interface::GetDeviceContext()->ClearDepthStencilView(this->DephtStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
     Armageddon::Interface::GetDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-  
+
+    if (displayScene)
+    {
+        Armageddon::Interface::GetDeviceContext()->PSSetSamplers(0, 1, Armageddon::Interface::GetSamplerState().GetAddressOf());
+        Armageddon::Interface::GetDeviceContext()->PSSetShaderResources(0, 1, m_Composite.GetRessourceViewPtr());
+
+        for (auto& submesh : m_quad.v_SubMeshes)
+        {
+            Armageddon::Interface::GetDeviceContext()->IASetInputLayout(DisplayVertex.GetInputLayout());
+            Armageddon::Interface::GetDeviceContext()->PSSetShader(DisplayPixel.GetShader(), nullptr, 0);
+            Armageddon::Interface::GetDeviceContext()->VSSetShader(DisplayVertex.GetShader(), nullptr, 0);
+
+            submesh.BindVertexBuffer();
+            submesh.BindIndexBuffer();
+            submesh.DrawIndexed();
+        }
+    }
 
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 

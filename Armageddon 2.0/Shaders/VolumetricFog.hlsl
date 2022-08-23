@@ -17,17 +17,16 @@ struct DirectionalLight
 
 cbuffer LightCBuffer : register(b1)
 {
-    float3 CameraPos;
-	float Padding0;
-	
-    int PointLightCount;
-    int DirectionalLightCount;
+	int PointLightCount;
+	int DirectionalLightCount;
 	float2 padding1;
 
 
-    PointLight PointLights[50];
-    DirectionalLight DirectionalLights[50];
-    row_major float4x4 LightViewProjection;
+	PointLight PointLights[50];
+	DirectionalLight DirectionalLights[50];
+	row_major float4x4 LightViewProjectionCascade[3]; // TODO BETTER HANDLING OF CASCADE NUM
+	float FarPlane[3]; // attention à l'alignement :D 
+	int cascadeIndice;
 
 };
 
@@ -43,15 +42,18 @@ cbuffer WorldCBuffer : register(b4)
     float time;
 }
 
-cbuffer TransFormBuffer : register(b0)
+cbuffer CameraBuffer : register(b2)
 {
-    row_major float4x4  WorldMat;
-    row_major float4x4  ProjectionMat;
-    row_major float4x4  ViewMat;
-    row_major float4x4  MVP;
-    row_major float4x4 InverseProjectionMat;
+	row_major float4x4  ProjectionMat;
+	row_major float4x4  ViewMat;
+	row_major float4x4  MVP;
+	row_major float4x4 InverseProjectionMat;
 	row_major float4x4 InverseViewMat;
+	row_major float4x4 InverseMVP;
 
+	float3 CameraPos; //12 
+	float nearPlane;
+	float farPlane;
 };
 
 struct PSinput
@@ -99,33 +101,33 @@ float3 Albedo(float3 scattering, float3 extinction)
 * PI * sum {i=1 -> n}( phase(v, lci) * v(x, plighti) * c * lighti(abs(x - Plighti) )  )
 */
 //phase
-float3 phase(int indice, float3 inVectorDir, float3 OutVectorDir)
-{
-	float output;
-	float angle = length(inVectorDir) * length(OutVectorDir);
-	float cos2 = cos(angle) * cos(angle);
-	/*
-	* 1 - Rayleigh
-	* 2 - Mie
-	* 3 - geometric
-	*/
-	switch (indice)
+	float3 phase(int indice, float3 inVectorDir, float3 OutVectorDir)
 	{
-	case 1: //Rayleigh
-	default:
-		float scalar = 3 / 16 * PI;
-		output = scalar * (1 + cos2);
+		float output;
+		float angle = length(inVectorDir) * length(OutVectorDir);
+		float cos2 = cos(angle) * cos(angle);
+		/*
+		* 1 - Rayleigh
+		* 2 - Mie
+		* 3 - geometric
+		*/
+		switch (indice)
+		{
+		case 1: //Rayleigh
+		default:
+			float scalar = 3 / 16 * PI;
+			output = scalar * (1 + cos2);
+				break;
+
+		case 2: //Mie
+
 			break;
+		case 3:
+			break;
+		}
 
-	case 2: //Mie
-
-		break;
-	case 3:
-		break;
+		return output;
 	}
-
-	return output;
-}
 
 
 //TODO améliorer ça car c'est pas top top on fait déjà le calcul dans le PBR 
@@ -191,8 +193,7 @@ float3 TransformToWorldSpace(float depth, PSinput input) //replace this with GBu
 	viewSpacePosition /= viewSpacePosition.w;
 
 	float4 worldSpacePosition  = mul(viewSpacePosition, InverseViewMat);
-	float4 worldSpaceWithTransform = mul(worldSpacePosition, WorldMat);
-    return worldSpaceWithTransform.xyz;
+    return worldSpacePosition.xyz;
 
 }
 

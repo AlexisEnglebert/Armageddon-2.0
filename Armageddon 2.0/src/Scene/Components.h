@@ -18,20 +18,19 @@ struct TagComponent
 
 struct ScriptComponent
 {
-	std::string moduleName = "";
+	std::string ClassName = "";
+
 	ScriptComponent() = default;
-	ScriptComponent(std::string name) : moduleName(name)
+	ScriptComponent(std::string name) : ClassName(name)
 	{
 	};
-	/*ScriptComponent(ScriptComponent component)
-	{
-	};*/
+	ScriptComponent(const ScriptComponent&) = default;
 };
 
-		/*POUR L'INSTANT ON LAISSE CA
-		MAIS ON DEVRAIT AVOIR UN TRANSFORM COMPONENT
-		AINSI QU'UNE CAMERA COMPONENT POUR PRETRE D'UPDATE DIRRECTEMENT DANS LA
-		SCENE ET NON DANS LE COMPONENT*/
+/*POUR L'INSTANT ON LAISSE CA
+MAIS ON DEVRAIT AVOIR UN TRANSFORM COMPONENT
+AINSI QU'UNE CAMERA COMPONENT POUR PRETRE D'UPDATE DIRRECTEMENT DANS LA
+SCENE ET NON DANS LE COMPONENT*/
 
 struct MeshComponent
 {
@@ -75,6 +74,13 @@ struct RigidBodyComponent
 	};
 };*/
 
+struct AnimationComponent
+{
+	AnimationComponent() = default;
+	AnimationComponent(const AnimationComponent& component) = default;
+	//Animation wich is the animation -> bool looping = false;
+};
+
 struct TransformComponent
 {
 	DirectX::XMFLOAT3 Translation = { 0.0f,0.0f, 0.0f };
@@ -83,12 +89,6 @@ struct TransformComponent
 	TransformComponent() = default;
 	TransformComponent(DirectX::XMFLOAT3& Transform, DirectX::XMFLOAT3& Rotation, DirectX::XMFLOAT3& Scale) : Translation(Transform), Rotation(Rotation), Scale(Scale)
 	{};
-	/*TransformComponent(TransformComponent& Transform)
-	{
-		Translation = Transform.Translation;
-		Rotation = Transform.Rotation;
-		Scale = Transform.Scale;
-	};*/
 	TransformComponent(float x, float y, float z, float rx , float ry , float rz , float sx, float sy, float sz)
 	{
 		Translation = { x,y,z };
@@ -111,18 +111,21 @@ struct TransformComponent
 
 };
 
-struct LightComponent
+struct DirectionalLightComponent
+{
+	DirectionalLight m_directionalLight;
+	DirectionalLightComponent() = default;
+
+	~DirectionalLightComponent()
+	{
+	}
+};
+
+struct PointLightComponent
 {
 	PointLight m_pointLight;
-	DirectionalLight m_directionalLight;
-	/*
-	Type:
-	- 0 = PointLight
-	- 1 = DirectionalLight
-	*/	
-	int type = 0;
-	LightComponent() = default;
-	~LightComponent()
+	PointLightComponent() = default;
+	~PointLightComponent()
 	{
 
 	}
@@ -135,7 +138,6 @@ struct SkyComponent
 
 struct MaterialComponent
 {
-	//Material m_material = Armageddon::Renderer::g_assetManager.v_material[0];
 	Material m_material;
 	MaterialComponent() = default;
 };

@@ -20,6 +20,7 @@ namespace Armageddon
 		static Microsoft::WRL::ComPtr<ID3D11SamplerState>& GetSamplerState();
 		static Microsoft::WRL::ComPtr<ID3D11SamplerState>& GetTrilinearSampler();
 		static Microsoft::WRL::ComPtr<ID3D11SamplerState>& GetClampSampler();
+		static Microsoft::WRL::ComPtr<ID3D11SamplerState>& GetCompareSampler();
 		static Microsoft::WRL::ComPtr <ID3D11RenderTargetView>& GetRenderTargetView();
 		static Microsoft::WRL::ComPtr <ID3D11BlendState>& GetColorBlendState();
 		static Microsoft::WRL::ComPtr <ID3D11RasterizerState>& GetDefaultRasterizerState();
@@ -33,6 +34,7 @@ namespace Armageddon
 		static Microsoft::WRL::ComPtr<ID3D11SamplerState> SamplerState;
 		static Microsoft::WRL::ComPtr<ID3D11SamplerState> TrilinearSampler;
 		static Microsoft::WRL::ComPtr<ID3D11SamplerState> ClampSamplerState;
+		static Microsoft::WRL::ComPtr<ID3D11SamplerState> CompareSamplerState;
 		static Microsoft::WRL::ComPtr <ID3D11RenderTargetView> RenderTargetView;
 		static Microsoft::WRL::ComPtr < ID3D11BlendState>		ColorBlendState;
 

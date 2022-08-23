@@ -2,9 +2,19 @@
 cbuffer TransFormBuffer : register(b0)
 {
     row_major float4x4 WorldMat;
-    row_major float4x4 ProjectionMat;
-    row_major float4x4 ViewMat;
-    row_major float4x4 MVP;
+};
+
+cbuffer CameraBuffer : register(b2)
+{
+    row_major float4x4  ProjectionMat;
+    row_major float4x4  ViewMat;
+    row_major float4x4  MVP;
+    row_major float4x4 InverseProjectionMat;
+    row_major float4x4 InverseViewMat;
+
+    float3 CameraPos; //12 
+    float nearPlane;
+    float farPlane;
 };
 
 struct VSinput

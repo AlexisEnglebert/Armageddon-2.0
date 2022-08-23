@@ -39,6 +39,8 @@ float4 main(PSinput input) : SV_TARGET
 	o += (B + C + H + G) * div.y;
 	o += (F + G + L + K) * div.y;
 	o += (G + H + M + L) * div.y;
+	o = max(o, 0.0001f);
+
 
 	//
 

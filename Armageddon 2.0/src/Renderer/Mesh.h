@@ -47,7 +47,6 @@ public:
 	 IndexBuffer<DWORD>*   GetIndexBuffer();
 
 	 bool IsEmpty();
-	 void UpdtateTransform(Armageddon::Camera* m_camera);
 	 TransFormBuffer* GetTransform() { return &m_TransForm; };
 	 
 	 std::vector<SubMesh> v_SubMeshes;
@@ -62,7 +61,7 @@ private:
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	void ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	void ProcessBones(aiMesh* mesh, std::vector<Vertex>& Vertices,const aiScene* scene);
-	void ProcesBoneNode(aiNode* node,uint8_t ParentID);
+	void ProcesBoneNode(aiNode* node,uint8_t ParentID, std::shared_ptr<Joint>& parentJoint);
 
 	TransFormBuffer m_TransForm;
 	Armageddon::Camera* m_camera;

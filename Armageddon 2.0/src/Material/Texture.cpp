@@ -20,7 +20,7 @@ void Texture::Create(const std::filesystem::path& path)
 	HRESULT hr = DirectX::CreateWICTextureFromFile(Armageddon::Interface::GetDevice().Get(), path.c_str(), TextureRessource.GetAddressOf(), TextureRessourceView.GetAddressOf());
 	if (FAILED(hr))
 	{
-		Armageddon::Log::GetLogger()->error("ERROR Can not load : {0}", hr);
+		Armageddon::Log::GetLogger()->error("ERROR Can not load : {0} {1}", hr, path.string().c_str());
 	}
 }
 
@@ -48,8 +48,8 @@ void EnvTexture::CreateCubeMap(const std::filesystem::path& path)
 
 	Armageddon::VertexShaders VertexShader;
 	Armageddon::PixelShaders  PixelShader;
-	VertexShader.Init(Armageddon::Interface::GetDevice(), L"..\\bin\\Debug-x64\\Armageddon 2.0\\EquirectangularToCubemapVertex.cso");
-	PixelShader.Init(Armageddon::Interface::GetDevice(), L"..\\bin\\Debug-x64\\Armageddon 2.0\\EquirectangularToCubemapPixel.cso");
+	VertexShader.Init(Armageddon::Interface::GetDevice(), L"Assets/Shaders/EquirectangularToCubemapVertex.cso");
+	PixelShader.Init(Armageddon::Interface::GetDevice(), L"Assets/Shaders/EquirectangularToCubemapPixel.cso");
 
 
 	/*LA BAS ET LE HAUT SONT MAL GENERES ILS SONT 90° ROTATIONE !!!!!!!*/
@@ -238,14 +238,14 @@ void EnvTexture::CreateCubeMap(const std::filesystem::path& path)
 
 	for (UINT i = 0; i < 6; i++)
 	{
-		TransFormBuffer Buffer;
+		CameraBuffer_t Buffer;
 		float BackGroundColor[] = { 0.1f,0.1f,0.1f,1.0f };
 		Armageddon::Interface::GetDeviceContext()->ClearRenderTargetView(RenderTargetView[i], BackGroundColor);
 		Armageddon::Interface::GetDeviceContext()->OMSetRenderTargets(1, &RenderTargetView[i], nullptr);
 		Buffer.ViewMat = captureViews[i];
 		Buffer.ProjectionMat = captureProjection;
-		Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(&Buffer);
-		Armageddon::Renderer::g_TransformCBuffer.BindVS();
+		Armageddon::Renderer::g_CameraCBuffer.SetDynamicData(&Buffer);
+		Armageddon::Renderer::g_CameraCBuffer.BindVS();
 
 		Armageddon::Interface::GetDeviceContext()->Draw(14, 0);
 
@@ -275,8 +275,8 @@ void EnvTexture::CreateIrradiancedMap(ID3D11ShaderResourceView** envmapRessource
 
 	Armageddon::VertexShaders VertexShader;
 	Armageddon::PixelShaders  PixelShader;
-	VertexShader.Init(Armageddon::Interface::GetDevice(), L"..\\bin\\Debug-x64\\Armageddon 2.0\\CubemapConvolutionVertex.cso");
-	PixelShader.Init(Armageddon::Interface::GetDevice(), L"..\\bin\\Debug-x64\\Armageddon 2.0\\CubemapConvolutionPixel.cso");
+	VertexShader.Init(Armageddon::Interface::GetDevice(), L"Assets/Shaders/CubemapConvolutionVertex.cso");
+	PixelShader.Init(Armageddon::Interface::GetDevice(), L"Assets/Shaders/CubemapConvolutionPixel.cso");
 
 
 
@@ -410,14 +410,14 @@ void EnvTexture::CreateIrradiancedMap(ID3D11ShaderResourceView** envmapRessource
 
 	for (UINT i = 0; i < 6; i++)
 	{
-		TransFormBuffer Buffer;
+		CameraBuffer_t Buffer;
 		float BackGroundColor[] = { 0.1f,0.1f,0.1f,1.0f };
 		Armageddon::Interface::GetDeviceContext()->ClearRenderTargetView(RenderTargetView[i], BackGroundColor);
 		Armageddon::Interface::GetDeviceContext()->OMSetRenderTargets(1, &RenderTargetView[i], nullptr);
 		Buffer.ViewMat = captureViews[i];
 		Buffer.ProjectionMat = captureProjection;
-		Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(&Buffer);
-		Armageddon::Renderer::g_TransformCBuffer.BindVS();
+		Armageddon::Renderer::g_CameraCBuffer.SetDynamicData(&Buffer);
+		Armageddon::Renderer::g_CameraCBuffer.BindVS();
 
 		Armageddon::Interface::GetDeviceContext()->Draw(14, 0);
 
@@ -441,8 +441,8 @@ void EnvTexture::CreatePreFilteredMap(ID3D11ShaderResourceView** envmapRessource
 
 	Armageddon::VertexShaders VertexShader;
 	Armageddon::PixelShaders  PixelShader;
-	VertexShader.Init(Armageddon::Interface::GetDevice(), L"..\\bin\\Debug-x64\\Armageddon 2.0\\PreFilteHDRVertex.cso");
-	PixelShader.Init(Armageddon::Interface::GetDevice(), L"..\\bin\\Debug-x64\\Armageddon 2.0\\PreFilteHDRPixel.cso");
+	VertexShader.Init(Armageddon::Interface::GetDevice(), L"Assets/Shaders/PreFilteHDRVertex.cso");
+	PixelShader.Init(Armageddon::Interface::GetDevice(), L"Assets/Shaders/PreFilteHDRPixel.cso");
 
 	DirectX::XMMATRIX captureProjection = DirectX::XMMatrixPerspectiveFovLH((90.0f / 360.0f) * DirectX::XM_2PI, 1.0f, 0.1f, 10000.0f);;
 
@@ -579,14 +579,14 @@ void EnvTexture::CreatePreFilteredMap(ID3D11ShaderResourceView** envmapRessource
 
 		for (UINT j = 0; j < 6; j++)
 		{
-			TransFormBuffer Buffer;
+			CameraBuffer_t Buffer;
 			float BackGroundColor[] = { 0.1f,0.1f,0.1f,1.0f };
 			Armageddon::Interface::GetDeviceContext()->ClearRenderTargetView(RenderTargetView[i * 6 + j], BackGroundColor);
 			Armageddon::Interface::GetDeviceContext()->OMSetRenderTargets(1, &RenderTargetView[i * 6 + j], nullptr);
 			Buffer.ViewMat = captureViews[j];
 			Buffer.ProjectionMat = captureProjection;
-			Armageddon::Renderer::g_TransformCBuffer.SetDynamicData(&Buffer);
-			Armageddon::Renderer::g_TransformCBuffer.BindVS();
+			Armageddon::Renderer::g_CameraCBuffer.SetDynamicData(&Buffer);
+			Armageddon::Renderer::g_CameraCBuffer.BindVS();
 
 			Armageddon::Interface::GetDeviceContext()->Draw(14, 0);
 
@@ -612,7 +612,7 @@ RenderTexture::RenderTexture(float width, float height, DXGI_FORMAT format)
 	Init(width, height, format);
 }
 
-bool RenderTexture::Init(float& width, float& height, DXGI_FORMAT format)
+bool RenderTexture::Init(float width, float height, DXGI_FORMAT format)
 {
 	D3D11_TEXTURE2D_DESC Texdesc;
 	Texdesc.Width = width;
@@ -677,9 +677,114 @@ bool RenderTexture::ResizeTexture(float& width, float& height)
 	return this->Init(width, height, m_Format);
 }
 
+bool DepthTexture::Init(float width, float height, DXGI_FORMAT format)
+{
+	D3D11_TEXTURE2D_DESC Texdesc;
+	Texdesc.Width = width;
+	Texdesc.Height = height;
+	Texdesc.MipLevels = 1;
+	Texdesc.ArraySize = 1;
+	Texdesc.Format = format;
+	Texdesc.SampleDesc.Count = 1;
+	Texdesc.SampleDesc.Quality = 0;
+	Texdesc.Usage = D3D11_USAGE_DEFAULT;
+	Texdesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+	Texdesc.CPUAccessFlags = 0;
+	Texdesc.MiscFlags = 0;
+
+
+	ID3D11Texture2D* pTexture = NULL;
+
+	HRESULT hr = Armageddon::Interface::GetDevice()->CreateTexture2D(&Texdesc, nullptr, &pTexture);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC ViewDesc;
+	ViewDesc.Format = DXGI_FORMAT_R32_FLOAT;
+	ViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	ViewDesc.Texture2D.MipLevels = Texdesc.MipLevels;
+	ViewDesc.Texture2D.MostDetailedMip = 0;
+	ID3D11ShaderResourceView* ressourceview;
+	hr = Armageddon::Interface::GetDevice()->CreateShaderResourceView(pTexture, &ViewDesc, TextureRessourceView.GetAddressOf());
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	dsvDesc.Flags = 0;
+	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Texture2D.MipSlice = 0;
+
+	HRESULT result = Armageddon::Interface::GetDevice()->CreateDepthStencilView(pTexture, &dsvDesc, DephtStencilView.GetAddressOf());
+	if (FAILED(result))
+	{
+		Armageddon::Log::GetLogger()->error("Erreur lors de la crétion du DephtStencilDesc {0}", result);
+	}
+
+	TextureRessource = pTexture;
+
+	ImageX = width;
+	ImageY = height;
+	m_Format = format;
+
+}
 
 RenderTextureDepht::RenderTextureDepht(float width, float height, DXGI_FORMAT format) 
 {
+	Init(width, height, format);
+}
+
+bool RenderTextureDepht::Init(float width, float height, DXGI_FORMAT format)
+{
+	D3D11_TEXTURE2D_DESC Texdesc;
+	Texdesc.Width = width;
+	Texdesc.Height = height;
+	Texdesc.MipLevels = 1;
+	Texdesc.ArraySize = 1;
+	Texdesc.Format = format;
+	Texdesc.SampleDesc.Count = 1;
+	Texdesc.SampleDesc.Quality = 0;
+	Texdesc.Usage = D3D11_USAGE_DEFAULT;
+	Texdesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+	Texdesc.CPUAccessFlags = 0;
+	Texdesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+
+
+	ID3D11Texture2D* pTexture = NULL;
+
+	HRESULT hr = Armageddon::Interface::GetDevice()->CreateTexture2D(&Texdesc, nullptr, &pTexture);
+	if (FAILED(hr))
+	{
+		Armageddon::Log::GetLogger()->error("ERROR CREATING TEXTURE2D [{0}]", hr);
+		return false;
+	}
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC ViewDesc;
+	ViewDesc.Format = format;
+	ViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	ViewDesc.Texture2D.MipLevels = Texdesc.MipLevels;
+	ViewDesc.Texture2D.MostDetailedMip = 0;
+	ID3D11ShaderResourceView* ressourceview;
+	hr = Armageddon::Interface::GetDevice()->CreateShaderResourceView(pTexture, &ViewDesc, TextureRessourceView.GetAddressOf());
+	if (FAILED(hr))
+	{
+		Armageddon::Log::GetLogger()->error("ERROR CREATING SHADER RESSOURCE VIEW [{0}]", hr);
+	}
+	TextureRessource = pTexture;
+
+
+	D3D11_RENDER_TARGET_VIEW_DESC desc = {};
+	desc.Format = format;
+	desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	desc.Texture2D.MipSlice = 0;
+
+	hr = Armageddon::Interface::GetDevice()->CreateRenderTargetView(TextureRessource.Get(), &desc, &RenderTargetView);
+	if (FAILED(hr))
+	{
+		Armageddon::Log::GetLogger()->error("ERROR CREATING RENDER TARGETVIEW [{0}]", hr);
+
+	}
+
 	D3D11_TEXTURE2D_DESC DephtStencilDesc;
 	DephtStencilDesc.Width = width;
 	DephtStencilDesc.Height = height;
@@ -707,7 +812,27 @@ RenderTextureDepht::RenderTextureDepht(float width, float height, DXGI_FORMAT fo
 		Armageddon::Log::GetLogger()->error("Erreur lors de la crétion du DephtStencilDesc {0}", result);
 	}
 
-	
+	ImageX = width;
+	ImageY = height;
+	m_Format = format;
+
+	return true;
+}
+
+bool RenderTextureDepht::ResizeTexture(float& width, float& height)
+{
+	ImageX = width;
+	ImageY = height;
+
+	//Clear everything
+
+	TextureRessource.Get()->Release();
+	TextureRessource.Reset();
+	DephtStencilView.Get()->Release();
+	DephtStencilBuffer.Get()->Release();
+	RenderTargetView->Release();
+
+	return this->Init(width, height, m_Format);
 }
 
 bool Texture3D::Init(UINT width, UINT height, UINT depth, UINT miplevel, DXGI_FORMAT format)
@@ -726,10 +851,18 @@ bool Texture3D::Init(UINT width, UINT height, UINT depth, UINT miplevel, DXGI_FO
 	ID3D11Texture3D* pTexture = NULL;
 
 	HRESULT hr = Armageddon::Interface::GetDevice()->CreateTexture3D(&textureDesc, nullptr, &pTexture);
+
 	if (FAILED(hr))
 	{
 		return false;
 	}
+	/*ID3D11Texture3D* pTextureUAV = NULL;
+
+	hr = Armageddon::Interface::GetDevice()->CreateTexture3D(&textureDesc, nullptr, &pTextureUAV);
+	if (FAILED(hr))
+	{
+		return false;
+	}*/
 
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC ViewDesc;
@@ -740,7 +873,6 @@ bool Texture3D::Init(UINT width, UINT height, UINT depth, UINT miplevel, DXGI_FO
 
 	ID3D11ShaderResourceView* ressourceview;
 	hr = Armageddon::Interface::GetDevice()->CreateShaderResourceView(pTexture, &ViewDesc, TextureRessourceView.GetAddressOf());
-	TextureRessource = pTexture;
 	if (FAILED(hr))
 	{
 		return false;
@@ -751,14 +883,16 @@ bool Texture3D::Init(UINT width, UINT height, UINT depth, UINT miplevel, DXGI_FO
 	descUAV.Format = format;
 	descUAV.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE3D;
 	descUAV.Texture3D.MipSlice = 0;
-	descUAV.Texture3D.FirstWSlice = 1;
-	descUAV.Texture3D.WSize = 1;
-	hr = Armageddon::Interface::GetDevice()->CreateUnorderedAccessView(TextureRessource.Get(), &descUAV, &m_UAV);
+	descUAV.Texture3D.FirstWSlice = 0;
+	descUAV.Texture3D.WSize = depth;
+	hr = Armageddon::Interface::GetDevice()->CreateUnorderedAccessView(pTexture, &descUAV, &m_UAV);
 	if (FAILED(hr))
 	{
 		Armageddon::Log::GetLogger()->error("ERROR WHILE CREATING UAV [{0}]", hr);
 		return false;
 	}
+	TextureRessource = pTexture;
+
 	/*/D3D11_RENDER_TARGET_VIEW_DESC desc = {};
 	desc.Format = format;
 	desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE3D;

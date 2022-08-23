@@ -62,7 +62,12 @@ namespace Armageddon
 
     public class Entity
     {
-        public ulong ID { get; set; }
+        protected Entity() { ID = 0; }
+        public readonly ulong ID;
+        internal Entity(int id)
+        {
+            ID = (ulong)id;
+        }
         public bool HasComponent<T>() where T : Component, new()
         {
             return HasComponent_Internal(ID,typeof(T));

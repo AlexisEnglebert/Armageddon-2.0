@@ -23,7 +23,12 @@
 #include "../Material/AssetManager.h"
 #include "../Material/Texture.h"
 #include "RendererAPI.h"
-#include "VolumetricFog.h"
+
+#include "RenderPass/VolumetricFog.h"
+#include "RenderPass/CascadeShadow.h"
+#include "RenderPass/PostProcessing/Bloom.h"
+#include "RenderPass/EnvMap.h"
+
 #pragma comment(lib, "dxgi.lib")
 
 namespace Armageddon
@@ -31,7 +36,7 @@ namespace Armageddon
 	class DECL Renderer
 	{
 	public:
-		bool Init(HWND hwnd, int height, int width);
+		bool Init(HWND hwnd, float width, float height);
 		void ResizeBuffer(float width, float height);
 		void RenderFrame();
 		void SubmitMesh(Mesh& mesh);
@@ -39,8 +44,10 @@ namespace Armageddon
 		//Renderer* GetRenderer() { return this;};
 		OffScreenRenderTarget& GetOffScreenRenderTarget() { return m_OffScreenRenderTarget; };
 		inline ImGuiContext* GetImGuiContext() { return m_Context; };
+
 		Armageddon::Camera m_camera;
 		static ConstantBuffer<TransFormBuffer> g_TransformCBuffer;
+		static ConstantBuffer<CameraBuffer_t> g_CameraCBuffer;
 		static ConstantBuffer<LightBuffer> g_LightCBuffer;
 		static ConstantBuffer<MaterialBuffer> g_PBRCBuffer;
 		static ConstantBuffer<WorldBuffer> g_WorldCBuffer;
@@ -56,20 +63,38 @@ namespace Armageddon
 
 		static LightBuffer g_LightBufferData;
 		static WorldBuffer g_WorldBufferData;
+		static CameraBuffer_t g_CameraBufferData;
+		static VolumetricBuffer_t g_volumetricBufferData; //todo in scene  !
 
 		static D3D11_VIEWPORT ViewPort;
-		OffScreenRenderTarget m_FrameBuffer;
-		OffScreenRenderTarget FinalPass;
+		RenderTextureDepht m_FrameBuffer;
+		RenderTextureDepht m_Composite;
+
+		Armageddon::PixelShaders  FinalPassPixel;
+		Armageddon::VertexShaders FinalPassVertex;
+
+
+		Armageddon::PixelShaders  DisplayPixel;
+		Armageddon::VertexShaders DisplayVertex;
 
 		RenderTexture m_DepthPass;
 
-		VolumetricFog m_VolumetricFog;
+		Armageddon::VolumetricFog m_VolumetricFog;
+		Armageddon::CascadeShadow m_Cascade;
+		Armageddon::EnvMap m_Envmap;
+		Armageddon::Bloom m_bloom;
 
+		Mesh m_quad;
 
+		/*DephtStencil*/
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DephtStencilView;
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DephtStencilState;
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> DephtStencilBuffer;
 
-
+		bool displayScene = false;
 
 		void CreateViewPort(float width, float height);
+
 
 	private:
 
@@ -95,10 +120,7 @@ namespace Armageddon
 		
 
 
-		/*DephtStencil*/
-		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DephtStencilView;
-		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DephtStencilState;
-		Microsoft::WRL::ComPtr<ID3D11Texture2D> DephtStencilBuffer;
+		
 
 
 		/*Off Screen Render Target View*/

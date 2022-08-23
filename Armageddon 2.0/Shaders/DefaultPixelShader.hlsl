@@ -12,15 +12,19 @@ struct DirectionalLight
     float3 Color;
     float Intensity;
 };
-
 cbuffer LightCBuffer : register(b1)
 {
-    float3 CameraPos;
-	int PointLightCount;
-    float DirectionalLightCount;
+    int PointLightCount;
+    int DirectionalLightCount;
+    float2 padding1;
+
 
     PointLight PointLights[50];
     DirectionalLight DirectionalLights[50];
+    row_major float4x4 LightViewProjectionCascade[3]; // TODO BETTER HANDLING OF CASCADE NUM
+    float FarPlane[3]; // attention à l'alignement :D 
+    int cascadeIndice;
+
 };
 
 

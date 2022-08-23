@@ -6,11 +6,12 @@
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
 #include <mono/metadata/debug-helpers.h>
+
 class InternalsCall
 {
 public:
 	static void LoadComponents(std::string Component);
-	static void LoadInternals(MonoDomain* domain);
+	static void LoadInternals(MonoDomain* domain,Scene* scene);
 	static void Internal_Log_info(MonoString* message);
 	static void Internal_Log_error(MonoString* message);
 	static bool IsKeyPressed(uint8_t Keycode);
@@ -27,6 +28,8 @@ public:
 
 	static void Internal_Scale_Get(uint64_t ID, float* ScaleX, float* ScaleY, float* ScaleZ);
 	static void Internal_Scale_Set(uint64_t ID, float* valueX, float* valueY, float* valueZ);
-private:
+
 	static MonoImage* InternalsImage;
+	static Scene* ActiveScene;
+	static MonoDomain* CoreDomain;
 };

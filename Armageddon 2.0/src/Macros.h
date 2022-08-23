@@ -6,6 +6,7 @@
 #define DECL __declspec(dllimport)
 #endif
 
+#define AG_GET_RENDERER() Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer()
 
 
 

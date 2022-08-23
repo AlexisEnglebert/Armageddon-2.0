@@ -47,6 +47,8 @@ namespace Armageddon
 		const DirectX::XMVECTOR& GetRightVec();
 		const DirectX::XMVECTOR& GetUpVec();
 		const DirectX::XMVECTOR& GetDownVec();
+		const float& GetNearPlane() { return NearZ; };
+		const float& GetFarPlane() { return FarZ; };
 
 		 float NearZ;
 		 float FarZ;

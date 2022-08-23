@@ -58,7 +58,7 @@ namespace Armageddon
 
 
 		std::wstring OpenDialog(const char* filter = "All Files (*.*)\0*.*\0", HWND owner = NULL);
-		int w_height, w_width;
+		float w_height, w_width;
 
 		bool ProcessMessage();
 

@@ -16,20 +16,34 @@ struct DirectionalLight
 	float padding0; //4
 };
 
+
 cbuffer LightCBuffer : register(b1)
 {
-    float3 CameraPos;
-	float Padding0;
-	
     int PointLightCount;
     int DirectionalLightCount;
-	float2 padding1;
+    float2 padding1;
 
 
     PointLight PointLights[50];
     DirectionalLight DirectionalLights[50];
-    row_major float4x4 LightViewProjection;
+    row_major float4x4 LightViewProjectionCascade[3]; // TODO BETTER HANDLING OF CASCADE NUM
+    float3 FarPlaneSplit; // attention à l'alignement :D 
+    int cascadeIndice;
 
+};
+
+cbuffer CameraBuffer : register(b2)
+{
+    row_major float4x4  ProjectionMat;
+    row_major float4x4  ViewMat;
+    row_major float4x4  MVP;
+    row_major float4x4 InverseProjectionMat;
+    row_major float4x4 InverseViewMat;
+    row_major float4x4 InverseMVP;
+
+    float3 CameraPos; //12 
+    float nearPlane;
+    float farPlane;
 };
 
 cbuffer MaterialCBuffer : register(b3)
@@ -52,6 +66,21 @@ cbuffer WorldCBuffer : register(b4)
     float time;
 }
 
+
+cbuffer VolumetricCBuffer : register(b5)
+{
+    float3 Scattering;
+    float Extinction;				//16
+    float3 Emissive;		// 28
+    float Phase;					//32
+    float LerpFactor;		//1
+    float density;
+    float ambientFog;
+    bool EnableVolumetricFog;
+
+}
+
+
 struct PSinput
 {
     float4 position : SV_Position;
@@ -60,8 +89,10 @@ struct PSinput
     float3 Tangent   : TANGENT;
     float3 Binormal  : BINORMAL;
     float3 WorldPos : POSITION0;
-    float4 LightPosition : LIGHTPOS;
+    float4 LightPosition[3] : LIGHTPOS;
     float3 WordNormal : NORMALPOS;
+    float4 ViewPos : POSITION1;
+
 };
 
 
@@ -77,17 +108,21 @@ Texture2D TestColor : register(t20);
 Texture2D TestNormal : register(t21);
 Texture2D TestSpec : register(t22);
 
+Texture3D<float4> VolumetricScatter : register(t23);
+
 
 TextureCube irradianceMap : register(t50);
 TextureCube Prefiltered : register(t51);
 Texture2D   BRDFIntegration : register(t52);
 Texture2D ShadowMap   : register(t53);
+Texture2D CascadeShadowMap[3]   : register(t54);
 
 
 SamplerState Sampler : register(s0);
 SamplerState ClampSampler : register(s1);
+SamplerComparisonState CompareSampler : register(s2);
 
-
+#define CASCADE_DEBUG false
 
 static const float PI = 3.1415926535897932384626433832795f;
 //static const float Metalic = 0.4f;
@@ -182,7 +217,7 @@ float CalculatePointLightEvaluation(float dist,float radius,float intensity)
     */
 
     float DistanceSquare = dist * dist;
-    float attenuation = intensity / max(DistanceSquare, pow(0.1, 2));
+    float attenuation = intensity / max(DistanceSquare,0.01);
     float factor = DistanceSquare / radius;
     float SmoothFactor = saturate(1 - factor * factor);
     attenuation *= SmoothFactor * SmoothFactor;
@@ -214,6 +249,68 @@ float3 CalculateBRDF(PSinput input,float3 View, float4 AlbedoTex,float3 Normal,f
         
     return (kD * AlbedoTex.rgb / PI + specular)  * NdotL;
 }
+
+float CalcShadowFactor( int indice, float4 LightMat, PSinput input)
+{
+    float3 ProjCoords = 0;
+
+    ProjCoords.x = input.LightPosition[indice].x / input.LightPosition[indice].w / 2.0f + 0.5f;
+    ProjCoords.y = -input.LightPosition[indice].y / input.LightPosition[indice].w / 2.0f + 0.5f;
+    ProjCoords.z = input.LightPosition[indice].z / input.LightPosition[indice].w;
+   // float depth = 0.5 * ProjCoords.z + 0.5;
+    float shadow = 0.0f;    
+
+    ///TODO SWITCH INTO TEXTURE2DARRAY ! TO AVOID THIS UGLY THING
+    switch (indice)
+    {
+    case 0:
+        shadow = CascadeShadowMap[0].Sample(Sampler, ProjCoords).r;
+        break;
+    case 1:
+        shadow = CascadeShadowMap[1].Sample(Sampler, ProjCoords).r;
+        break;
+    case 2:
+        shadow = CascadeShadowMap[2].Sample(Sampler, ProjCoords).r;
+        break;
+    }
+    if (shadow < ProjCoords.z - 0.0001)
+        return 0.0f;
+    else
+        return 1.0f;
+
+}
+float ExponentialToLinearDepth(float z, float n, float f)
+{
+    float z_buffer_params_y = f / n;
+    float z_buffer_params_x = 1.0f - z_buffer_params_y;
+
+    return 1.0f / (z_buffer_params_x * z + z_buffer_params_y);
+}
+
+float3 GetUVFromVoxelWorldPos(float3 worldpos, float n, float f, float4x4 viewProjection)
+{
+    float4 ndc = mul(float4(worldpos, 1.0f), viewProjection);
+    ndc = ndc / ndc.w;
+
+    float3 uv;
+    uv.x = ndc.x * 0.5f + 0.5f;
+    uv.y = 0.5f - ndc.y * 0.5f; //turn upside down for DX
+    uv.z = ExponentialToLinearDepth(ndc.z * 0.5f + 0.5f, n, f);
+
+    float2 params = float2(float(128.0f) / log2(f / n), -(float(128.0f) * log2(n) / log2(f / n)));
+    float view_z = uv.z * f;
+    uv.z = (max(log2(view_z) * params.x + params.y, 0.0f)) / 128.0f;
+    return uv;
+}
+
+float3 GetVolumetricLight(float3 wordlPos, float near, float far, float4x4 viewProjection,float3 color)
+{
+    float3 uv = GetUVFromVoxelWorldPos(wordlPos, near, far, viewProjection);
+
+    float4 scatteredLight = VolumetricScatter.SampleLevel(Sampler, uv, 0.0f);
+    return color * scatteredLight.a + scatteredLight.rgb;
+}
+
 float4 main(PSinput input) : SV_TARGET
 {
      
@@ -222,15 +319,11 @@ float4 main(PSinput input) : SV_TARGET
     float RoughnessTex          = SpecularMap.Sample(Sampler, input.textCoord).r;
     float AmbiantOclusionTex    = AmbiantOMap.Sample(Sampler, input.textCoord);
 
-
     AmbiantOclusionTex = AmbiantOclusionTex != 0 ? AmbiantOclusionTex : 1.0f;
     
     float MetalicTex = UseMetalMap ? MetalicMap.Sample(Sampler, input.textCoord).r : float3(0.04f, 0.04f, 0.04f);
     float3 EmisiveMap = UseEmisive ? EmissiveMap.Sample(Sampler, input.textCoord) : float3(0.0f, 0.0f, 0.0f);
-   // EmisiveMap *= EmisiveTint;
-  //  RoughnessTex = RoughnessTex != 1 ? RoughnessTex : Roughness;
-    //NormalTex = NormalTex != 0 ? NormalTex : normalize(input.normal);
-    //AlbedoTex = AlbedoTex != 0 ? AlbedoTex : float3(1.0f, 1.0f, 1.0f);
+ 
     AlbedoTex *= float4(AlbedoTint, AlbedoTex.a);
     
     
@@ -243,7 +336,33 @@ float4 main(PSinput input) : SV_TARGET
 
     //float3 BumpNormal = (NormalTex.x * normalize(input.Tangent)) + (NormalTex.y * normalize(input.Binormal)) + (NormalTex.z * normalize(input.normal));
     BumpNormal = normalize(BumpNormal);
+
     
+    float4 CascadeIndicator = float4(0.0f, 0.0f, 0.0f, 1.0f);
+    float shadowFactor = 0;
+        
+    // Get cascade index for the current fragment's view position
+    uint cascadeIndex = 0;
+    for (uint i = 0; i < 3 - 1; ++i) {
+        if (input.ViewPos.z > FarPlaneSplit[i]) {
+            cascadeIndex = i + 1;
+        }
+    }
+
+    shadowFactor = CalcShadowFactor(cascadeIndex, input.LightPosition[cascadeIndex], input);
+    //Calculate the shadow Factor
+    if (CASCADE_DEBUG)
+    {
+        //FLEMME DE RENDRE CA BEAU
+        if (cascadeIndex == 0)
+            CascadeIndicator = float4(0.2, 0.0, 0.0, 0.0);
+        else if (cascadeIndex == 1)
+            CascadeIndicator = float4(0.0, 0.2, 0.0, 0.0);
+        else if (cascadeIndex == 2)
+            CascadeIndicator = float4(0.0, 0.0, 0.2, 0.0);
+    }
+        
+
 
    
       float3 LightOut = float3(0.0f,0.0f,0.0f);
@@ -273,36 +392,8 @@ float4 main(PSinput input) : SV_TARGET
         float3 radiance = DirectionalLights[j].Color * DirectionalLights[j].Intensity;
         float3 spec = CalculateBRDF(input, View, AlbedoTex, Normal, RoughnessTex, AmbiantOclusionTex, MetalicTex, Light, F0);
 
-        float2 projectTexCoord = 0;
-        float depthValue = 0;
-        float lightDepthValue = 0;
-        float bias = 0.001f;
-        float shadows = 1.0f;
+        LightOut += (spec * (radiance * shadowFactor));
 
-        projectTexCoord.x = input.LightPosition.x / input.LightPosition.w / 2.0f + 0.5f;
-        projectTexCoord.y = -input.LightPosition.y / input.LightPosition.w / 2.0f + 0.5f;
-        depthValue = ShadowMap.Sample(ClampSampler, projectTexCoord).r;
-
-        // Determine if the projected coordinates are in the 0 to 1 range.  If so then this pixel is in the view of the light.
-        if ((saturate(projectTexCoord.x) == projectTexCoord.x) && (saturate(projectTexCoord.y) == projectTexCoord.y))
-        {
-
-            lightDepthValue = input.LightPosition.z / input.LightPosition.w;
-            lightDepthValue = lightDepthValue - bias;
-
-            if (lightDepthValue > depthValue)
-            {
-                shadows = 0.1f;
-
-            }
-
-        }
-           
-        LightOut += (spec * (radiance * shadows));
-       // LightOut += shadows;
-        
-        
-        //spec * radiance + (1 - Shadow);
 
     }
     float test =  saturate(dot(Normal, View));
@@ -323,52 +414,16 @@ float4 main(PSinput input) : SV_TARGET
 	
     float3 color = ambient + LightOut + specular;
     
-    color += EmisiveMap * EmisiveFactor * EmisiveTint ;
+    float3 volumetricColor = GetVolumetricLight(input.WorldPos, nearPlane, farPlane, MVP,color);
+    
+    if(EnableVolumetricFog)
+        color = lerp(color, volumetricColor, LerpFactor);
     
     
-    //  color = color / (1 + color);
+    color += EmisiveMap * EmisiveFactor * EmisiveTint;
 
-    //float3 ambient = float3(0.03f, 0.3f, 0.3f) * float3(1.0f, 1.0f, 1.0f) * 1.0f; //vec3(0.03) * albedo * ao;
-    //float3 color = ambient + LightOut;
-	
-  //  color = color / (color + float3(1.0f, 1.0f, 1.0f));
-   // color = pow(color, float3(1.0f / 2.2f, 1.0f / 2.2f, 1.0f / 2.2f));
-	
-  //  color = pow(abs(color), 1 / 2.22);
-    
-    
-    
-    /*Debug cascade : get the depht = posZ/posW * 0.5 + 0.5*/
-    
-           
-  /*Test */
-    
-    float2 projectTexCoord = 0;
-    float depthValue = 0;
-    float lightDepthValue = 0;
-    float bias = 0.001f;
-    float shadows = 1.0f;
+    color = uncharted2_filmic(color);
 
-    projectTexCoord.x = input.LightPosition.x / input.LightPosition.w / 2.0f + 0.5f;
-    projectTexCoord.y = -input.LightPosition.y / input.LightPosition.w / 2.0f + 0.5f;
-    depthValue = ShadowMap.Sample(ClampSampler, projectTexCoord).r;
-
-    // Determine if the projected coordinates are in the 0 to 1 range.  If so then this pixel is in the view of the light.
-    if ((saturate(projectTexCoord.x) == projectTexCoord.x) && (saturate(projectTexCoord.y) == projectTexCoord.y))
-    {
-
-        lightDepthValue = input.LightPosition.z / input.LightPosition.w;
-        lightDepthValue = lightDepthValue - bias;
-
-        if (lightDepthValue > depthValue)
-        {
-            shadows = 0.1f;
-
-        }
-
-    }
- 
-   color = uncharted2_filmic(color);
-
-    return float4(color, AlbedoTex.a);
+   return float4(color + CascadeIndicator.xyz, AlbedoTex.a);
+   // return float4(shadowFactor, 0.0f, 0.0f, 1.0f);
 }

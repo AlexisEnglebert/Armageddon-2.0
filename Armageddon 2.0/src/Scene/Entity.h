@@ -30,15 +30,16 @@ public:
 	{
 		return scene->g_registry.get<T>(HandleEntity);
 	};
-	void DeleteAllComponent()
-	{
-		
-	}
+
 	entt::entity GetHandle()
 	{	
 		return HandleEntity;
 	};
 
+	void Delete()
+	{
+		scene->g_registry.remove_all(HandleEntity);
+	};
 
 private:
 	entt::entity HandleEntity{ entt::null };

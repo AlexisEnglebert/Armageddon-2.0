@@ -8,8 +8,8 @@ Material::Material(const std::string& MaterialName) : m_usedMaterialName(m_usedM
 	 m_AssetName = MaterialName;
 	 m_AssetType = AssetType::MaterialAsset;
 
-	 m_VertexShader					 = AssetManager::GetOrCreateVertexShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\DefaultVertexShader.cso");
-	 m_PixelShader					 = AssetManager::GetOrCreatePixelShader(L"..\\bin\\Debug-x64\\Armageddon 2.0\\PBR.cso");
+	 m_VertexShader					 = AssetManager::GetOrCreateVertexShader(L"Assets/Shaders/DefaultVertexShader.cso");
+	 m_PixelShader					 = AssetManager::GetOrCreatePixelShader(L"Assets/Shaders/PBR.cso");
 	 m_EmissiveMap					 = AssetManager::GetOrCreateTexture("Ressources//Textures//DefaultAlbedo.png");
 
 
@@ -23,8 +23,8 @@ Material::Material(const std::string& MaterialName) : m_usedMaterialName(m_usedM
 	 //with default material loaded dirrectly when the engine loads
 	//m_testToken = AssetManager::m_MaterialMap[AssetManager::GetOrCreateMaterial("PBR")].m_testToken;
 
-	 m_testToken = { Token(TokenType::ENTRYPOINT,MaterialName),Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"ps","..\\bin\\Debug-x64\\Armageddon 2.0\\PBR.cso"),
-		 Token(TokenType::ATTRIBUTE,"vs","..\\bin\\Debug-x64\\Armageddon 2.0\\DefaultVertexShader.cso"),Token(TokenType::SCOPE,"}")
+	 m_testToken = { Token(TokenType::ENTRYPOINT,MaterialName),Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"ps","Assets/Shaders/PBR.cso"),
+		 Token(TokenType::ATTRIBUTE,"vs","Assets/Shaders/DefaultVertexShader.cso"),Token(TokenType::SCOPE,"}")
 		 , Token(TokenType::TEXTURE2D,"Albedo"),Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"source","Ressources//Textures//DefaultAlbedo.png"),Token(TokenType::SCOPE,"}"),
 		 Token(TokenType::TEXTURE2D,"Normal"),Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"source","Ressources//Textures//DefaultNormal.png"),Token(TokenType::SCOPE,"}"),
 		 Token(TokenType::TEXTURE2D,"Specular"),Token(TokenType::SCOPE,"{"),Token(TokenType::ATTRIBUTE,"source","Ressources//Textures//DefaultAlbedo.png"),Token(TokenType::SCOPE,"}")

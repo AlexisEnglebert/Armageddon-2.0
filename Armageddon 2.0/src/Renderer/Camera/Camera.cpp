@@ -189,4 +189,5 @@ void Armageddon::Camera::UpdateViewMatrix()
     this->vec_up = XMVector3TransformCoord(this->DEFAULT_UP_VECTOR, vecRotationMatrix);
 
 
+
 }

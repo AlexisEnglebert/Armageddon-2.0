@@ -29,50 +29,25 @@ void EntityProperties::ImGuiDraw()
 			}
 			if (ImGui::MenuItem("ScriptComponent") && !entity.HasComponent<ScriptComponent>())
 			{
-			/*	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-				ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));*/
-
-				// Always center this window when appearing
-
+				entity.AddComponent<ScriptComponent>();
 				UseScriptComponent = true;
 			}
 
-			if (ImGui::MenuItem("LightComponent") && !entity.HasComponent<LightComponent>())
+			if (ImGui::MenuItem("PointLightComponent") && !entity.HasComponent<PointLightComponent>())
 			{
-				entity.AddComponent<LightComponent>();
-				Armageddon::Renderer::g_PointLightsVector.push_back(entity.GetComponent<LightComponent>().m_pointLight);
+				entity.AddComponent<PointLightComponent>();
+				Armageddon::Renderer::g_PointLightsVector.push_back(entity.GetComponent<PointLightComponent>().m_pointLight);
 			}
-		/*	if (ImGui::MenuItem("RigidBodyComponent") && !entity.HasComponent<RigidBodyComponent>())
+
+			if (ImGui::MenuItem("DirectionalLightComponent") && !entity.HasComponent<DirectionalLightComponent>())
 			{
-				entity.AddComponent<RigidBodyComponent>();
-			}*/
-			//ImGui::MenuItem("Sphere");
+				entity.AddComponent<DirectionalLightComponent>();
+				Armageddon::Renderer::g_DirectLightsVector.push_back(entity.GetComponent<DirectionalLightComponent>().m_directionalLight);
+			}
 		
 			ImGui::EndPopup();
 		}
 
-		if (UseScriptComponent)
-		{
-			ImGui::OpenPopup("ScriptComponent");
-		}
-		bool open = true;
-
-		if (ImGui::BeginPopupModal("ScriptComponent", &open, ImGuiWindowFlags_AlwaysAutoResize))
-		{
-			char InputScript[255] = "";
-			memcpy(InputScript, SavedBuffer, 255);
-			ImGui::InputTextWithHint("Name:", "...", InputScript, 255);
-			if (ImGui::Button("Ok", { 20.0f,20.0f }))
-			{
-				entity.AddComponent<ScriptComponent>(std::string(InputScript));
-				ScriptEngine::CreateScriptFile(std::string(InputScript));
-
-				UseScriptComponent = false;
-			}
-			memcpy(SavedBuffer, InputScript, 255);
-
-			ImGui::EndPopup();
-		}
 
 		if (entity.HasComponent<TagComponent>())
 		{
@@ -83,13 +58,12 @@ void EntityProperties::ImGuiDraw()
 			auto& component = entity.GetComponent<MeshComponent>();
 			if(component.ShowComponent)
 				DrawMeshComponent(entity);
-			
 		}
 		if (entity.HasComponent<TransformComponent>())
 		{
 			DrawTransformComponent(entity);
 		}
-		if (entity.HasComponent<LightComponent>())
+		if (entity.HasComponent<PointLightComponent>() || entity.HasComponent<DirectionalLightComponent>())
 		{
 			DrawLightComponent(entity);
 		}
@@ -338,15 +312,11 @@ void EntityProperties::DrawMaterialComponent(Entity& entity)
 void EntityProperties::DrawLightComponent(Entity& entity)
 {
 	ImGui::PushStyleColor(ImGuiCol_Header, { 0.29,0.6,0.66,1 });
-
-	auto& component = entity.GetComponent<LightComponent>();
 	if (ImGui::TreeNodeEx("LightComponent", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Selected))
 	{
-		const char* items[] = { "Point Light","Directional Light" };
-		ImGui::Combo("##LightType", &component.type, items, ARRAYSIZE(items));
-		if (component.type == 0)
+		if (entity.HasComponent<PointLightComponent>())
 		{
-
+			auto& component = entity.GetComponent<PointLightComponent>();
 			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0,0 });
 			ImGui::Columns(2, 0, false);
 			ImGui::SetColumnWidth(0, 100.0f);
@@ -390,7 +360,7 @@ void EntityProperties::DrawLightComponent(Entity& entity)
 			float color[] = { component.m_pointLight.Color.x ,component.m_pointLight.Color.y,component.m_pointLight.Color.z };
 			ImGui::Text("Color:");
 			ImGui::SameLine();
-			ImGui::ColorEdit3("Color",color, 0);
+			ImGui::ColorEdit3("Color", color, 0);
 			component.m_pointLight.Color.x = color[0];
 			component.m_pointLight.Color.y = color[1];
 			component.m_pointLight.Color.z = color[2];
@@ -402,11 +372,10 @@ void EntityProperties::DrawLightComponent(Entity& entity)
 			ImGui::Text("Radius");
 			ImGui::SameLine();
 			ImGui::DragFloat("##Radius", &component.m_pointLight.Radius, 0.5, 0, 500);
-
-
 		}
-		else
+		if (entity.HasComponent<DirectionalLightComponent>())
 		{
+			auto& component = entity.GetComponent<DirectionalLightComponent>();
 			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0,0 });
 			ImGui::Columns(2, 0, false);
 			ImGui::SetColumnWidth(0, 100.0f);
@@ -457,10 +426,9 @@ void EntityProperties::DrawLightComponent(Entity& entity)
 			ImGui::SameLine();
 			ImGui::DragFloat("##Intensité", &component.m_directionalLight.Intensity, 0.5, 0, 500);
 
-				
-		}
-		ImGui::TreePop();
+			ImGui::TreePop();
 
+		}
 	}
 	ImGui::PopStyleColor();
 
@@ -472,9 +440,21 @@ void EntityProperties::DrawScriptComponent(Entity& entity)
 	auto& component = entity.GetComponent<ScriptComponent>();
 	if (ImGui::TreeNodeEx("ScriptComponent", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		
+		static char buffer[64];
+		strcpy_s(buffer, component.ClassName.c_str());
+		bool exist = ScriptEngine::ClassExist(buffer);
+		if (!exist)
+			ImGui::PushStyleColor(ImGuiCol_Text, { 0.6f,0.1f,0.2f,1.0f});
 		ImGui::Text("Script:");
 		ImGui::SameLine();
-		ImGui::InputTextWithHint("##EntityName", "Name", component.moduleName.data(), component.moduleName.size());
+		if (ImGui::InputTextWithHint("##EntityName", "Name", buffer, sizeof(buffer)))
+		{
+			//TODO VALIDATE IF CIRRECT
+			component.ClassName = buffer;
+		}
+		if (!exist)
+			ImGui::PopStyleColor();
 		ImGui::TreePop();
 	}
 	ImGui::PopStyleColor();

@@ -93,9 +93,8 @@ void EntityList::ImGuiDraw()
 			{
 				auto entity = m_Scene.CreateEntity();
 				entity.AddComponent<TagComponent>("PointLight");
-				entity.AddComponent<LightComponent>();
-				auto& component = entity.GetComponent<LightComponent>();
-				component.type = 0;
+				entity.AddComponent<PointLightComponent>();
+				auto& component = entity.GetComponent<PointLightComponent>();
 				entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
 				Armageddon::Renderer::g_PointLightsVector.push_back(component.m_pointLight);
 				auto& MeshComp = entity.GetComponent<MeshComponent>();
@@ -107,9 +106,8 @@ void EntityList::ImGuiDraw()
 			{
 				auto entity = m_Scene.CreateEntity();
 				entity.AddComponent<TagComponent>("DirectionalLight");
-				entity.AddComponent<LightComponent>();
-				auto& component = entity.GetComponent<LightComponent>();
-				component.type = 1;
+				entity.AddComponent<DirectionalLightComponent>();
+				auto& component = entity.GetComponent<DirectionalLightComponent>();
 				entity.AddComponent<MeshComponent>(Armageddon::Renderer2D::GeneratePlane());
 				Armageddon::Renderer::g_DirectLightsVector.push_back(component.m_directionalLight);
 				auto& MeshComp = entity.GetComponent<MeshComponent>();

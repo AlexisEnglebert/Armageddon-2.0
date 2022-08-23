@@ -6,6 +6,8 @@ Microsoft::WRL::ComPtr <IDXGISwapChain>  Armageddon::Interface::Swapchain = null
 Microsoft::WRL::ComPtr<ID3D11SamplerState>  Armageddon::Interface::SamplerState = nullptr;
 Microsoft::WRL::ComPtr<ID3D11SamplerState>  Armageddon::Interface::TrilinearSampler = nullptr;
 Microsoft::WRL::ComPtr<ID3D11SamplerState>  Armageddon::Interface::ClampSamplerState = nullptr;
+Microsoft::WRL::ComPtr<ID3D11SamplerState>  Armageddon::Interface::CompareSamplerState = nullptr;
+
 Microsoft::WRL::ComPtr <ID3D11BlendState>	Armageddon::Interface::ColorBlendState = nullptr;
 Microsoft::WRL::ComPtr<ID3D11RasterizerState> Armageddon::Interface::RasterizerState = nullptr;
 
@@ -40,6 +42,11 @@ Microsoft::WRL::ComPtr<ID3D11SamplerState>& Armageddon::Interface::GetTrilinearS
 Microsoft::WRL::ComPtr<ID3D11SamplerState>& Armageddon::Interface::GetClampSampler()
 {
     return Armageddon::Interface::ClampSamplerState;
+}
+
+Microsoft::WRL::ComPtr<ID3D11SamplerState>& Armageddon::Interface::GetCompareSampler()
+{
+    return Armageddon::Interface::CompareSamplerState;
 }
 
 Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& Armageddon::Interface::GetRenderTargetView()

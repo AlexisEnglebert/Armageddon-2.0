@@ -3,13 +3,11 @@
 std::vector<Token> Tokenizer::Parse(const std::filesystem::path& file)
 {
 	std::vector<Token> output;
-	Armageddon::Log::GetLogger()->info("PARSEEEEEEEEE");
 
 	std::ifstream filestream(file);
 	std::string line;
 	while (std::getline(filestream, line))
 	{
-			Armageddon::Log::GetLogger()->info(line.c_str());
 
 			std::regex test("\\(");
 
@@ -79,7 +77,6 @@ std::vector<Token> Tokenizer::Parse(const std::filesystem::path& file)
 				}
 				else
 				{
-					Armageddon::Log::GetLogger()->info("NOT IN THE MAP");
 					//ERROR
 
 				}
@@ -97,11 +94,7 @@ std::vector<Token> Tokenizer::Parse(const std::filesystem::path& file)
 			}
 			else if (std::regex_search(line, std::regex("\\="))) // check if we have opperation
 			{
-				/*if (m_PrevToken.type != TokenType::SCOPE && m_PrevToken.type != TokenType::ATTRIBUTE)
-				{
-					Armageddon::Log::GetLogger()->info("ERRRRRRORRRRR");
 
-				}*/
 
 				//Skip all white spaces
 				while (line[m_Offset] == ' ' || line[m_Offset] == '\t')
@@ -137,7 +130,6 @@ std::vector<Token> Tokenizer::Parse(const std::filesystem::path& file)
 			else // this is whitespace ?
 			{
 
-				Armageddon::Log::GetLogger()->info("n");
 
 			}
 			m_LineOffset++;

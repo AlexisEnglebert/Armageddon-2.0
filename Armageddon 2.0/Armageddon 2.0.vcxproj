@@ -138,6 +138,7 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
     </PostBuildEvent>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
+      <ObjectFileOutput>$(SolutionDir)Armageddon Editor\Assets\Shaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -164,6 +165,10 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
 xcopy "$(SolutionDir)bin\$(Configuration)-$(Platform)\$(Projectname)\Armageddon 2.0.lib" "$(Solutiondir)Armageddon Editor\lib\release" /Y /I
 xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-vc142-mt.dll" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Armageddon Editor\" /Y /I</Command>
     </PostBuildEvent>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <ObjectFileOutput>$(SolutionDir)Armageddon Editor\Assets\Shaders\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="includes\imgui-docking\backends\imgui_impl_dx11.h" />
@@ -377,14 +382,14 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
     <ClInclude Include="src\Physics\PhysicActor.h" />
     <ClInclude Include="src\Physics\PhysicsEngine.h" />
     <ClInclude Include="src\Physics\PhysXUtils.h" />
-    <ClInclude Include="src\Renderer\CascadeShadow.h" />
-    <ClInclude Include="src\Renderer\PostProcessing\Bloom.h" />
+    <ClInclude Include="src\Renderer\RenderPass\CascadeShadow.h" />
+    <ClInclude Include="src\Renderer\RenderPass\PostProcessing\Bloom.h" />
     <ClInclude Include="src\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Renderer\AdaptaterData.h" />
     <ClInclude Include="src\Renderer\Camera\Camera.h" />
     <ClInclude Include="src\Renderer\ConstantBuffer.h" />
     <ClInclude Include="src\Renderer\ConstantBufferTypes.h" />
-    <ClInclude Include="src\Renderer\EnvMap.h" />
+    <ClInclude Include="src\Renderer\RenderPass\EnvMap.h" />
     <ClInclude Include="src\Renderer\IndexBuffer.h" />
     <ClInclude Include="src\Renderer\Interface.h" />
     <ClInclude Include="src\Renderer\Lights.h" />
@@ -398,7 +403,7 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
     <ClInclude Include="src\Renderer\SubMesh.h" />
     <ClInclude Include="src\Renderer\Vertex.h" />
     <ClInclude Include="src\Renderer\VertexBuffer.h" />
-    <ClInclude Include="src\Renderer\VolumetricFog.h" />
+    <ClInclude Include="src\Renderer\RenderPass\VolumetricFog.h" />
     <ClInclude Include="src\Scene\Entity.h" />
     <ClInclude Include="src\Scene\Components.h" />
     <ClInclude Include="src\Scene\Scene.h" />
@@ -427,6 +432,7 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
     <ClCompile Include="includes\ImGuizmo\ImGradient.cpp" />
     <ClCompile Include="includes\ImGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="includes\ImGuizmo\ImSequencer.cpp" />
+    <ClCompile Include="src\Animation\Joint.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\Material\AssetManager.cpp" />
@@ -437,19 +443,19 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
     <ClCompile Include="src\Physics\PhysXUtils.cpp" />
     <ClCompile Include="src\Renderer\AdaptaterData.cpp" />
     <ClCompile Include="src\Renderer\Camera\Camera.cpp" />
-    <ClCompile Include="src\Renderer\CascadeShadow.cpp" />
-    <ClCompile Include="src\Renderer\EnvMap.cpp" />
+    <ClCompile Include="src\Renderer\RenderPass\CascadeShadow.cpp" />
+    <ClCompile Include="src\Renderer\RenderPass\EnvMap.cpp" />
     <ClCompile Include="src\Renderer\Interface.cpp" />
     <ClCompile Include="src\Renderer\Mesh.cpp" />
     <ClCompile Include="src\Renderer\OffScreenRenderTargetView.cpp" />
-    <ClCompile Include="src\Renderer\PostProcessing\Bloom.cpp" />
+    <ClCompile Include="src\Renderer\RenderPass\PostProcessing\Bloom.cpp" />
     <ClCompile Include="src\Renderer\Primitives.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Renderer\Shaders.cpp" />
     <ClCompile Include="src\Renderer\SubMesh.cpp" />
-    <ClCompile Include="src\Renderer\VolumetricFog.cpp" />
+    <ClCompile Include="src\Renderer\RenderPass\VolumetricFog.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\Serializer.cpp" />
     <ClCompile Include="src\Scripting\InternalsCall.cpp" />
@@ -506,6 +512,20 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\DisplayPixel.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Shaders\DisplayVertex.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Shaders\PreFilteHDRPixel.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -612,8 +632,19 @@ xcopy "$(SolutionDir)$(Projectname)\includes\assimp\bin\$(Configuration)\assimp-
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
     </FxCompile>
+    <FxCompile Include="Shaders\VolumetricRaymarching.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="Shaders\Tonemap.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

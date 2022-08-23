@@ -1,6 +1,8 @@
 #pragma once
 #include "../Log.h"
 #include <map>
+#include <dxgi.h>
+#include <d3d11.h>
 class Timer
 {
 public:
@@ -45,3 +47,18 @@ private:
 
 };
 
+class DECL GPUprofiler
+{
+public:
+	GPUprofiler(std::string name,ID3D11DeviceContext* ctx, ID3D11Device* device);
+	~GPUprofiler();
+private:
+	std::string name;
+
+	ID3D11DeviceContext* pContext;
+
+	//Queries ! 
+	ID3D11Query* disjointQ;
+	ID3D11Query* startQ;
+	ID3D11Query* endQ;
+};

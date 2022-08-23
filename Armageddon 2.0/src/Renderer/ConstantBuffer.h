@@ -44,7 +44,8 @@ public:
 		Armageddon::Interface::GetDeviceContext()->Unmap(mConstantBuffer.Get(), 0);
 	};
 	 void BindVS() {Armageddon::Interface::GetDeviceContext()->VSSetConstantBuffers(this->m_slot, 1, this->mConstantBuffer.GetAddressOf());};
-	 void BindPS() {Armageddon::Interface::GetDeviceContext()->PSSetConstantBuffers(this->m_slot, 1, this->mConstantBuffer.GetAddressOf());};
+	 void BindPS() { Armageddon::Interface::GetDeviceContext()->PSSetConstantBuffers(this->m_slot, 1, this->mConstantBuffer.GetAddressOf()); };
+	 void BindCS() {Armageddon::Interface::GetDeviceContext()->CSSetConstantBuffers(this->m_slot, 1, this->mConstantBuffer.GetAddressOf());};
 private:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> mConstantBuffer;
 	T m_data;

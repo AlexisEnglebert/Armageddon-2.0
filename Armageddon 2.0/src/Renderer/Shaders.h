@@ -57,6 +57,7 @@ namespace Armageddon
 	class DECL PixelShaders : public Shader
 	{
 	public:
+		PixelShaders() = default;
 		bool Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, std::filesystem::path shaderPath) override;
 		bool CreateShader() override;
 

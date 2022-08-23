@@ -2,11 +2,19 @@
 cbuffer TransFormBuffer : register(b0)
 {
     row_major float4x4  WorldMat;
+};
+cbuffer CameraBuffer : register(b2)
+{
     row_major float4x4  ProjectionMat;
     row_major float4x4  ViewMat;
     row_major float4x4  MVP;
     row_major float4x4 InverseProjectionMat;
     row_major float4x4 InverseViewMat;
+    row_major float4x4 InverseMVP;
+
+    float3 CameraPos; //12 
+    float nearPlane;
+    float farPlane;
 };
 cbuffer WorldCBuffer : register(b4)
 {
@@ -40,10 +48,7 @@ struct PointLight
 };
 
 cbuffer LightCBuffer : register(b1)
-{
-    float3 CameraPos;
-    float Padding0;
-	
+{	
     int PointLightCount;
     int DirectionalLightCount;
     float2 padding1;
@@ -51,7 +56,9 @@ cbuffer LightCBuffer : register(b1)
 
     PointLight PointLights[50];
     DirectionalLight DirectionalLights[50];
-    row_major float4x4 LightViewProjection;
+    row_major float4x4 LightViewProjectionCascade[3]; // TODO BETTER HANDLING OF CASCADE NUM
+    float3 FarPlane; // attention à l'alignement :D 
+    int cascadeIndice;
 
 };
 
@@ -63,9 +70,9 @@ struct PSinput
     float3 Tangent   : TANGENT;
     float3 Binormal  : BINORMAL;
 	float3 WorldPos : POSITION0;
-    float4 LightPosition : LIGHTPOS;
+    float4 LightPosition[3] : LIGHTPOS;
     float3 WordNormal : NORMALPOS;
-    float3 teste : POSITION1;
+    float4 ViewPos : POSITION1;
 };
 PSinput main(VSinput input)
 {
@@ -76,13 +83,20 @@ PSinput main(VSinput input)
     output.position = mul(float4(input.position.xyz, 1.0f), matrice ); // X Y Z W
     //output.position = mul(float4(input.position.xyz, 1.0f), mat); // X Y Z W
     output.textCoord = input.textCoord;
-    output.normal = mul(input.normal, (float3x3)WorldMat);
-    output.Tangent = mul(input.Tangent, (float3x3) WorldMat);
-    output.Binormal = mul(input.Binormal, (float3x3) WorldMat);
-    output.WorldPos = mul(input.position, (float3x3) WorldMat);
+    output.normal = input.normal;
+    output.Tangent = input.Tangent;
+    output.Binormal = input.Binormal;
+    output.WorldPos = mul(float4(input.position,1.0f),WorldMat).xyz;
     output.WordNormal = input.normal;
-    output.teste = mul(mul(float4(input.position,1.0f), InverseProjectionMat), InverseProjectionMat);
-    float4x4 mat = mul(WorldMat, LightViewProjection);
-    output.LightPosition = mul(float4(input.position.xyz, 1.0f), mat); // X Y Z W
+ 
+    for (unsigned int i = 0; i < 3; i++)
+    {
+        float4x4 mat = mul(WorldMat, LightViewProjectionCascade[i]);
+        output.LightPosition[i] = mul(float4(input.position.xyz, 1.0f), mat); // X Y Z W
+    }
+    float4x4 ViewTransformMat = mul(WorldMat,ViewMat);
+    output.ViewPos = mul(float4(input.position, 1.0f), ViewTransformMat);
+
+
     return output;
 }

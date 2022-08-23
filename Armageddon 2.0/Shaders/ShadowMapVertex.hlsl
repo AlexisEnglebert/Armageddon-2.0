@@ -2,8 +2,6 @@
 struct VSinput
 {
     float3 position : POSITION;
-
-    
 };
 
 struct DirectionalLight
@@ -22,28 +20,23 @@ struct PointLight
     float Radius; //4
 };
 
+
 cbuffer LightCBuffer : register(b1)
 {
-    float3 CameraPos;
-    float Padding0;
-	
     int PointLightCount;
     int DirectionalLightCount;
     float2 padding1;
 
-
     PointLight PointLights[50];
     DirectionalLight DirectionalLights[50];
-    row_major float4x4 LightViewProjection;
+    row_major float4x4 LightViewProjectionCascade[3]; // TODO BETTER HANDLING OF CASCADE NUM
+    float3 FarPlane; // attention à l'alignement :D 
+    int cascadeIndice;
 };
+
 cbuffer TransFormBuffer : register(b0)
 {
     row_major float4x4 WorldMat;
-    row_major float4x4 ProjectionMat;
-    row_major float4x4 ViewMat;
-    row_major float4x4 MVP;
-    row_major float4x4 InverseProjectionMat;
-
 };
 struct PSinput
 {
@@ -52,7 +45,7 @@ struct PSinput
 PSinput main(VSinput input)
 {
 
-    float4x4 mat = mul(WorldMat, LightViewProjection);
+    float4x4 mat = mul(WorldMat, LightViewProjectionCascade[cascadeIndice]);
     PSinput output = (PSinput) 0;
     output.position = mul(float4(input.position.xyz, 1.0f), mat); // X Y Z W
 

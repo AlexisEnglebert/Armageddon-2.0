@@ -6,7 +6,7 @@ class BoneDebug
 public:
 	BoneDebug() = default;
 	BoneDebug(Scene& scene) : m_Scene(scene){};
-	void ProcessNode(Skeleton* skeleton,uint8_t id);
+	void ProcessNode(std::shared_ptr<Joint>& ParentJoint,uint8_t id);
 	void ImGuiDraw();
 private:
 	Scene& m_Scene;

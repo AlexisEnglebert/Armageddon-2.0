@@ -12,6 +12,7 @@ struct PSinput
 
 Texture2D FrameBuffer : register(t0);
 Texture2D BloomTexture : register(t1);
+Texture2D DepthBuffer : register(t3);
 
 SamplerState Sampler : register(s0);
 
@@ -36,7 +37,9 @@ float4 main(PSinput input) : SV_TARGET
     s += BloomTexture.Sample(Sampler, (input.textCoord + d.xy));
 
     float3 color =  (s * (1.0 / 16.0));
-    color = uncharted2_filmic(color.rgb);
 
+
+
+    color = uncharted2_filmic(color.rgb);
     return float4(color + FrameTex.rgb,1.0f);
 }
