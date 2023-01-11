@@ -34,7 +34,7 @@ Armageddon\ Editor/.vscode/*
 Armageddon-Runtime/.vscode/*
 
 #Ingore Build things
-buid/*
+build/*
 CMakeFiles/*
 CMakeCache.txt
 Armageddon\ 2.0/buid/*
