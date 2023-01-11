@@ -4,19 +4,42 @@
 #Ignore files related to API keys
 .env
 
+#Ignore cmake files
+*.cmake
+
 #Ignore all 3D models
-Armageddon Editor/Assets/Models/*
+Armageddon\ Editor/Assets/Models/*
 
 #Ignore all Texures
-Armageddon Editor/Assets/Texture/*
+Armageddon\ Editor/Assets/Texture/*
 
 #Ignore all Materials
-Armageddon Editor/Assets/Materials/*
+Armageddon\ Editor/Assets/Materials/*
 
 #Ignore all Includes
-Armageddon 2.0/includes/*
-Armageddon Editor/includes/*
+Armageddon\ 2.0/includes/*
+Armageddon\ Editor/includes/*
 
 #Ignore all compiler output
 bin/*
 bin-int/*
+
+#Ignore Vscode stuff
+.vscode/*
+Armageddon\ 2.0/.vscode/*
+Armageddon\ Editor/.vscode/*
+Armageddon-Runtime/.vscode/*
+
+#Ingore Build things
+buid/*
+CMakeFiles/*
+CMakeCache.txt
+Armageddon\ 2.0/buid/*
+Armageddon\ 2.0/CMakeFiles/*
+Armageddon\ 2.0/CMakeCache.txt
+Armageddon\ Editor/buid/*
+Armageddon\ Editor/CMakeFiles/*
+Armageddon\ Editor/CMakeCache.txt
+Armageddon-Runtime/buid/*
+Armageddon-Runtime/CMakeFiles/*
+Armageddon-Runtime/CMakeCache.txt
