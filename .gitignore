@@ -24,6 +24,9 @@ Armageddon\ Editor/includes/*
 bin/*
 bin-int/*
 
+#Ingore all libs
+*.so
+
 #Ignore Vscode stuff
 .vscode/*
 Armageddon\ 2.0/.vscode/*

@@ -9,6 +9,7 @@ set(NAME Armageddon-2.0)
 
 project(Armageddon-2.0)
 
+MESSAGE("Making Armageddon-2.O libraty")
 
 # Checking for vulkan
 IF (NOT Vulkan_FOUND)

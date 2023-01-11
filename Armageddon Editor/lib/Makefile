@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/alexis/Documents/dev/c++/Armageddon-2.0
+CMAKE_SOURCE_DIR = "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/alexis/Documents/dev/c++/Armageddon-2.0/build
+CMAKE_BINARY_DIR = "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -132,14 +132,14 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/alexis/Documents/dev/c++/Armageddon-2.0/build/CMakeFiles "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib//CMakeFiles/progress.marks"
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/all"
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/alexis/Documents/dev/c++/Armageddon-2.0/build/CMakeFiles 0
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(CMAKE_COMMAND) -E cmake_progress_start "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib//CMakeFiles/progress.marks"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lib/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/clean"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lib/clean
 .PHONY : clean
 
 # The main clean target
@@ -148,32 +148,32 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/preinstall"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lib/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/preinstall"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lib/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(CMAKE_COMMAND) -P /home/alexis/Documents/dev/c++/Armageddon-2.0/build/CMakeFiles/VerifyGlobs.cmake
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(CMAKE_COMMAND) -P "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles/VerifyGlobs.cmake"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/CMakeFiles/Armageddon-2.0.dir/rule:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/rule"
-.PHONY : /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/CMakeFiles/Armageddon-2.0.dir/rule
+lib/CMakeFiles/Armageddon-2.0.dir/rule:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lib/CMakeFiles/Armageddon-2.0.dir/rule
+.PHONY : lib/CMakeFiles/Armageddon-2.0.dir/rule
 
 # Convenience name for target.
-Armageddon-2.0: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/CMakeFiles/Armageddon-2.0.dir/rule
+Armageddon-2.0: lib/CMakeFiles/Armageddon-2.0.dir/rule
 .PHONY : Armageddon-2.0
 
 # fast build rule for target.
 Armageddon-2.0/fast:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/build.make" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/build"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/build
 .PHONY : Armageddon-2.0/fast
 
 src/Application.o: src/Application.cpp.o
@@ -181,7 +181,7 @@ src/Application.o: src/Application.cpp.o
 
 # target to build an object file
 src/Application.cpp.o:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/build.make" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/src/Application.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Application.cpp.o
 .PHONY : src/Application.cpp.o
 
 src/Application.i: src/Application.cpp.i
@@ -189,7 +189,7 @@ src/Application.i: src/Application.cpp.i
 
 # target to preprocess a source file
 src/Application.cpp.i:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/build.make" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/src/Application.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Application.cpp.i
 .PHONY : src/Application.cpp.i
 
 src/Application.s: src/Application.cpp.s
@@ -197,7 +197,7 @@ src/Application.s: src/Application.cpp.s
 
 # target to generate assembly for a file
 src/Application.cpp.s:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/build.make" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/src/Application.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Application.cpp.s
 .PHONY : src/Application.cpp.s
 
 src/Log.o: src/Log.cpp.o
@@ -205,7 +205,7 @@ src/Log.o: src/Log.cpp.o
 
 # target to build an object file
 src/Log.cpp.o:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/build.make" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.o
 .PHONY : src/Log.cpp.o
 
 src/Log.i: src/Log.cpp.i
@@ -213,7 +213,7 @@ src/Log.i: src/Log.cpp.i
 
 # target to preprocess a source file
 src/Log.cpp.i:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/build.make" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.i
 .PHONY : src/Log.cpp.i
 
 src/Log.s: src/Log.cpp.s
@@ -221,7 +221,7 @@ src/Log.s: src/Log.cpp.s
 
 # target to generate assembly for a file
 src/Log.cpp.s:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(MAKE) $(MAKESILENT) -f "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/build.make" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.s
 .PHONY : src/Log.cpp.s
 
 # Help Target
@@ -254,7 +254,7 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(CMAKE_COMMAND) -P /home/alexis/Documents/dev/c++/Armageddon-2.0/build/CMakeFiles/VerifyGlobs.cmake
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(CMAKE_COMMAND) -P "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles/VerifyGlobs.cmake"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

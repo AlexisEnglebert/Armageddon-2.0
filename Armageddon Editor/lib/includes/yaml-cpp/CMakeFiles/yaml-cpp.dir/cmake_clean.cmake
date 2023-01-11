@@ -61,10 +61,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/yaml-cpp.dir/src/stream.cpp.o.d"
   "CMakeFiles/yaml-cpp.dir/src/tag.cpp.o"
   "CMakeFiles/yaml-cpp.dir/src/tag.cpp.o.d"
-  "libyaml-cppd.pdb"
-  "libyaml-cppd.so"
-  "libyaml-cppd.so.0.7"
-  "libyaml-cppd.so.0.7.0"
+  "libyaml-cpp.a"
+  "libyaml-cpp.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

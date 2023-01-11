@@ -53,36 +53,36 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/alexis/Documents/dev/c++/Armageddon-2.0
+CMAKE_SOURCE_DIR = "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/alexis/Documents/dev/c++/Armageddon-2.0/build
+CMAKE_BINARY_DIR = "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor"
 
 # Utility rule file for format.
 
 # Include any custom commands dependencies for this target.
-include /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/includes/yaml-cpp/CMakeFiles/format.dir/compiler_depend.make
+include lib/includes/yaml-cpp/CMakeFiles/format.dir/compiler_depend.make
 
 # Include the progress variables for this target.
-include /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/includes/yaml-cpp/CMakeFiles/format.dir/progress.make
+include lib/includes/yaml-cpp/CMakeFiles/format.dir/progress.make
 
-/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/includes/yaml-cpp/CMakeFiles/format:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/alexis/Documents/dev/c++/Armageddon-2.0/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Running clang-format"
+lib/includes/yaml-cpp/CMakeFiles/format:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Running clang-format"
 	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/yaml-cpp" && clang-format --style=file -i "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/contrib/graphbuilder.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/contrib/graphbuilderadapter.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/binary.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/convert.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/depthguard.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/directives.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/emit.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/emitfromevents.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/emitter.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/emitterstate.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/emitterutils.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/exceptions.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/exp.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/memory.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/node.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/node_data.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/nodebuilder.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/nodeevents.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/null.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/ostream_wrapper.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/parse.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/parser.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/regex_yaml.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/scanner.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/scanscalar.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/scantag.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/scantoken.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/simplekey.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/singledocparser.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/stream.cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/src/tag.cpp"
 
-format: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/includes/yaml-cpp/CMakeFiles/format
-format: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/includes/yaml-cpp/CMakeFiles/format.dir/build.make
+format: lib/includes/yaml-cpp/CMakeFiles/format
+format: lib/includes/yaml-cpp/CMakeFiles/format.dir/build.make
 .PHONY : format
 
 # Rule to build all files generated by this target.
-/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/includes/yaml-cpp/CMakeFiles/format.dir/build: format
-.PHONY : /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/includes/yaml-cpp/CMakeFiles/format.dir/build
+lib/includes/yaml-cpp/CMakeFiles/format.dir/build: format
+.PHONY : lib/includes/yaml-cpp/CMakeFiles/format.dir/build
 
-/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/includes/yaml-cpp/CMakeFiles/format.dir/clean:
+lib/includes/yaml-cpp/CMakeFiles/format.dir/clean:
 	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/yaml-cpp" && $(CMAKE_COMMAND) -P CMakeFiles/format.dir/cmake_clean.cmake
-.PHONY : /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/includes/yaml-cpp/CMakeFiles/format.dir/clean
+.PHONY : lib/includes/yaml-cpp/CMakeFiles/format.dir/clean
 
-/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/includes/yaml-cpp/CMakeFiles/format.dir/depend:
-	cd /home/alexis/Documents/dev/c++/Armageddon-2.0/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/alexis/Documents/dev/c++/Armageddon-2.0 "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp" /home/alexis/Documents/dev/c++/Armageddon-2.0/build "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/yaml-cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/yaml-cpp/CMakeFiles/format.dir/DependInfo.cmake" --color=$(COLOR)
-.PHONY : /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ Editor/lib/includes/yaml-cpp/CMakeFiles/format.dir/depend
+lib/includes/yaml-cpp/CMakeFiles/format.dir/depend:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/yaml-cpp" "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/yaml-cpp/CMakeFiles/format.dir/DependInfo.cmake" --color=$(COLOR)
+.PHONY : lib/includes/yaml-cpp/CMakeFiles/format.dir/depend
 
