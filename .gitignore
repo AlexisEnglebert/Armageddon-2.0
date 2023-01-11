@@ -35,14 +35,18 @@ Armageddon-Runtime/.vscode/*
 
 #Ingore Build things
 build/*
+Makefile
 CMakeFiles/*
 CMakeCache.txt
 Armageddon\ 2.0/buid/*
 Armageddon\ 2.0/CMakeFiles/*
 Armageddon\ 2.0/CMakeCache.txt
+Armageddon\ 2.0/Makefile
 Armageddon\ Editor/buid/*
 Armageddon\ Editor/CMakeFiles/*
 Armageddon\ Editor/CMakeCache.txt
+Armageddon\ Editor/Makefile
 Armageddon-Runtime/buid/*
 Armageddon-Runtime/CMakeFiles/*
 Armageddon-Runtime/CMakeCache.txt
+Armageddon-Runtime/Makefile
