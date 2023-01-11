@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Window/Window.h"
+//#include "Window/Window.h"
 #include <stdio.h>
 #include <memory>
 #include <iostream>
 #include "Macros.h"
-#include "ImGuizmo.h"
+//#include "ImGuizmo.h"
 #include "Renderer/RendererAPI.h"
 
 #ifdef _WIN32
@@ -36,12 +36,12 @@ namespace Armageddon
 
 		void ApplicationRun();
 
-		inline Armageddon::Window* GetWindow()				{ return IWind; };
+		//inline Armageddon::Window* GetWindow()				{ return IWind; };
 		inline static Application* GetApplicationInsatnce() { return Instance; };
 	private:
 
 		static Application* Instance;
-		Armageddon::Window* IWind;
+		//Armageddon::Window* IWind;
 		friend int ::main(int argc, char** argv);
 
 	};

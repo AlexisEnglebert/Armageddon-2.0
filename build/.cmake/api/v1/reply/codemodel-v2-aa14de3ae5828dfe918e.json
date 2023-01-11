@@ -1,0 +1,657 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						10
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.8"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "Armageddon Editor",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Armageddon Editor-Debug-388ea3805a2e44956366.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "Armageddon Editor",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib",
+					"childIndexes" : 
+					[
+						3,
+						5,
+						7,
+						8
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Armageddon 2.0-Debug-622f4b2d5aa2c094b31b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "Armageddon 2.0",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/glfw",
+					"childIndexes" : 
+					[
+						4
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Armageddon 2.0.includes.glfw-Debug-f0356fdd500764feec3c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 3,
+					"source" : "Armageddon 2.0/includes/glfw",
+					"targetIndexes" : 
+					[
+						34
+					]
+				},
+				{
+					"build" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/glfw/src",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Armageddon 2.0.includes.glfw.src-Debug-c254bfc23a8f34ee45d7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 3,
+					"source" : "Armageddon 2.0/includes/glfw/src",
+					"targetIndexes" : 
+					[
+						31,
+						35
+					]
+				},
+				{
+					"build" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/glm",
+					"childIndexes" : 
+					[
+						6
+					],
+					"jsonFile" : "directory-Armageddon 2.0.includes.glm-Debug-5ff7beb340e58a919785.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 4,
+					"source" : "Armageddon 2.0/includes/glm"
+				},
+				{
+					"build" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/glm/glm",
+					"jsonFile" : "directory-Armageddon 2.0.includes.glm.glm-Debug-a2f973be53ca4bf1bfe7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 4,
+					"source" : "Armageddon 2.0/includes/glm/glm",
+					"targetIndexes" : 
+					[
+						32
+					]
+				},
+				{
+					"build" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/spdlog",
+					"jsonFile" : "directory-Armageddon 2.0.includes.spdlog-Debug-dcde3b6ff934b9fc6b0c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 5,
+					"source" : "Armageddon 2.0/includes/spdlog",
+					"targetIndexes" : 
+					[
+						33
+					]
+				},
+				{
+					"build" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/yaml-cpp",
+					"childIndexes" : 
+					[
+						9
+					],
+					"jsonFile" : "directory-Armageddon 2.0.includes.yaml-cpp-Debug-1c98bca23ab5e85c396b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 6,
+					"source" : "Armageddon 2.0/includes/yaml-cpp",
+					"targetIndexes" : 
+					[
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						29,
+						30,
+						36
+					]
+				},
+				{
+					"build" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/yaml-cpp/util",
+					"jsonFile" : "directory-Armageddon 2.0.includes.yaml-cpp.util-Debug-3b6d27f42b8126d224e1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 8,
+					"projectIndex" : 6,
+					"source" : "Armageddon 2.0/includes/yaml-cpp/util",
+					"targetIndexes" : 
+					[
+						37,
+						38,
+						39
+					]
+				},
+				{
+					"build" : "Armageddon-Runtime",
+					"jsonFile" : "directory-Armageddon-Runtime-Debug-5f5913f75df25816502f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Armageddon-Runtime"
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						10
+					],
+					"name" : "Project"
+				},
+				{
+					"childIndexes" : 
+					[
+						2
+					],
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "Armageddon-Editor",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						3,
+						4,
+						5,
+						6
+					],
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "Armageddon-2.0",
+					"parentIndex" : 1,
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3,
+						4
+					],
+					"name" : "GLFW",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						31,
+						34,
+						35
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						5,
+						6
+					],
+					"name" : "glm",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						32
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "spdlog",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						33
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						8,
+						9
+					],
+					"name" : "YAML_CPP",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						29,
+						30,
+						36,
+						37,
+						38,
+						39
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 2,
+					"id" : "Armageddon-2.0::@4c1a2151a0d797257fc0",
+					"jsonFile" : "target-Armageddon-2.0-Debug-d970323d63f5947f9f31.json",
+					"name" : "Armageddon-2.0",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Armageddon-Editor::@6c96815a4cdef0772cf0",
+					"jsonFile" : "target-Armageddon-Editor-Debug-6313182c48cc553d9ed2.json",
+					"name" : "Armageddon-Editor",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "Continuous::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-Continuous-Debug-f3c44dfb3fed2735cf9d.json",
+					"name" : "Continuous",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ContinuousBuild::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ContinuousBuild-Debug-730335fa08d27426d8e7.json",
+					"name" : "ContinuousBuild",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ContinuousConfigure::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ContinuousConfigure-Debug-7621b966048293a91ead.json",
+					"name" : "ContinuousConfigure",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ContinuousCoverage::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ContinuousCoverage-Debug-bd81322f3b71617a204c.json",
+					"name" : "ContinuousCoverage",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ContinuousMemCheck::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ContinuousMemCheck-Debug-a65d1d9b29d57d0ae725.json",
+					"name" : "ContinuousMemCheck",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ContinuousStart::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ContinuousStart-Debug-7ced8fbbf4f8942ff678.json",
+					"name" : "ContinuousStart",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ContinuousSubmit::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ContinuousSubmit-Debug-78546f6d1ead3c6dfe13.json",
+					"name" : "ContinuousSubmit",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ContinuousTest::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ContinuousTest-Debug-d9adf68c97b4afdd7465.json",
+					"name" : "ContinuousTest",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ContinuousUpdate::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ContinuousUpdate-Debug-ed0399f62b0062e92ca3.json",
+					"name" : "ContinuousUpdate",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "Experimental::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-Experimental-Debug-f8e5f3019baa47279c6a.json",
+					"name" : "Experimental",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ExperimentalBuild::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ExperimentalBuild-Debug-5dfc68be9e100f6bb930.json",
+					"name" : "ExperimentalBuild",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ExperimentalConfigure::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ExperimentalConfigure-Debug-419794fd95adad4f0c5a.json",
+					"name" : "ExperimentalConfigure",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ExperimentalCoverage::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ExperimentalCoverage-Debug-ab93930580715f5f2ced.json",
+					"name" : "ExperimentalCoverage",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ExperimentalMemCheck::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ExperimentalMemCheck-Debug-7399c3b685ba4eb2b8d2.json",
+					"name" : "ExperimentalMemCheck",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ExperimentalStart::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ExperimentalStart-Debug-5a90813d099c6ea1460a.json",
+					"name" : "ExperimentalStart",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ExperimentalSubmit::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ExperimentalSubmit-Debug-9094eef8126c6a27ad21.json",
+					"name" : "ExperimentalSubmit",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ExperimentalTest::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ExperimentalTest-Debug-31dad516cdcb2ec88105.json",
+					"name" : "ExperimentalTest",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ExperimentalUpdate::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-ExperimentalUpdate-Debug-f5101941b533e4ce71ef.json",
+					"name" : "ExperimentalUpdate",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "Nightly::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-Nightly-Debug-b25c53ef5da82b40c6de.json",
+					"name" : "Nightly",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "NightlyBuild::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-NightlyBuild-Debug-95e32037374a350e35b4.json",
+					"name" : "NightlyBuild",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "NightlyConfigure::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-NightlyConfigure-Debug-0d5fbb5c96f3fd48fbba.json",
+					"name" : "NightlyConfigure",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "NightlyCoverage::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-NightlyCoverage-Debug-f6892c257acfb2418437.json",
+					"name" : "NightlyCoverage",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "NightlyMemCheck::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-NightlyMemCheck-Debug-d1e04d41a3bdd72bddfd.json",
+					"name" : "NightlyMemCheck",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "NightlyMemoryCheck::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-NightlyMemoryCheck-Debug-01f8a88d0637e70b38cb.json",
+					"name" : "NightlyMemoryCheck",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "NightlyStart::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-NightlyStart-Debug-2d7e3b326ff3b279c231.json",
+					"name" : "NightlyStart",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "NightlySubmit::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-NightlySubmit-Debug-ab6b9ae666f321b76141.json",
+					"name" : "NightlySubmit",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "NightlyTest::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-NightlyTest-Debug-1c43077422ff7a4f0574.json",
+					"name" : "NightlyTest",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "NightlyUpdate::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-NightlyUpdate-Debug-53cf4aa6a4670a6c5cb5.json",
+					"name" : "NightlyUpdate",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "format::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-format-Debug-4ce03749ddf679ed8d02.json",
+					"name" : "format",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "glfw::@6c6921fea1159f87a930",
+					"jsonFile" : "target-glfw-Debug-0ef867deb47080821709.json",
+					"name" : "glfw",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "glm_shared::@6ebdb4caa794e69ab9c5",
+					"jsonFile" : "target-glm_shared-Debug-b649dfb29f41a3f7f053.json",
+					"name" : "glm_shared",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "spdlog::@ed573ff5374c652d4562",
+					"jsonFile" : "target-spdlog-Debug-6fa6177afa95b08794ca.json",
+					"name" : "spdlog",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "uninstall::@eca8d948047047cc8681",
+					"jsonFile" : "target-uninstall-Debug-96b201d3740dbdc99837.json",
+					"name" : "uninstall",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "update_mappings::@6c6921fea1159f87a930",
+					"jsonFile" : "target-update_mappings-Debug-05de67f0260656cdfa32.json",
+					"name" : "update_mappings",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "yaml-cpp::@ee366057c63ac9a6020a",
+					"jsonFile" : "target-yaml-cpp-Debug-ca3ac99dc5d695b4c7a5.json",
+					"name" : "yaml-cpp",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "yaml-cpp-parse::@fc719752f0151e553da3",
+					"jsonFile" : "target-yaml-cpp-parse-Debug-1ceca388731bf5237ab7.json",
+					"name" : "yaml-cpp-parse",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "yaml-cpp-read::@fc719752f0151e553da3",
+					"jsonFile" : "target-yaml-cpp-read-Debug-40f0baad88767325b3ff.json",
+					"name" : "yaml-cpp-read",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "yaml-cpp-sandbox::@fc719752f0151e553da3",
+					"jsonFile" : "target-yaml-cpp-sandbox-Debug-dca9d056f8c94b886e38.json",
+					"name" : "yaml-cpp-sandbox",
+					"projectIndex" : 6
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/build",
+		"source" : "/home/alexis/Documents/dev/c++/Armageddon-2.0"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

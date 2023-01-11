@@ -7,10 +7,6 @@ set(NAME Armageddon-2.0)
 
 include_directories(external)
 
-#shared library link ? 
-message(Building \ Armageddon \ Library)
-add_subdirectory("${CMAKE_SOURCE_DIR}/Armageddon\ 2.0/")
-
 message(Building \ The \ editor)
 add_subdirectory("${CMAKE_SOURCE_DIR}/Armageddon\ Editor/")
 

@@ -1,0 +1,555 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/glfw/src/libglfwd.so"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"install",
+			"target_link_libraries",
+			"target_compile_options",
+			"target_compile_definitions",
+			"include_directories",
+			"target_include_directories",
+			"set_target_properties",
+			"target_sources"
+		],
+		"files" : 
+		[
+			"Armageddon 2.0/includes/glfw/src/CMakeLists.txt",
+			"CMakeLists.txt",
+			"Armageddon Editor/CMakeLists.txt",
+			"Armageddon 2.0/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 2,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 393,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 230,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 242,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 272,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 374,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 319,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 47,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 8,
+				"parent" : 9
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 24,
+				"parent" : 11
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 3,
+				"line" : 24,
+				"parent" : 13
+			},
+			{
+				"command" : 5,
+				"file" : 3,
+				"line" : 43,
+				"parent" : 13
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 139,
+				"parent" : 0
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 142,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 129,
+				"parent" : 0
+			},
+			{
+				"command" : 8,
+				"file" : 0,
+				"line" : 19,
+				"parent" : 0
+			},
+			{
+				"command" : 8,
+				"file" : 0,
+				"line" : 48,
+				"parent" : 0
+			},
+			{
+				"command" : 8,
+				"file" : 0,
+				"line" : 61,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -fPIC"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-fvisibility=hidden"
+				},
+				{
+					"fragment" : "-std=c99"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 7,
+					"define" : "_DEFAULT_SOURCE"
+				},
+				{
+					"define" : "_GLFW_BUILD_DLL"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "_GLFW_X11"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 10,
+					"path" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/external"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/src"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/Include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/glfw/include"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/glfw/src"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/glfw/src"
+				}
+			],
+			"language" : "C",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					18
+				],
+				"standard" : "99"
+			},
+			"sourceIndexes" : 
+			[
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				16,
+				17,
+				18,
+				19,
+				22,
+				23,
+				24,
+				27,
+				28,
+				29,
+				30,
+				31,
+				33
+			]
+		}
+	],
+	"folder" : 
+	{
+		"name" : "GLFW3"
+	},
+	"id" : "glfw::@6c6921fea1159f87a930",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 2,
+				"path" : "lib"
+			},
+			{
+				"backtrace" : 2,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "/usr/lib/librt.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lm",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "-ldl",
+				"role" : "libraries"
+			}
+		],
+		"language" : "C"
+	},
+	"name" : "glfw",
+	"nameOnDisk" : "libglfwd.so",
+	"paths" : 
+	{
+		"build" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/glfw/src",
+		"source" : "Armageddon 2.0/includes/glfw/src"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				14,
+				15,
+				20,
+				21,
+				25,
+				26,
+				32
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				16,
+				17,
+				18,
+				19,
+				22,
+				23,
+				24,
+				27,
+				28,
+				29,
+				30,
+				31,
+				33
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "Armageddon 2.0/includes/glfw/include/GLFW/glfw3.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Armageddon 2.0/includes/glfw/include/GLFW/glfw3native.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Armageddon 2.0/includes/glfw/src/internal.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Armageddon 2.0/includes/glfw/src/platform.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Armageddon 2.0/includes/glfw/src/mappings.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/context.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/init.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/input.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/monitor.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/platform.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/vulkan.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/window.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/egl_context.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/osmesa_context.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Armageddon 2.0/includes/glfw/src/null_platform.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Armageddon 2.0/includes/glfw/src/null_joystick.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/null_init.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/null_monitor.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/null_window.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/null_joystick.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 19,
+			"path" : "Armageddon 2.0/includes/glfw/src/posix_time.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 19,
+			"path" : "Armageddon 2.0/includes/glfw/src/posix_thread.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 19,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/posix_module.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 19,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/posix_time.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 19,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/posix_thread.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 20,
+			"path" : "Armageddon 2.0/includes/glfw/src/x11_platform.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 20,
+			"path" : "Armageddon 2.0/includes/glfw/src/xkb_unicode.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 20,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/x11_init.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 20,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/x11_monitor.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 20,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/x11_window.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 20,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/xkb_unicode.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 20,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/glx_context.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 21,
+			"path" : "Armageddon 2.0/includes/glfw/src/linux_joystick.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "Armageddon 2.0/includes/glfw/src/linux_joystick.c",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

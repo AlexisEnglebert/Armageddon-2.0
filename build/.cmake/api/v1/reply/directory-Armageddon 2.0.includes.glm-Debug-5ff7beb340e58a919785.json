@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/glm",
+		"source" : "Armageddon 2.0/includes/glm"
+	}
+}

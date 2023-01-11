@@ -6,14 +6,14 @@ namespace Armageddon
 	Application::Application()
 	{
 		Instance = this;
-		auto window = new Armageddon::Window(1920, 1080, L"Armageddon", L"ArmageddonClass");
-		this->IWind = window;
+		//auto window = new Armageddon::Window(1920, 1080, L"Armageddon", L"ArmageddonClass");
+		//this->IWind = window;
 
 	}
 
 	Application::~Application()
 	{
-		delete this->IWind;
+		//delete this->IWind;
 	}
 	void Armageddon::Application::ImGuiBegin()
 	{
@@ -27,7 +27,7 @@ namespace Armageddon
 		#endif
 
 		ImGui::NewFrame();	
-		ImGuizmo::BeginFrame();
+		//ImGuizmo::BeginFrame();
 
 	}
 	void Armageddon::Application::ImGuiEnd()
@@ -36,12 +36,13 @@ namespace Armageddon
 	}
 	void Armageddon::Application::ApplicationRun()
 	{
+	/*
        this->OnInit();
 	   Armageddon::Log::GetLogger()->trace("ApplicationRun");
 
 		while (IWind->ProcessMessage())
 		{
 			this->OnUpdate();
-		}
+		}*/
 	}
 }

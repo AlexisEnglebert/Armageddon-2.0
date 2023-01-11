@@ -1,8 +1,12 @@
 #include <stdlib.h>  
-#include <crtdbg.h>
+
 #include "Application.h"
 #include "Main.h"
 #include "Log.h"
+
+#if WINDOWS
+    #include <crtdbg.h>
+#endif
 
 #include "Renderer\Camera\Camera.h"
 #include "Renderer\Primitives.h"
@@ -153,8 +157,8 @@ void Editor::OnUpdate()
 
 
 /*
-* TODO améliorer tout ça pour l'instant c'est très chaotique car si je veut rajouter des choses je suis obliger 
-* de modifier le dll donc pas très bon ! 
+* TODO amï¿½liorer tout ï¿½a pour l'instant c'est trï¿½s chaotique car si je veut rajouter des choses je suis obliger 
+* de modifier le dll donc pas trï¿½s bon ! 
 */
 void Editor::OnRender()
 {

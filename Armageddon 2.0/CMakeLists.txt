@@ -26,19 +26,22 @@ include_directories("$ENV{VULKAN_SDK}/Include")
 
 
 # add src files
-file(GLOB_RECURSE SOURCE_FILES 
-	${CMAKE_SOURCE_DIR}/src/*.c
-	${CMAKE_SOURCE_DIR}/src/*.cpp)
+#file(GLOB_RECURSE SOURCE_FILES 
+#	${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
+#	${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 	
 # add header files
-file(GLOB_RECURSE HEADER_FILES 
-	${CMAKE_SOURCE_DIR}/src/*.h
-	${CMAKE_SOURCE_DIR}/src/*.hpp)
+#file(GLOB_RECURSE HEADER_FILES 
+#	${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
+#	${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp)
 
+#Temporary for debugging purpose
+set(SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/Application.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/Log.cpp")
+set(HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/Application.h" "${CMAKE_CURRENT_SOURCE_DIR}/src/Log.h" "${CMAKE_CURRENT_SOURCE_DIR}/src/Main.h")
 
 # Include files 
 include_directories(
-	"${CMAKE_SOURCE_DIR}/src"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
 
 
@@ -50,15 +53,15 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 
 # build gml & glfw & assimp
-add_subdirectory("${CMAKE_SOURCE_DIR}/includes/glfw/")
-add_subdirectory("${CMAKE_SOURCE_DIR}/includes/glm/")
-add_subdirectory("${CMAKE_SOURCE_DIR}/includes/assimp/")
-add_subdirectory("${CMAKE_SOURCE_DIR}/includes/spdlog/")
-add_subdirectory("${CMAKE_SOURCE_DIR}/includes/yaml-cpp/")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/includes/glfw/")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/includes/glm/")
+#add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/includes/assimp/")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/includes/spdlog/")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/includes/yaml-cpp/")
 
 
 # he doesn't like my craziness  
-# add_subdirectory("${CMAKE_SOURCE_DIR}/includes/entt/")
+# add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/includes/entt/")
 
 
 set(LIBS glm glfw assimp entt imgui spdlog yaml-cpp) # create LIBS var for all librairies that we use (TODO: see with visual studio with shared libs)
@@ -79,6 +82,7 @@ include_directories(includes/assimp/include)
 
 #add_library(Armageddon-2.0 SHARED ${LIBRARY_SOURCE})
 add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
+#target_link_libraries(${PROJECT_NAME} ${LIBS})
 
 #Executable ? 
 #add_executable(Armageddon_test_library)
