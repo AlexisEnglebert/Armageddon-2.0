@@ -14,5 +14,6 @@ namespace Armageddon
 
 		static RendererAPI::API m_CurrentAPI;
 		static void SetRenderer(RendererAPI::API api);
+		static bool is_api(RendererAPI::API api);
 	};
 }

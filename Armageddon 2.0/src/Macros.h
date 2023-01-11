@@ -2,6 +2,9 @@
 
 // This is to be sure that functions are in the symbol table
 // We only need this for windows
+
+#define WINDOWS _WIN32 || defined(WIN32) || defined(__WIN32__) || defined(__NT__)
+
 #ifdef ARMAGEDDON_BUILD_DLL
     #if __linux__
         #define DECL
@@ -15,6 +18,7 @@
         #define DECL __declspec(dllimport)
     #endif
 #endif
+
 
 #define AG_GET_RENDERER() Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer()
 

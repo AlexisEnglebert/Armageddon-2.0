@@ -61,7 +61,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/includes/yaml-cpp/")
 # add_subdirectory("${CMAKE_SOURCE_DIR}/includes/entt/")
 
 
-set(LIBS glm glfw assimp entt spdlog yaml-cpp) # create LIBS var for all librairies that we use (TODO: see with visual studio with shared libs)
+set(LIBS glm glfw assimp entt imgui spdlog yaml-cpp) # create LIBS var for all librairies that we use (TODO: see with visual studio with shared libs)
 
  if(WIN32) 
 	include_directories(includes/DirectXTex)
