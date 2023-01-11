@@ -16,12 +16,14 @@
 #include<filesystem>
 
 #include <assimp/Importer.hpp>
+
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "../Material/AssetManager.h"
 #include "../Material/Material.h"	
-#include "../Animation/Joint.h"
-/*Cette class gère les models ainsi que le les vertex de bases */
+// #include "../Animation/Joint.h" TODO joint ;)
+
+/*Cette class gï¿½re les models ainsi que le les vertex de bases */
 
 
 //TODO COPIE COLLE	
@@ -51,7 +53,9 @@ public:
 	 
 	 std::vector<SubMesh> v_SubMeshes;
 	 std::vector<uint64_t> v_MaterialReference;
-	 Skeleton m_skeleton;
+	 
+	 //Skeleton m_skeleton;
+	 
 	 void BindRessource(int MatIndex);
 	 void BindShaders(int MaterialIndex);
 	 void BindMaterial(int MatIndex);

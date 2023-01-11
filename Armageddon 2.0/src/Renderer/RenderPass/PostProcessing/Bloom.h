@@ -9,7 +9,10 @@
 #include "../../Mesh.h"
 #include "../../Renderer2D.h"
 #include "../../ConstantBuffer.h"
+#if __linux__
+#else
 #include <DirectXMath.h>
+#endif
 namespace Armageddon
 {
 	struct BloomConstantBuffer
@@ -41,6 +44,4 @@ namespace Armageddon
 		Armageddon::VertexShaders Bloomvx;
 
 	};
-
-
 }

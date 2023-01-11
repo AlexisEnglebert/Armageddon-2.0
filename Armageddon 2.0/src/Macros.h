@@ -1,9 +1,19 @@
 #pragma once
 
+// This is to be sure that functions are in the symbol table
+// We only need this for windows
 #ifdef ARMAGEDDON_BUILD_DLL
-#define DECL __declspec(dllexport)
+    #if __linux__
+        #define DECL
+    #else
+        #define DECL __declspec(dllexport)
+    #endif
 #else
-#define DECL __declspec(dllimport)
+    #if __linux__ 
+        #define DECL
+    #else
+        #define DECL __declspec(dllimport)
+    #endif
 #endif
 
 #define AG_GET_RENDERER() Armageddon::Application::GetApplicationInsatnce()->GetWindow()->GetRenderer()

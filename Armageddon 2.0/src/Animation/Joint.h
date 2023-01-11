@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 #include <map>
-
+#include <glm/glm.hpp>
 #if __linux__
 //pass pour l'instant
 #else
@@ -27,20 +27,21 @@
 struct DECL JoinPose // /!\ Local Pos joints pos , joint orientation , joint scale
 {
 	JoinPose() = default;
-	DirectX::XMFLOAT3 m_rotation;
-	DirectX::XMFLOAT3 m_translation;
+	glm::vec3 m_rotation;
+	glm::vec3 m_translation;
 	float m_scale; //Uniform Scale
 
-	DirectX::XMMATRIX GetLocalMat() 
+	glm::mat4 GetLocalMat() 
 	{
-		return DirectX::XMMatrixTransformation(DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f), DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f)
+		return glm::mat4();
+		/*return DirectX::XMMatrixTransformation(DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f), DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f)
 			, DirectX::XMVectorSet(m_scale, m_scale, m_scale, 1.0f), DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f), DirectX::XMQuaternionRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z)
-			, DirectX::XMVectorSet(m_translation.x, m_translation.y, m_translation.z, 1.0f));
+			, DirectX::XMVectorSet(m_translation.x, m_translation.y, m_translation.z, 1.0f));*/
 	};
 };
 struct DECL Joint
 {
-	Joint(std::string JointName, uint8_t parentId	, DirectX::XMMATRIX InverseBlindPos) : m_name(JointName), m_Parentid(parentId),m_inverseBlindPose(InverseBlindPos)
+	Joint(std::string JointName, uint8_t parentId	, glm::mat4 InverseBlindPos) : m_name(JointName), m_Parentid(parentId),m_inverseBlindPose(InverseBlindPos)
 	{
 
 	};
@@ -51,8 +52,8 @@ struct DECL Joint
 	JoinPose m_position; //Local joint position (from the parent bone) !
 	uint8_t m_Parentid;
 
-	DirectX::XMMATRIX m_modelMatrix; //Parent Local * current  Local
-	DirectX::XMMATRIX m_inverseBlindPose;
+	glm::mat4 m_modelMatrix; //Parent Local * current  Local
+	glm::mat4 m_inverseBlindPose;
 
 	std::vector<std::shared_ptr<Joint>> m_child; //TODO In a single array with Parentid as index 
 	

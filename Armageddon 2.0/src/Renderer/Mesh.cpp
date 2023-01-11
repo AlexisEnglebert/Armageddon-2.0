@@ -171,12 +171,13 @@ void Mesh::ProcessBones(aiMesh* mesh, std::vector<Vertex>& Vertices,const aiScen
 			mat.r[3].m128_f32[2] = mesh->mBones[i]->mOffsetMatrix.c4;
 			mat.r[3].m128_f32[3] = mesh->mBones[i]->mOffsetMatrix.d4;
 
-			m_skeleton.m_Bonemap[mesh->mBones[i]->mName.C_Str()]->m_inverseBlindPose = mat ;
+			//m_skeleton.m_Bonemap[mesh->mBones[i]->mName.C_Str()]->m_inverseBlindPose = mat ;
 		}
 }
 
 void Mesh::ProcesBoneNode(aiNode* node, uint8_t ParentID, std::shared_ptr<Joint>& parentJoint)
 {
+	/*
 	uint8_t id = ParentID+1;
 	std::shared_ptr<Joint> currentJoint;
 	if (ParentID == 0) //TODO C'EST MOCHE ON PEUT MIEUX FAIRE QUAND MEME...
@@ -250,6 +251,10 @@ void Mesh::ProcesBoneNode(aiNode* node, uint8_t ParentID, std::shared_ptr<Joint>
 	{
 		ProcesBoneNode(node->mChildren[i], id, currentJoint);
 	}
+
+
+
+	*/
 }
 
 Mesh::Mesh(std::vector<Vertex> Vertices, std::vector<DWORD> Indices)

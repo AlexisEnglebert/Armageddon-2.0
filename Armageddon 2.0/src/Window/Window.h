@@ -10,29 +10,35 @@
 #include <strsafe.h>
 #include <tchar.h>
 
-#endif
-
+// Win32 things  
 #include <windows.h>
 #include <WinUser.h>
 #include <windef.h>
 #include <hidusage.h>
 
 
-#include <GLFW/glfw3.h>
-#include "../Macros.h"
-#include "../Log.h"
-#include "../Renderer/Renderer.h"
-#include "KeyBoard.h"
-#include "Events/MouseEvent.h"
+#endif
+
+
+
+
+
 #include "imgui.h"
+
 #include <stdio.h>
 #include <string>
 #include <future>
-
+#include <GLFW/glfw3.h>
 #include <iostream>
 #include <string.h>
+
+#include "KeyBoard.h"
+#include "Events/MouseEvent.h"
 #include "../Physics/PhysicsEngine.h"
 #include "../Renderer/RendererAPI.h"
+#include "../Macros.h"
+#include "../Log.h"
+#include "../Renderer/Renderer.h"
 namespace Armageddon
 {
 	class DECL Window
