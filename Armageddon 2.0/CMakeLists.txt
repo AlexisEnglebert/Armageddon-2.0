@@ -10,7 +10,7 @@ file(GLOB_RECURSE LIBRARY_SOURCE src/*.cpp)
  if(WIN32) 
 	include_directories(includes/DirectXTex)
 endif()
-
+	
 include_directories(includes/imgui-docking)
 include_directories(includes/spdlog/include)
 include_directories(includes/assimp/include)
