@@ -14,11 +14,11 @@
 
 namespace Armageddon
 {
-    class DECL Win32Window : private WindowInterface
+    class DECL Win32Window : public WindowInterface
     {
         public:
 		    Win32Window(int width, int height, std::wstring title, std::wstring wclass);
-            ~Win32Window();
+            ~Win32Window(){};
         	std::function<void()> ProceedMessages;
         private:
             void RegisterWindowClass();

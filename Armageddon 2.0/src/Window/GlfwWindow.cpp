@@ -11,7 +11,7 @@ Armageddon::GlfwWindow::GlfwWindow(int width, int height, std::wstring title, st
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-		GLFWwindow* window = glfwCreateWindow(height, width, "Armageddon Editor", NULL, NULL);
+		GLFWwindow* window = glfwCreateWindow(width,height, "Armageddon Editor", NULL, NULL);
 		VkSurfaceKHR surface;
 		VkInstance instance;
 

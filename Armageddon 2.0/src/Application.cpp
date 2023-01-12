@@ -6,8 +6,8 @@ namespace Armageddon
 	Application::Application()
 	{
 		Instance = this;
-		//auto window = new Armageddon::Window(1920, 1080, L"Armageddon", L"ArmageddonClass");
-		//this->IWind = window;
+		auto window = new Armageddon::Window(1920, 1080, L"Armageddon", L"ArmageddonClass");
+		this->IWind = window;
 
 	}
 

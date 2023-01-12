@@ -8,10 +8,10 @@
 
 namespace Armageddon
 {
-    class DECL GlfwWindow : private WindowInterface
+    class DECL GlfwWindow : public WindowInterface
     {
         public:
 		    GlfwWindow(int width, int height, std::wstring title, std::wstring wclass);
-            ~GlfwWindow();
+            ~GlfwWindow(){};
     };
 }

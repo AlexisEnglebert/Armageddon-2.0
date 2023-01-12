@@ -6,13 +6,14 @@ Armageddon::Window* Armageddon::Window::WindowInstance = nullptr;
 
 Armageddon::Window::Window(int width, int height, std::wstring title, std::wstring wclass)
 {
+    Armageddon::Log::GetLogger()->info("Creating the Window ??");
     this->WindowInstance = this;
     if(Armageddon::RendererAPI::is_api(Armageddon::RendererAPI::API::DirectX)){
         #if WINDOWS
-            //this->wind = (Armageddon::WindowInterface)Armageddon::Win32Window(width, height, title, wclass);
+            this->wind = (Armageddon::WindowInterface)Armageddon::Win32Window(width, height, title, wclass);
         #endif
     }else{
-        //this->wind = (Armageddon::WindowInterface)Armageddon::GlfwWindow(width, height, title, wclass);
+        this->wind = (Armageddon::WindowInterface)Armageddon::GlfwWindow(width, height, title, wclass);
     }
 }
 

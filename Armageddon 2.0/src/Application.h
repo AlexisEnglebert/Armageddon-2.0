@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "Window/Window.h"
+#include "Window/Window.h"
 #include <stdio.h>
 #include <memory>
 #include <iostream>
@@ -41,7 +41,7 @@ namespace Armageddon
 	private:
 
 		static Application* Instance;
-		//Armageddon::Window* IWind;
+		Armageddon::Window* IWind;
 		friend int ::main(int argc, char** argv);
 
 	};
