@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = -D_DEFAULT_SOURCE -D_GLFW_X11
 
-C_INCLUDES = -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/src" -I/Include -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/glfw/include" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/glfw/src" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/glfw/src"
+C_INCLUDES = -I/Include -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/src" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/glfw/include" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/glfw/src" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib/includes/glfw/src"
 
 C_FLAGS = -O3 -DNDEBUG -fPIC -Wall -std=c99
 

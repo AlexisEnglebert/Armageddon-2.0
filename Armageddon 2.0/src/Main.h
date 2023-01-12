@@ -12,9 +12,9 @@
 #include <stdio.h>
 #include <memory>
 #include <iostream>
-#include "Application.h";
-#include "Log.h";
-#include "Window\Window.h";
+#include "Application.h"
+#include "Log.h"
+#include "Window/Window.h"
 
 #include "Renderer/RendererAPI.h"
 
@@ -23,7 +23,7 @@ extern Armageddon::Application* Armageddon::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	#ifdef WINDOWS
+	#if WINDOWS
 		#if _DEBUG
 			_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 		#endif

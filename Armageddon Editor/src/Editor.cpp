@@ -7,7 +7,7 @@
 #if WINDOWS
     #include <crtdbg.h>
 #endif
-
+/*
 #include "Renderer\Camera\Camera.h"
 #include "Renderer\Primitives.h"
 #include "Renderer\Interface.h"
@@ -29,7 +29,7 @@
 #include "Scripting/ScriptEngine.h"
 #include "Utils/Timer.h"
 #include "imgui.h"
-#include "ImGuizmo.h"
+#include "ImGuizmo.h"*/
 
 #define CAMERA_NEAR 0.1f
 #define CAMERA_FAR 100.0f
@@ -52,10 +52,8 @@ public:
 	Editor()
 	{
         Armageddon::Log::GetLogger()->info("EDITOR CONSTRUCTOR");
-        m_Scene.m_SceneState = SceneState::Editor;
+        /*m_Scene.m_SceneState = SceneState::Editor;
        
-
-       //TODO REORGANISER TOUT LE PROJET
 
         m_PlayButton.Create(L"Ressources//Icones//Editor//PlayButton.png");
 
@@ -65,19 +63,19 @@ public:
         AssetManager::m_MaterialMap[materialRef].SetPixelShader(L"Assets/Shaders/BillBoardPixel.cso");
         AssetManager::m_MaterialMap[materialRef].SetAlbedoMap(L"Ressources//Icones//Editor//icone_point_light.png");
 
-        AssetManager::m_MaterialMap[materialRef].RenderMode = 1;
+        AssetManager::m_MaterialMap[materialRef].RenderMode = 1;*/
 	}
 
 	~Editor()
 	{
-        for (auto& mat : AssetManager::v_material)
+       /* for (auto& mat : AssetManager::v_material)
         {
             //m_serializer.SerializeMaterial("Assets/Materials/" + mat.m_AssetName + ".mat", mat);
-        }
+        }*/
 	}
     
 private:
-    ImVec2 CurrentWindowSize;
+    /*ImVec2 CurrentWindowSize;
     
     Scene m_Scene;
     Serializer m_serializer = {&m_Scene};
@@ -92,7 +90,7 @@ private:
 
     int cascadeIndice = 0;
     bool cameraControlsActive = false;
-    
+    */
     void CreateDockSpace();
     void DrawImGuiScene();
 	void DrawGuizmos();
@@ -100,7 +98,7 @@ private:
 	
 
 
-    Texture m_PlayButton;
+    //Texture m_PlayButton;
 
 
 
@@ -114,7 +112,7 @@ static float cameraSpeed = 0.3f;
 void Editor::OnUpdate()
 {
 
-    m_Scene.UpdateScene();
+  /*  m_Scene.UpdateScene();
 
     if (cameraControlsActive)
     {
@@ -152,7 +150,7 @@ void Editor::OnUpdate()
     }
 	if (Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_escape))
 		EntityList::Seleceted = entt::null;
-   
+   */
 }
 
 
@@ -162,14 +160,14 @@ void Editor::OnUpdate()
 */
 void Editor::OnRender()
 {
-    m_Scene.RenderScene();
+    //m_Scene.RenderScene();
 }
 
 static float i; 
 void Editor::ImGuiRender()
 {
 
-    CreateDockSpace();
+  /*  CreateDockSpace();
     DrawImGuiScene();
 
     m_ContentBrowser.ImGuiDraw();
@@ -198,11 +196,12 @@ void Editor::ImGuiRender()
         ImGui::SliderFloat("Fog Anisotropy", &Armageddon::Renderer::g_volumetricBufferData.anisotropy, 0.0f, 1.0f, "%.3f", 0.1f);
     }
     ImGui::End();
-    
+    */
 }
 
 void Editor::OnInit()
 {
+    /*
     ImGui::SetCurrentContext(Armageddon::Application::GetWindow()->GetRenderer().GetImGuiContext());
     ImGuizmo::SetImGuiContext(Armageddon::Application::GetWindow()->GetRenderer().GetImGuiContext());
 	Armageddon::Log::GetLogger()->trace("OnInit Event Reached");
@@ -214,13 +213,14 @@ void Editor::OnInit()
 
     Armageddon::Log::GetLogger()->trace("OnInit Event Reached");    
     m_Scene.InitScene();
-    
+    */
   
 }
 static float CameraZoom = 1.0f;
 
 void Editor::onMouseEvent(MouseEvent::MEventType e, float x, float y)
 {
+    /*
     if (cameraControlsActive)
     {
         switch (e)
@@ -243,11 +243,12 @@ void Editor::onMouseEvent(MouseEvent::MEventType e, float x, float y)
             break;
         }
     }
+    */
 }
 
 void Editor::onKeyBoardEvent(const unsigned char keyCode)
 {
-
+    /*
     if (Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_ctrl))
     {
         if (!Armageddon::Application::GetWindow()->GetKeyBoard().KeyIsPressed(AG_KEY_D) && keyCode == AG_KEY_D)
@@ -270,10 +271,12 @@ void Editor::onKeyBoardEvent(const unsigned char keyCode)
     {
         
     }
+    */
 }
 
 void Editor::CreateDockSpace()
 {
+    /*
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 
@@ -341,10 +344,12 @@ void Editor::CreateDockSpace()
 
     ProfilerData::Clear();
 	ImGui::End();
+    */
 }
 
 void Editor::DrawImGuiScene()
 {
+    /*
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0.0f,0.0f});
     ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, { 0.0f,0.0f });
     ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.0862745098f, 0.0862745098f, 0.0862745098f, 1.0f));
@@ -403,7 +408,6 @@ void Editor::DrawImGuiScene()
     {
 		const ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
        if (viewportPanelSize.x / viewportPanelSize.y > 0.0f) {
-            /* on resize que le offscreen render target view*/
            float width = vMax.x - vMin.x;
            float height = vMax.y - vMin.y;
            AG_GET_RENDERER().m_FrameBuffer.ResizeTexture(width,height);
@@ -436,11 +440,12 @@ void Editor::DrawImGuiScene()
     ImGui::PopStyleVar(3);
 
     ImGui::End();
+    */
 }
 
 void Editor::DrawGuizmos()
 {
-
+    /*
    ImGuizmo::SetOrthographic(false);
     ImGuizmo::Enable(true);
 	ImGuizmo::SetDrawlist(ImGui::GetForegroundDrawList());
@@ -476,4 +481,5 @@ void Editor::DrawGuizmos()
             }
         }
     }
+    */
 }

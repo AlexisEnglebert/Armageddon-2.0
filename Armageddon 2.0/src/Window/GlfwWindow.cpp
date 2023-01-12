@@ -1,8 +1,13 @@
 #include "GlfwWindow.h"
 
-Armageddon::GlfwWindow::GlfwWindow(int width, int height, std::wstring title, std::wstring wclass) : w_height(height), w_width(width), w_title(title), w_class(wclass)
+Armageddon::GlfwWindow::GlfwWindow(int width, int height, std::wstring title, std::wstring wclass) 
 {
-    glfwInit();
+		this->w_height = height;
+		this->w_width = width;
+		this->w_title = title;
+		this->w_class = wclass;
+
+    	glfwInit();
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);

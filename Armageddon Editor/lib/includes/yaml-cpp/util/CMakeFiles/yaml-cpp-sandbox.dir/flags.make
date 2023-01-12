@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/src" -I/Include -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/include"
+CXX_INCLUDES = -I/Include -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/src" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/yaml-cpp/include"
 
 CXX_FLAGS = -O3 -DNDEBUG -std=gnu++17
 

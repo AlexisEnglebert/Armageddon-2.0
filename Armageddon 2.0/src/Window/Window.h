@@ -14,7 +14,7 @@
 #include <string>
 #include <string.h>
 
-#include "../Physics/PhysicsEngine.h"
+//#include "../Physics/PhysicsEngine.h"
 #include "../Renderer/RendererAPI.h"
 
 
@@ -30,13 +30,13 @@ namespace Armageddon
 		WindowInterface wind;
 		static Window* WindowInstance;
 		bool ProcessMessage();
-		inline 	Armageddon::PhyicsEngine GetPhysicEngine() {return m_PhysEngine;};
+		//inline 	Armageddon::PhyicsEngine GetPhysicEngine() {return m_PhysEngine;};
 		//inline Renderer& GetRenderer() { return m_Renderer; };
 	private:
 		/*Graphics*/
 		//Renderer m_Renderer;
 		/*Physic*/
-		Armageddon::PhyicsEngine m_PhysEngine;
+		//Armageddon::PhyicsEngine m_PhysEngine;
 
 
 

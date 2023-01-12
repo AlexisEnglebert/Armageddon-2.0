@@ -97,19 +97,215 @@ lib/CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.s"
 	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Log.cpp" -o CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.s
 
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/src/Window/Window.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/Window.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/Window.cpp" > CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/Window.cpp" -o CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.s
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/src/Window/GlfwWindow.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/GlfwWindow.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/GlfwWindow.cpp" > CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/GlfwWindow.cpp" -o CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.s
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/src/Window/Events/KeyBoardEvents.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/Events/KeyBoardEvents.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/Events/KeyBoardEvents.cpp" > CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/Events/KeyBoardEvents.cpp" -o CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.s
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/src/Window/Events/MouseEvent.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/Events/MouseEvent.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/Events/MouseEvent.cpp" > CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/Events/MouseEvent.cpp" -o CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.s
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/src/Window/KeyBoard.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/KeyBoard.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/KeyBoard.cpp" > CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Window/KeyBoard.cpp" -o CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.s
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/src/Renderer/RendererAPI.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Renderer/RendererAPI.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Renderer/RendererAPI.cpp" > CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src/Renderer/RendererAPI.cpp" -o CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.s
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/includes/imgui-docking/imgui.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui.cpp" > CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui.cpp" -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.s
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/includes/imgui-docking/imgui_draw.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui_draw.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui_draw.cpp" > CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui_draw.cpp" -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.s
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/includes/imgui-docking/imgui_tables.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui_tables.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui_tables.cpp" > CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui_tables.cpp" -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.s
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/includes/imgui-docking/imgui_widgets.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui_widgets.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui_widgets.cpp" > CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/imgui_widgets.cpp" -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.s
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/includes/imgui-docking/backends/imgui_impl_glfw.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/backends/imgui_impl_glfw.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/backends/imgui_impl_glfw.cpp" > CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/backends/imgui_impl_glfw.cpp" -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.s
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/flags.make
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon\ 2.0/includes/imgui-docking/backends/imgui_impl_vulkan.cpp
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o: lib/CMakeFiles/Armageddon-2.0.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o -MF CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o.d -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o -c "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/backends/imgui_impl_vulkan.cpp"
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.i"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/backends/imgui_impl_vulkan.cpp" > CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.i
+
+lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.s"
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/imgui-docking/backends/imgui_impl_vulkan.cpp" -o CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.s
+
 # Object files for target Armageddon-2.0
 Armageddon__2_0_OBJECTS = \
 "CMakeFiles/Armageddon-2.0.dir/src/Application.cpp.o" \
-"CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.o"
+"CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.o" \
+"CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o"
 
 # External object files for target Armageddon-2.0
 Armageddon__2_0_EXTERNAL_OBJECTS =
 
 lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/src/Application.cpp.o
 lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.o
+lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o
 lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/build.make
+lib/libArmageddon-2.0.so: lib/includes/glfw/src/libglfw3.a
+lib/libArmageddon-2.0.so: /lib/libvulkan.so
+lib/libArmageddon-2.0.so: /usr/lib/librt.a
+lib/libArmageddon-2.0.so: /usr/lib/libm.so
 lib/libArmageddon-2.0.so: lib/CMakeFiles/Armageddon-2.0.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX shared library libArmageddon-2.0.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX shared library libArmageddon-2.0.so"
 	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/lib" && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Armageddon-2.0.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

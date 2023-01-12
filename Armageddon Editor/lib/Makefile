@@ -176,6 +176,150 @@ Armageddon-2.0/fast:
 	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/build
 .PHONY : Armageddon-2.0/fast
 
+includes/imgui-docking/backends/imgui_impl_glfw.o: includes/imgui-docking/backends/imgui_impl_glfw.cpp.o
+.PHONY : includes/imgui-docking/backends/imgui_impl_glfw.o
+
+# target to build an object file
+includes/imgui-docking/backends/imgui_impl_glfw.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.o
+.PHONY : includes/imgui-docking/backends/imgui_impl_glfw.cpp.o
+
+includes/imgui-docking/backends/imgui_impl_glfw.i: includes/imgui-docking/backends/imgui_impl_glfw.cpp.i
+.PHONY : includes/imgui-docking/backends/imgui_impl_glfw.i
+
+# target to preprocess a source file
+includes/imgui-docking/backends/imgui_impl_glfw.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.i
+.PHONY : includes/imgui-docking/backends/imgui_impl_glfw.cpp.i
+
+includes/imgui-docking/backends/imgui_impl_glfw.s: includes/imgui-docking/backends/imgui_impl_glfw.cpp.s
+.PHONY : includes/imgui-docking/backends/imgui_impl_glfw.s
+
+# target to generate assembly for a file
+includes/imgui-docking/backends/imgui_impl_glfw.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_glfw.cpp.s
+.PHONY : includes/imgui-docking/backends/imgui_impl_glfw.cpp.s
+
+includes/imgui-docking/backends/imgui_impl_vulkan.o: includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o
+.PHONY : includes/imgui-docking/backends/imgui_impl_vulkan.o
+
+# target to build an object file
+includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o
+.PHONY : includes/imgui-docking/backends/imgui_impl_vulkan.cpp.o
+
+includes/imgui-docking/backends/imgui_impl_vulkan.i: includes/imgui-docking/backends/imgui_impl_vulkan.cpp.i
+.PHONY : includes/imgui-docking/backends/imgui_impl_vulkan.i
+
+# target to preprocess a source file
+includes/imgui-docking/backends/imgui_impl_vulkan.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.i
+.PHONY : includes/imgui-docking/backends/imgui_impl_vulkan.cpp.i
+
+includes/imgui-docking/backends/imgui_impl_vulkan.s: includes/imgui-docking/backends/imgui_impl_vulkan.cpp.s
+.PHONY : includes/imgui-docking/backends/imgui_impl_vulkan.s
+
+# target to generate assembly for a file
+includes/imgui-docking/backends/imgui_impl_vulkan.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/backends/imgui_impl_vulkan.cpp.s
+.PHONY : includes/imgui-docking/backends/imgui_impl_vulkan.cpp.s
+
+includes/imgui-docking/imgui.o: includes/imgui-docking/imgui.cpp.o
+.PHONY : includes/imgui-docking/imgui.o
+
+# target to build an object file
+includes/imgui-docking/imgui.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.o
+.PHONY : includes/imgui-docking/imgui.cpp.o
+
+includes/imgui-docking/imgui.i: includes/imgui-docking/imgui.cpp.i
+.PHONY : includes/imgui-docking/imgui.i
+
+# target to preprocess a source file
+includes/imgui-docking/imgui.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.i
+.PHONY : includes/imgui-docking/imgui.cpp.i
+
+includes/imgui-docking/imgui.s: includes/imgui-docking/imgui.cpp.s
+.PHONY : includes/imgui-docking/imgui.s
+
+# target to generate assembly for a file
+includes/imgui-docking/imgui.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui.cpp.s
+.PHONY : includes/imgui-docking/imgui.cpp.s
+
+includes/imgui-docking/imgui_draw.o: includes/imgui-docking/imgui_draw.cpp.o
+.PHONY : includes/imgui-docking/imgui_draw.o
+
+# target to build an object file
+includes/imgui-docking/imgui_draw.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.o
+.PHONY : includes/imgui-docking/imgui_draw.cpp.o
+
+includes/imgui-docking/imgui_draw.i: includes/imgui-docking/imgui_draw.cpp.i
+.PHONY : includes/imgui-docking/imgui_draw.i
+
+# target to preprocess a source file
+includes/imgui-docking/imgui_draw.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.i
+.PHONY : includes/imgui-docking/imgui_draw.cpp.i
+
+includes/imgui-docking/imgui_draw.s: includes/imgui-docking/imgui_draw.cpp.s
+.PHONY : includes/imgui-docking/imgui_draw.s
+
+# target to generate assembly for a file
+includes/imgui-docking/imgui_draw.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_draw.cpp.s
+.PHONY : includes/imgui-docking/imgui_draw.cpp.s
+
+includes/imgui-docking/imgui_tables.o: includes/imgui-docking/imgui_tables.cpp.o
+.PHONY : includes/imgui-docking/imgui_tables.o
+
+# target to build an object file
+includes/imgui-docking/imgui_tables.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.o
+.PHONY : includes/imgui-docking/imgui_tables.cpp.o
+
+includes/imgui-docking/imgui_tables.i: includes/imgui-docking/imgui_tables.cpp.i
+.PHONY : includes/imgui-docking/imgui_tables.i
+
+# target to preprocess a source file
+includes/imgui-docking/imgui_tables.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.i
+.PHONY : includes/imgui-docking/imgui_tables.cpp.i
+
+includes/imgui-docking/imgui_tables.s: includes/imgui-docking/imgui_tables.cpp.s
+.PHONY : includes/imgui-docking/imgui_tables.s
+
+# target to generate assembly for a file
+includes/imgui-docking/imgui_tables.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_tables.cpp.s
+.PHONY : includes/imgui-docking/imgui_tables.cpp.s
+
+includes/imgui-docking/imgui_widgets.o: includes/imgui-docking/imgui_widgets.cpp.o
+.PHONY : includes/imgui-docking/imgui_widgets.o
+
+# target to build an object file
+includes/imgui-docking/imgui_widgets.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.o
+.PHONY : includes/imgui-docking/imgui_widgets.cpp.o
+
+includes/imgui-docking/imgui_widgets.i: includes/imgui-docking/imgui_widgets.cpp.i
+.PHONY : includes/imgui-docking/imgui_widgets.i
+
+# target to preprocess a source file
+includes/imgui-docking/imgui_widgets.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.i
+.PHONY : includes/imgui-docking/imgui_widgets.cpp.i
+
+includes/imgui-docking/imgui_widgets.s: includes/imgui-docking/imgui_widgets.cpp.s
+.PHONY : includes/imgui-docking/imgui_widgets.s
+
+# target to generate assembly for a file
+includes/imgui-docking/imgui_widgets.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/includes/imgui-docking/imgui_widgets.cpp.s
+.PHONY : includes/imgui-docking/imgui_widgets.cpp.s
+
 src/Application.o: src/Application.cpp.o
 .PHONY : src/Application.o
 
@@ -224,6 +368,150 @@ src/Log.cpp.s:
 	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Log.cpp.s
 .PHONY : src/Log.cpp.s
 
+src/Renderer/RendererAPI.o: src/Renderer/RendererAPI.cpp.o
+.PHONY : src/Renderer/RendererAPI.o
+
+# target to build an object file
+src/Renderer/RendererAPI.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.o
+.PHONY : src/Renderer/RendererAPI.cpp.o
+
+src/Renderer/RendererAPI.i: src/Renderer/RendererAPI.cpp.i
+.PHONY : src/Renderer/RendererAPI.i
+
+# target to preprocess a source file
+src/Renderer/RendererAPI.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.i
+.PHONY : src/Renderer/RendererAPI.cpp.i
+
+src/Renderer/RendererAPI.s: src/Renderer/RendererAPI.cpp.s
+.PHONY : src/Renderer/RendererAPI.s
+
+# target to generate assembly for a file
+src/Renderer/RendererAPI.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Renderer/RendererAPI.cpp.s
+.PHONY : src/Renderer/RendererAPI.cpp.s
+
+src/Window/Events/KeyBoardEvents.o: src/Window/Events/KeyBoardEvents.cpp.o
+.PHONY : src/Window/Events/KeyBoardEvents.o
+
+# target to build an object file
+src/Window/Events/KeyBoardEvents.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.o
+.PHONY : src/Window/Events/KeyBoardEvents.cpp.o
+
+src/Window/Events/KeyBoardEvents.i: src/Window/Events/KeyBoardEvents.cpp.i
+.PHONY : src/Window/Events/KeyBoardEvents.i
+
+# target to preprocess a source file
+src/Window/Events/KeyBoardEvents.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.i
+.PHONY : src/Window/Events/KeyBoardEvents.cpp.i
+
+src/Window/Events/KeyBoardEvents.s: src/Window/Events/KeyBoardEvents.cpp.s
+.PHONY : src/Window/Events/KeyBoardEvents.s
+
+# target to generate assembly for a file
+src/Window/Events/KeyBoardEvents.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/KeyBoardEvents.cpp.s
+.PHONY : src/Window/Events/KeyBoardEvents.cpp.s
+
+src/Window/Events/MouseEvent.o: src/Window/Events/MouseEvent.cpp.o
+.PHONY : src/Window/Events/MouseEvent.o
+
+# target to build an object file
+src/Window/Events/MouseEvent.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.o
+.PHONY : src/Window/Events/MouseEvent.cpp.o
+
+src/Window/Events/MouseEvent.i: src/Window/Events/MouseEvent.cpp.i
+.PHONY : src/Window/Events/MouseEvent.i
+
+# target to preprocess a source file
+src/Window/Events/MouseEvent.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.i
+.PHONY : src/Window/Events/MouseEvent.cpp.i
+
+src/Window/Events/MouseEvent.s: src/Window/Events/MouseEvent.cpp.s
+.PHONY : src/Window/Events/MouseEvent.s
+
+# target to generate assembly for a file
+src/Window/Events/MouseEvent.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Events/MouseEvent.cpp.s
+.PHONY : src/Window/Events/MouseEvent.cpp.s
+
+src/Window/GlfwWindow.o: src/Window/GlfwWindow.cpp.o
+.PHONY : src/Window/GlfwWindow.o
+
+# target to build an object file
+src/Window/GlfwWindow.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.o
+.PHONY : src/Window/GlfwWindow.cpp.o
+
+src/Window/GlfwWindow.i: src/Window/GlfwWindow.cpp.i
+.PHONY : src/Window/GlfwWindow.i
+
+# target to preprocess a source file
+src/Window/GlfwWindow.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.i
+.PHONY : src/Window/GlfwWindow.cpp.i
+
+src/Window/GlfwWindow.s: src/Window/GlfwWindow.cpp.s
+.PHONY : src/Window/GlfwWindow.s
+
+# target to generate assembly for a file
+src/Window/GlfwWindow.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/GlfwWindow.cpp.s
+.PHONY : src/Window/GlfwWindow.cpp.s
+
+src/Window/KeyBoard.o: src/Window/KeyBoard.cpp.o
+.PHONY : src/Window/KeyBoard.o
+
+# target to build an object file
+src/Window/KeyBoard.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.o
+.PHONY : src/Window/KeyBoard.cpp.o
+
+src/Window/KeyBoard.i: src/Window/KeyBoard.cpp.i
+.PHONY : src/Window/KeyBoard.i
+
+# target to preprocess a source file
+src/Window/KeyBoard.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.i
+.PHONY : src/Window/KeyBoard.cpp.i
+
+src/Window/KeyBoard.s: src/Window/KeyBoard.cpp.s
+.PHONY : src/Window/KeyBoard.s
+
+# target to generate assembly for a file
+src/Window/KeyBoard.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/KeyBoard.cpp.s
+.PHONY : src/Window/KeyBoard.cpp.s
+
+src/Window/Window.o: src/Window/Window.cpp.o
+.PHONY : src/Window/Window.o
+
+# target to build an object file
+src/Window/Window.cpp.o:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.o
+.PHONY : src/Window/Window.cpp.o
+
+src/Window/Window.i: src/Window/Window.cpp.i
+.PHONY : src/Window/Window.i
+
+# target to preprocess a source file
+src/Window/Window.cpp.i:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.i
+.PHONY : src/Window/Window.cpp.i
+
+src/Window/Window.s: src/Window/Window.cpp.s
+.PHONY : src/Window/Window.s
+
+# target to generate assembly for a file
+src/Window/Window.cpp.s:
+	cd "/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor" && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/Armageddon-2.0.dir/build.make lib/CMakeFiles/Armageddon-2.0.dir/src/Window/Window.cpp.s
+.PHONY : src/Window/Window.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -237,12 +525,48 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... Armageddon-2.0"
+	@echo "... includes/imgui-docking/backends/imgui_impl_glfw.o"
+	@echo "... includes/imgui-docking/backends/imgui_impl_glfw.i"
+	@echo "... includes/imgui-docking/backends/imgui_impl_glfw.s"
+	@echo "... includes/imgui-docking/backends/imgui_impl_vulkan.o"
+	@echo "... includes/imgui-docking/backends/imgui_impl_vulkan.i"
+	@echo "... includes/imgui-docking/backends/imgui_impl_vulkan.s"
+	@echo "... includes/imgui-docking/imgui.o"
+	@echo "... includes/imgui-docking/imgui.i"
+	@echo "... includes/imgui-docking/imgui.s"
+	@echo "... includes/imgui-docking/imgui_draw.o"
+	@echo "... includes/imgui-docking/imgui_draw.i"
+	@echo "... includes/imgui-docking/imgui_draw.s"
+	@echo "... includes/imgui-docking/imgui_tables.o"
+	@echo "... includes/imgui-docking/imgui_tables.i"
+	@echo "... includes/imgui-docking/imgui_tables.s"
+	@echo "... includes/imgui-docking/imgui_widgets.o"
+	@echo "... includes/imgui-docking/imgui_widgets.i"
+	@echo "... includes/imgui-docking/imgui_widgets.s"
 	@echo "... src/Application.o"
 	@echo "... src/Application.i"
 	@echo "... src/Application.s"
 	@echo "... src/Log.o"
 	@echo "... src/Log.i"
 	@echo "... src/Log.s"
+	@echo "... src/Renderer/RendererAPI.o"
+	@echo "... src/Renderer/RendererAPI.i"
+	@echo "... src/Renderer/RendererAPI.s"
+	@echo "... src/Window/Events/KeyBoardEvents.o"
+	@echo "... src/Window/Events/KeyBoardEvents.i"
+	@echo "... src/Window/Events/KeyBoardEvents.s"
+	@echo "... src/Window/Events/MouseEvent.o"
+	@echo "... src/Window/Events/MouseEvent.i"
+	@echo "... src/Window/Events/MouseEvent.s"
+	@echo "... src/Window/GlfwWindow.o"
+	@echo "... src/Window/GlfwWindow.i"
+	@echo "... src/Window/GlfwWindow.s"
+	@echo "... src/Window/KeyBoard.o"
+	@echo "... src/Window/KeyBoard.i"
+	@echo "... src/Window/KeyBoard.s"
+	@echo "... src/Window/Window.o"
+	@echo "... src/Window/Window.i"
+	@echo "... src/Window/Window.s"
 .PHONY : help
 
 

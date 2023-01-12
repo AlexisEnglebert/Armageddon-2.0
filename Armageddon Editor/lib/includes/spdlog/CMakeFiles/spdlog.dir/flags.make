@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DSPDLOG_COMPILED_LIB
 
-CXX_INCLUDES = -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/src" -I/Include -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/spdlog/include"
+CXX_INCLUDES = -I/Include -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/src" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/src" -I"/home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon 2.0/includes/spdlog/include"
 
 CXX_FLAGS = -O3 -DNDEBUG -std=c++17
 

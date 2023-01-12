@@ -14,7 +14,7 @@
 
 namespace Armageddon
 {
-    class DECL Win32Window : public WindowInterface
+    class DECL Win32Window : private WindowInterface
     {
         public:
 		    Win32Window(int width, int height, std::wstring title, std::wstring wclass);
