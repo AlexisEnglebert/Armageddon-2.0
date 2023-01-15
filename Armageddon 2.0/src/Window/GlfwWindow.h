@@ -12,6 +12,9 @@ namespace Armageddon
     {
         public:
 		    GlfwWindow(int width, int height, std::wstring title, std::wstring wclass);
+            bool ProcessMessage() override;
             ~GlfwWindow(){};
+        private:
+            GLFWwindow* window;
     };
 }

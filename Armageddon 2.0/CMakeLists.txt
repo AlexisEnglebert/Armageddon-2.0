@@ -71,6 +71,8 @@ set(SRC_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/Application.cpp" "${CMAKE_
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Window/Events/KeyBoardEvents.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Window/Events/MouseEvent.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/Window/KeyBoard.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/RendererAPI.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/Renderer.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/Vulkan/VulkanRenderer.cpp"
 )
 set(SRC_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/Application.h" "${CMAKE_CURRENT_SOURCE_DIR}/src/Log.h" "${CMAKE_CURRENT_SOURCE_DIR}/src/Main.h"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Window/Window.h" "${CMAKE_CURRENT_SOURCE_DIR}/src/Window/GlfwWindow.h" 
@@ -78,6 +80,8 @@ set(SRC_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/Application.h" "${CMAKE_CU
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Window/Events/Event.h" "${CMAKE_CURRENT_SOURCE_DIR}/src/Window/Events/KeyBoardEvents.h"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Window/Events/MouseEvent.h" "${CMAKE_CURRENT_SOURCE_DIR}/src/Window/KeyBoard.h"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/RendererAPI.h"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/Renderer.h"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/Vulkan/VulkanRenderer.h"
 )
 
 set(SOURCE_FILES ${SRC_SOURCE_FILES} ${IMGUI_SOURCE_FILES} )

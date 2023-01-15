@@ -11,11 +11,12 @@ Armageddon::GlfwWindow::GlfwWindow(int width, int height, std::wstring title, st
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-		GLFWwindow* window = glfwCreateWindow(width,height, "Armageddon Editor", NULL, NULL);
+		this->window = glfwCreateWindow(width,height, "Armageddon Editor", NULL, NULL);
 		VkSurfaceKHR surface;
 		VkInstance instance;
 
 		//Initialisation of vulkan 
+		Armageddon::Log::GetLogger()->trace("Initializaton of Vulkan app");
 
 		VkApplicationInfo appInfo{};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO; //Define struct type
@@ -36,6 +37,8 @@ Armageddon::GlfwWindow::GlfwWindow(int width, int height, std::wstring title, st
 		createInfo.enabledExtensionCount = glfwExtensionCount; // Need extension to handle every platforms
 		createInfo.ppEnabledExtensionNames = glfwExtensions;// Need extension to handle every platforms
 		createInfo.enabledLayerCount = 0; // reste obscur pour l'instant
+
+		Armageddon::Log::GetLogger()->trace("Creating VK instance");
 
 		VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
 		if (result != VK_SUCCESS)
@@ -63,8 +66,15 @@ Armageddon::GlfwWindow::GlfwWindow(int width, int height, std::wstring title, st
 		Armageddon::Log::GetLogger()->info("DeviceID : {0}", deviceProperty.deviceID);
 		Armageddon::Log::GetLogger()->info("DeviceType : {0}", deviceProperty.deviceType);
 
-		while (!glfwWindowShouldClose(window)) {
-			glfwPollEvents();
-		}
-		vkDestroyInstance(instance, nullptr);
+		// TODO SHOULD BE FORBIDDEN 
+		// vkDestroyInstance(instance, nullptr);
+}
+
+bool Armageddon::GlfwWindow::ProcessMessage()
+{
+	Armageddon::Log::GetLogger()->info("Process Message GLFW");
+	if(!glfwWindowShouldClose(this->window)) {
+		glfwPollEvents();
+	}
+    return false;
 }

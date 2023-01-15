@@ -25,9 +25,9 @@ namespace Armageddon
 	{
 	public:
 		Window(){}
-		~Window(){}
+		~Window(){delete wind;}
 		Window(int width, int height, std::wstring title, std::wstring wclass);
-		WindowInterface wind;
+		WindowInterface* wind;
 		static Window* WindowInstance;
 		bool ProcessMessage();
 		//inline 	Armageddon::PhyicsEngine GetPhysicEngine() {return m_PhysEngine;};

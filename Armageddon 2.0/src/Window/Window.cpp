@@ -10,16 +10,16 @@ Armageddon::Window::Window(int width, int height, std::wstring title, std::wstri
     this->WindowInstance = this;
     if(Armageddon::RendererAPI::is_api(Armageddon::RendererAPI::API::DirectX)){
         #if WINDOWS
-            this->wind = (Armageddon::WindowInterface)Armageddon::Win32Window(width, height, title, wclass);
+            this->wind = new Armageddon::Win32Window(width, height, title, wclass);
         #endif
     }else{
-        this->wind = (Armageddon::WindowInterface)Armageddon::GlfwWindow(width, height, title, wclass);
+        this->wind = new Armageddon::GlfwWindow(width, height, title, wclass);
     }
 }
 
 bool Armageddon::Window::ProcessMessage()
 {
-    return this->wind.ProcessMessage();
+    return wind->ProcessMessage();
 }
 
 

@@ -36,13 +36,13 @@ namespace Armageddon
 	}
 	void Armageddon::Application::ApplicationRun()
 	{
-	/*
+		
        this->OnInit();
 	   Armageddon::Log::GetLogger()->trace("ApplicationRun");
 
 		while (IWind->ProcessMessage())
 		{
 			this->OnUpdate();
-		}*/
+		}
 	}
 }
