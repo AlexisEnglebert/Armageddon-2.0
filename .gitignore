@@ -1,9 +1,12 @@
 #Ignore all text files
 *.txt
+!CMakeLists.txt
 
 #Ignore files related to API keys
 .env
 
+#Ignore cmake files
+*.cmake
 
 #Ignore all 3D models
 Armageddon\ Editor/Assets/Models/*
