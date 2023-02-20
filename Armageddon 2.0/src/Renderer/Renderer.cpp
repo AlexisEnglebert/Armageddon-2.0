@@ -241,8 +241,9 @@ Armageddon::Renderer::~Renderer()
 
 void Armageddon::Renderer::init()
 {
-    if(Armageddon::RendererAPI::is_api(Armageddon::RendererAPI::API::Vulkan){
+    if(RendererAPI::is_api(RendererAPI::API::Vulkan)){
         // TODO NOT FOR DEBUG PURPOSE
+        m_vk_renderer.InitVkSwapChain();
     }else{
         #if WINDOWS
 

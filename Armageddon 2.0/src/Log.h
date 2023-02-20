@@ -5,6 +5,21 @@
 #include <memory>
 #include <iostream>
 #include "Macros.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 namespace Armageddon
 {
 	class DECL Log

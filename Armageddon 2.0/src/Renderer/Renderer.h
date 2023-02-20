@@ -25,13 +25,15 @@
 #include "RenderPass/EnvMap.h"
 */
 #include "RendererAPI.h"
-
+#include "Vulkan/VulkanRenderer.h"
 
 namespace Armageddon
 {
 	class DECL Renderer
 	{
 	public:
+		void init();
+		VulkanRenderer m_vk_renderer;
 		/*bool Init(HWND hwnd, float width, float height);
 		void ResizeBuffer(float width, float height);
 		void RenderFrame();

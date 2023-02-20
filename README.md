@@ -10,7 +10,14 @@ Armageddon 2.0 is a free 3D/2D game engine under DirectX11.
 * Cascade shadow map
 * Physically based volumetric fog (WIP)
 
-
+## Planned Features
+- [ ] Memory Pool / Memory management
+- [ ] Physix
+- [ ] Vulkan Renderer
+- [ ] Multi-threading 
+- [ ] Animation 
+- [ ] Cross Platform
+- [ ] Improve UI
 
 ## References
 * [Real Shading in Unreal Engine 4](https://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf)
