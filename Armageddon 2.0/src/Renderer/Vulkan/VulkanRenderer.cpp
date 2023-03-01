@@ -83,11 +83,8 @@ bool Armageddon::VulkanRenderer::pickPhysicalDevice()
 
 bool Armageddon::VulkanRenderer::createLogicalDevice()
 {
-<<<<<<< HEAD
     Armageddon::Log::GetLogger()->info("Creating Logical Device");
-=======
     Armageddon::Log::GetLogger()->info("Creating Logical Device ");
->>>>>>> 3a8a62a (src: working on vulkan renderer, selecting devices)
     // Check for device queue family
     QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
 
@@ -108,29 +105,23 @@ bool Armageddon::VulkanRenderer::createLogicalDevice()
     createInfo.queueCreateInfoCount = 1;
     createInfo.pEnabledFeatures = &deviceFeatures;
 
-<<<<<<< HEAD
     //createInfo.enabledExtensionfCount = 0;
     //TODO: validation layers
     /*bool enableValidationLayers = true;
-=======
     createInfo.enabledExtensionCount = 0;
 
 
     //TODO: validation layers
    /* bool enableValidationLayers = true;
->>>>>>> 3a8a62a (src: working on vulkan renderer, selecting devices)
     if (enableValidationLayers) {
         createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
         createInfo.ppEnabledLayerNames = validationLayers.data();
     } else {
         createInfo.enabledLayerCount = 0;
-<<<<<<< HEAD
     }
     */
    return true;
-=======
-    }*/
->>>>>>> 3a8a62a (src: working on vulkan renderer, selecting devices)
+
 }
 
 bool Armageddon::VulkanRenderer::InitVkSwapChain()
