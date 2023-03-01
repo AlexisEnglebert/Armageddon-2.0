@@ -57,12 +57,7 @@ Armageddon::GlfwWindow::GlfwWindow(int width, int height, std::wstring title, st
 			exit(-1);
 		}
 		Armageddon::Log::GetLogger()->info("Number of devices : {0}", deviceCount);
-		VkPhysicalDeviceProperties deviceProperty;
-		vkGetPhysicalDeviceProperties(devices[0], &deviceProperty);
-		Armageddon::Log::GetLogger()->info("Device : {0}", deviceProperty.deviceName);
-		Armageddon::Log::GetLogger()->info("VendorID : {0}", deviceProperty.vendorID);
-		Armageddon::Log::GetLogger()->info("DeviceID : {0}", deviceProperty.deviceID);
-		Armageddon::Log::GetLogger()->info("DeviceType : {0}", deviceProperty.deviceType);
+		
 		*/
 }
 

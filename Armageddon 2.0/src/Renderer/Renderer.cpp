@@ -239,23 +239,16 @@ Armageddon::Renderer::~Renderer()
 }
 */
 
-void Armageddon::Renderer::InitVulkan(VkInstance& instance)
+bool Armageddon::Renderer::InitVulkan(VkInstance& instance)
 {
-<<<<<<< HEAD
     if(RendererAPI::is_api(RendererAPI::API::Vulkan)){
-        // TODO NOT FOR DEBUG PURPOSE
-        m_vk_renderer.InitVkSwapChain();
+        if(!m_vk_renderer.Init(instance)) return false;
     }else{
         #if WINDOWS
 
         #endif
-=======
-    if(Armageddon::RendererAPI::is_api(Armageddon::RendererAPI::API::Vulkan)){
-        // TODO NOT FOR DEBUG PURPOSE
-        m_vk_renderer.Init(instance);
-        
->>>>>>> 3a8a62a (src: working on vulkan renderer, selecting devices)
     }
+    return true;
 }
 void Armageddon::Renderer::InitDirectX()
 {

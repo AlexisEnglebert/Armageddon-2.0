@@ -26,23 +26,17 @@
 */
 #include "RendererAPI.h"
 #include "Vulkan/VulkanRenderer.h"
-<<<<<<< HEAD
-=======
 
->>>>>>> 3a8a62a (src: working on vulkan renderer, selecting devices)
 
 namespace Armageddon
 {
 	class DECL Renderer
 	{
 	public:
-<<<<<<< HEAD
 		void init();
-		VulkanRenderer m_vk_renderer;
-=======
-		void InitVulkan(VkInstance& instance);
+		//VulkanRenderer m_vk_renderer;
+		bool InitVulkan(VkInstance& instance);
 		void InitDirectX();
->>>>>>> 3a8a62a (src: working on vulkan renderer, selecting devices)
 		/*bool Init(HWND hwnd, float width, float height);
 		void ResizeBuffer(float width, float height);
 		void RenderFrame();

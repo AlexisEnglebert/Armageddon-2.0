@@ -5,9 +5,12 @@ bool Armageddon::VulkanRenderer::Init(VkInstance instance)
 {
     this->instance = instance; 
     Armageddon::Log::GetLogger()->info("Initalization of Vulkan renderer");
-    pickPhysicalDevice(); 
-    createLogicalDevice();
-    InitVkSwapChain();
+    if(!pickPhysicalDevice()) return false;
+    if(!createLogicalDevice()) return false;
+    if(!InitVkSwapChain()) return false;
+    
+    return true;
+
 }
 
 
@@ -78,13 +81,18 @@ bool Armageddon::VulkanRenderer::pickPhysicalDevice()
         throw std::runtime_error("failed to find a suitable GPU!");
     }
 
+    VkPhysicalDeviceProperties deviceProperty;
+    vkGetPhysicalDeviceProperties(devices[0], &deviceProperty);
+    Armageddon::Log::GetLogger()->info("Device : {0}", deviceProperty.deviceName);
+    Armageddon::Log::GetLogger()->info("VendorID : {0}", deviceProperty.vendorID);
+    Armageddon::Log::GetLogger()->info("DeviceID : {0}", deviceProperty.deviceID);
+    Armageddon::Log::GetLogger()->info("DeviceType : {0}", deviceProperty.deviceType);
     return true;
 }
 
 bool Armageddon::VulkanRenderer::createLogicalDevice()
 {
-    Armageddon::Log::GetLogger()->info("Creating Logical Device");
-    Armageddon::Log::GetLogger()->info("Creating Logical Device ");
+    Armageddon::Log::GetLogger()->trace("Creating Logical Device");
     // Check for device queue family
     QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
 
@@ -104,23 +112,17 @@ bool Armageddon::VulkanRenderer::createLogicalDevice()
     createInfo.pQueueCreateInfos = &queueCreateInfo;
     createInfo.queueCreateInfoCount = 1;
     createInfo.pEnabledFeatures = &deviceFeatures;
-
-    //createInfo.enabledExtensionfCount = 0;
     //TODO: validation layers
-    /*bool enableValidationLayers = true;
-    createInfo.enabledExtensionCount = 0;
 
-
-    //TODO: validation layers
-   /* bool enableValidationLayers = true;
-    if (enableValidationLayers) {
-        createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-        createInfo.ppEnabledLayerNames = validationLayers.data();
-    } else {
-        createInfo.enabledLayerCount = 0;
+    if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &logical_device) != VK_SUCCESS) {
+        Armageddon::Log::GetLogger()->error("Failed creating Logical device :( ");
+        return false;
     }
-    */
-   return true;
+
+   
+
+    Armageddon::Log::GetLogger()->info("Finished creating Logical Device ");
+    return true;
 
 }
 
@@ -128,21 +130,28 @@ bool Armageddon::VulkanRenderer::InitVkSwapChain()
 {
     Armageddon::Log::GetLogger()->trace("Init Vulkan Swapchain");
     
-    const std::vector<const char*> deviceExtensions = {
-    VK_KHR_SWAPCHAIN_EXTENSION_NAME
-    };
+    //TODO check for swapchain support 
 
-    return false;
+    const std::vector<const char*> deviceExtensions = {
+        VK_KHR_SWAPCHAIN_EXTENSION_NAME
+    };
+    
+
+    return true;
 }
 
 void Armageddon::VulkanRenderer::Cleanup()
 {
+    Armageddon::Log::GetLogger()->trace("Destroying Vulkan's structure");
+    vkDestroyDevice(logical_device, nullptr);
     vkDestroyInstance(instance, nullptr);
+
 }
 
 Armageddon::QueueFamilyIndices Armageddon::VulkanRenderer::findQueueFamilies(VkPhysicalDevice device)
 {
     Armageddon::Log::GetLogger()->info("Finding Queue family");
+    
     Armageddon::QueueFamilyIndices indices;
 
     uint32_t queueFamilyCount = 0;
@@ -154,15 +163,13 @@ Armageddon::QueueFamilyIndices Armageddon::VulkanRenderer::findQueueFamilies(VkP
     
     int i = 0;
     for(const auto& queueFamily : queueFamilies){
-        /*if(indices.isComplete()){
+        if(indices.isComplete()){
             break;
-        }*/
-        Armageddon::Log::GetLogger()->info("ICI CA BUG ? ");
+        }
         if(queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT){
             indices.graphicsFamily = i;
         }
-
-        Armageddon::Log::GetLogger()->info("okOK OK ");
+        Armageddon::Log::GetLogger()->info("FamilyIdx has values : {0}", indices.graphicsFamily.has_value());
         i++;
     }
     return indices;

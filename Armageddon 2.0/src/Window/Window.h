@@ -36,6 +36,7 @@ namespace Armageddon
 		//inline Renderer& GetRenderer() { return m_Renderer; };
 	private:
 		/*Graphics*/
+		bool m_closeWindow = false;
 		Renderer m_Renderer;
 		/*Physic*/
 		//Armageddon::PhyicsEngine m_PhysEngine;

@@ -31,7 +31,8 @@ namespace Armageddon
             bool InitVkSwapChain();
             void Cleanup();
 
-            // Utilities
+            //! Utilities
+            //TODO: Maybe create VulkanUtils class ? 
             Armageddon::QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 
         private:  
