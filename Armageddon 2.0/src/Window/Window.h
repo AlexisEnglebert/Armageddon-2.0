@@ -3,7 +3,6 @@
 
 #if _WIN32
 #include "Win32Window.h"
-#include "../Renderer/Renderer.h"
 
 #endif
 #include "WindowInterface.h"
@@ -16,6 +15,7 @@
 
 //#include "../Physics/PhysicsEngine.h"
 #include "../Renderer/RendererAPI.h"
+#include "../Renderer/Renderer.h"
 
 
 
@@ -27,14 +27,16 @@ namespace Armageddon
 		Window(){}
 		~Window(){delete wind;}
 		Window(int width, int height, std::wstring title, std::wstring wclass);
+		
 		WindowInterface* wind;
 		static Window* WindowInstance;
+
 		bool ProcessMessage();
 		//inline 	Armageddon::PhyicsEngine GetPhysicEngine() {return m_PhysEngine;};
 		//inline Renderer& GetRenderer() { return m_Renderer; };
 	private:
 		/*Graphics*/
-		//Renderer m_Renderer;
+		Renderer m_Renderer;
 		/*Physic*/
 		//Armageddon::PhyicsEngine m_PhysEngine;
 

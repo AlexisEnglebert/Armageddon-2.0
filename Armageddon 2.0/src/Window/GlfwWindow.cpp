@@ -12,8 +12,6 @@ Armageddon::GlfwWindow::GlfwWindow(int width, int height, std::wstring title, st
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 		this->window = glfwCreateWindow(width,height, "Armageddon Editor", NULL, NULL);
-		VkSurfaceKHR surface;
-		VkInstance instance;
 
 		//Initialisation of vulkan 
 		Armageddon::Log::GetLogger()->trace("Initializaton of Vulkan app");
@@ -48,7 +46,7 @@ Armageddon::GlfwWindow::GlfwWindow(int width, int height, std::wstring title, st
 		}
 		VkResult err = glfwCreateWindowSurface(instance, window, NULL, &surface);
 
-		uint32_t deviceCount = 0;
+		/*uint32_t deviceCount = 0;
 		vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
 		std::vector<VkPhysicalDevice> devices(deviceCount);
 		vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
@@ -65,16 +63,15 @@ Armageddon::GlfwWindow::GlfwWindow(int width, int height, std::wstring title, st
 		Armageddon::Log::GetLogger()->info("VendorID : {0}", deviceProperty.vendorID);
 		Armageddon::Log::GetLogger()->info("DeviceID : {0}", deviceProperty.deviceID);
 		Armageddon::Log::GetLogger()->info("DeviceType : {0}", deviceProperty.deviceType);
-
-		// TODO SHOULD BE FORBIDDEN 
-		// vkDestroyInstance(instance, nullptr);
+		*/
 }
 
 bool Armageddon::GlfwWindow::ProcessMessage()
 {
-	Armageddon::Log::GetLogger()->info("Process Message GLFW");
 	if(!glfwWindowShouldClose(this->window)) {
 		glfwPollEvents();
+	}else{
+		return false; 
 	}
-    return false;
+	return true; 
 }

@@ -14,6 +14,7 @@ Armageddon::Window::Window(int width, int height, std::wstring title, std::wstri
         #endif
     }else{
         this->wind = new Armageddon::GlfwWindow(width, height, title, wclass);
+        m_Renderer.InitVulkan(reinterpret_cast<Armageddon::GlfwWindow*>(this->wind)->GetVkInstance());
     }
 }
 

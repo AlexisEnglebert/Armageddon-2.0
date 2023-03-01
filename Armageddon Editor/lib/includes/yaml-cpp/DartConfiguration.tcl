@@ -11,7 +11,7 @@ BuildDirectory: /home/alexis/Documents/dev/c++/Armageddon-2.0/Armageddon Editor/
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: alexis
+Site: alexis-systemproductname
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Linux-c++
@@ -76,7 +76,7 @@ CudaSanitizerCommand:
 CudaSanitizerCommandOptions: 
 MemoryCheckType: 
 MemoryCheckSanitizerOptions: 
-MemoryCheckCommand: /opt/cuda/bin/cuda-memcheck
+MemoryCheckCommand: MEMORYCHECK_COMMAND-NOTFOUND
 MemoryCheckCommandOptions: 
 MemoryCheckSuppressionFile: 
 

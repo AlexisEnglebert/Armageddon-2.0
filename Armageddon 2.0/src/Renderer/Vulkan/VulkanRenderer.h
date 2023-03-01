@@ -2,6 +2,7 @@
 
 #include <map>
 #include <optional>
+#include <vector>
 
 #include <vulkan/vulkan.h>
 
@@ -12,9 +13,9 @@ namespace Armageddon
 {
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsFamily;
-        
+
         bool isComplete() {
-        return graphicsFamily.has_value();
+            return graphicsFamily.has_value();
         }
     };
 
@@ -23,6 +24,7 @@ namespace Armageddon
         public:
             VulkanRenderer(){};
             ~VulkanRenderer(){Cleanup();};
+            bool Init(VkInstance instance); 
             bool CreateVkInstance();
             bool pickPhysicalDevice();
             bool createLogicalDevice();
@@ -30,7 +32,7 @@ namespace Armageddon
             void Cleanup();
 
             // Utilities
-            QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+            Armageddon::QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 
         private:  
         	VkInstance instance;

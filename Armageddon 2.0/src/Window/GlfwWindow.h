@@ -13,8 +13,12 @@ namespace Armageddon
         public:
 		    GlfwWindow(int width, int height, std::wstring title, std::wstring wclass);
             bool ProcessMessage() override;
+            inline VkInstance& GetVkInstance(){return instance;};
             ~GlfwWindow(){};
         private:
-            GLFWwindow* window;
+            GLFWwindow* window; 
+            VkInstance instance;
+            VkSurfaceKHR surface;
+
     };
 }

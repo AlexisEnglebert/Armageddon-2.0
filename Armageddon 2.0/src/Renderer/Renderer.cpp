@@ -239,8 +239,9 @@ Armageddon::Renderer::~Renderer()
 }
 */
 
-void Armageddon::Renderer::init()
+void Armageddon::Renderer::InitVulkan(VkInstance& instance)
 {
+<<<<<<< HEAD
     if(RendererAPI::is_api(RendererAPI::API::Vulkan)){
         // TODO NOT FOR DEBUG PURPOSE
         m_vk_renderer.InitVkSwapChain();
@@ -248,5 +249,17 @@ void Armageddon::Renderer::init()
         #if WINDOWS
 
         #endif
+=======
+    if(Armageddon::RendererAPI::is_api(Armageddon::RendererAPI::API::Vulkan)){
+        // TODO NOT FOR DEBUG PURPOSE
+        m_vk_renderer.Init(instance);
+        
+>>>>>>> 3a8a62a (src: working on vulkan renderer, selecting devices)
     }
+}
+void Armageddon::Renderer::InitDirectX()
+{
+    #if WINDOWS
+
+    #endif
 }
