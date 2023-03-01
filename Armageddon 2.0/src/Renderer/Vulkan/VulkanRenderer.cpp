@@ -15,18 +15,37 @@ bool Armageddon::VulkanRenderer::Init(VkInstance instance)
 
 
 
+bool Armageddon::VulkanRenderer::checkDeviceExtensionSupport(VkPhysicalDevice device){
+   uint32_t extensionCount;
+    vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
 
-//Other method to check device Suitability
-bool isDeviceSuitable(VkPhysicalDevice device) {
+    std::vector<VkExtensionProperties> availableExtensions(extensionCount);
+    vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+    std::set<std::string> requiredExtensions(this->deviceExtensions.begin(), this->deviceExtensions.end());
+
+    for (const auto& extension : availableExtensions) {
+        requiredExtensions.erase(extension.extensionName);
+    }
+
+    return requiredExtensions.empty();
+}
+
+bool Armageddon::VulkanRenderer::isDeviceSuitable(VkPhysicalDevice device) {
 
     VkPhysicalDeviceProperties deviceProperties;
     vkGetPhysicalDeviceProperties(device, &deviceProperties);
 
     VkPhysicalDeviceFeatures deviceFeatures;
     vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+    QueueFamilyIndices indices = findQueueFamilies(device);
+     bool extensionsSupported = checkDeviceExtensionSupport(device);
+
      return deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
-           deviceFeatures.geometryShader; //TODO more constrain...
+           deviceFeatures.geometryShader && indices.isComplete() && extensionsSupported; //TODO more constrain...
 }
+
+
+
 int rateDeviceSuitability(VkPhysicalDevice device) {
     int score = 0;
 
@@ -112,6 +131,9 @@ bool Armageddon::VulkanRenderer::createLogicalDevice()
     createInfo.pQueueCreateInfos = &queueCreateInfo;
     createInfo.queueCreateInfoCount = 1;
     createInfo.pEnabledFeatures = &deviceFeatures;
+    createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
+    createInfo.ppEnabledExtensionNames = deviceExtensions.data();
+
     //TODO: validation layers
 
     if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &logical_device) != VK_SUCCESS) {
@@ -135,7 +157,7 @@ bool Armageddon::VulkanRenderer::InitVkSwapChain()
     const std::vector<const char*> deviceExtensions = {
         VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
-    
+
 
     return true;
 }
