@@ -35,7 +35,7 @@ namespace Armageddon
 	public:
 		void init();
 		//VulkanRenderer m_vk_renderer;
-		bool InitVulkan(VkInstance& instance);
+		bool InitVulkan(VkInstance& instance, VkSurfaceKHR* surface);
 		void InitDirectX();
 		/*bool Init(HWND hwnd, float width, float height);
 		void ResizeBuffer(float width, float height);

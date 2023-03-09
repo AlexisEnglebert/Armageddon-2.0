@@ -238,11 +238,14 @@ Armageddon::Renderer::~Renderer()
     ImGui::DestroyContext(this->m_Context);
 }
 */
+// TODO :
+// ! Passer une instance de Window pour éviter de passer des paramètres propre à vulkan et donc
+// ! faire une simple fonction InitRenderer  !!!!
 
-bool Armageddon::Renderer::InitVulkan(VkInstance& instance)
+bool Armageddon::Renderer::InitVulkan(VkInstance& instance,VkSurfaceKHR* surface)
 {
     if(RendererAPI::is_api(RendererAPI::API::Vulkan)){
-        if(!m_vk_renderer.Init(instance)) return false;
+        if(!m_vk_renderer.Init(instance, surface)) return false;
     }else{
         #if WINDOWS
 

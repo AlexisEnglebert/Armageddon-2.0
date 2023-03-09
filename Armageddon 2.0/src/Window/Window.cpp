@@ -16,7 +16,8 @@ Armageddon::Window::Window(int width, int height, std::wstring title, std::wstri
         // TODO Ça doit être un simple init ? 
         // TODO trouver mieux que de passer l'instance par argument pour l'instant on laisse comme ça
         this->wind = new Armageddon::GlfwWindow(width, height, title, wclass);
-        if(!m_Renderer.InitVulkan(reinterpret_cast<Armageddon::GlfwWindow*>(this->wind)->GetVkInstance()))
+        if(!m_Renderer.InitVulkan(reinterpret_cast<Armageddon::GlfwWindow*>(this->wind)->GetVkInstance(),
+        reinterpret_cast<Armageddon::GlfwWindow*>(this->wind)->GetVkSurface()))
         {
             m_closeWindow = true;
         } 

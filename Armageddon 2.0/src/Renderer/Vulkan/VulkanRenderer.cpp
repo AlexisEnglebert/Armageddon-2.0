@@ -1,9 +1,10 @@
 #include "VulkanRenderer.h"
 
 
-bool Armageddon::VulkanRenderer::Init(VkInstance instance)
+bool Armageddon::VulkanRenderer::Init(VkInstance instance,VkSurfaceKHR* surface)
 {
     this->instance = instance; 
+    this->window_surface = surface;
     Armageddon::Log::GetLogger()->info("Initalization of Vulkan renderer");
     if(!pickPhysicalDevice()) return false;
     if(!createLogicalDevice()) return false;
@@ -147,6 +148,34 @@ bool Armageddon::VulkanRenderer::createLogicalDevice()
     return true;
 
 }
+
+Armageddon::SwapChainSupportDetails Armageddon::VulkanRenderer::querySwapChainSupport(VkPhysicalDevice device)
+{
+    //Init details about our device and window for the swapchain 
+    // refresh rate, color space etc...
+    Armageddon::SwapChainSupportDetails details;
+    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, *this->window_surface, &details.capabilities);
+
+    uint32_t formatCount;
+    vkGetPhysicalDeviceSurfaceFormatsKHR(device, *this->window_surface, &formatCount, nullptr);
+
+    Armageddon::Log::GetLogger()->info("FormatCount: {0}",formatCount);
+    if (formatCount != 0) {
+        details.formats.resize(formatCount);
+        vkGetPhysicalDeviceSurfaceFormatsKHR(device, *this->window_surface, &formatCount, details.formats.data());
+    }
+
+    uint32_t presentModeCount;
+    vkGetPhysicalDeviceSurfacePresentModesKHR(device, *this->window_surface, &presentModeCount, nullptr);
+
+    if (presentModeCount != 0) {
+        details.presentModes.resize(presentModeCount);
+        vkGetPhysicalDeviceSurfacePresentModesKHR(device, *this->window_surface, &presentModeCount, details.presentModes.data());
+}
+    
+    return details;
+}
+
 
 bool Armageddon::VulkanRenderer::InitVkSwapChain()
 {

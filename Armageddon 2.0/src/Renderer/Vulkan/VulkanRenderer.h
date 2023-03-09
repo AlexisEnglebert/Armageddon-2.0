@@ -19,6 +19,13 @@ namespace Armageddon
             return graphicsFamily.has_value();
         }
     };
+
+    struct SwapChainSupportDetails {
+        VkSurfaceCapabilitiesKHR capabilities;
+        std::vector<VkSurfaceFormatKHR> formats;
+        std::vector<VkPresentModeKHR> presentModes;
+    };
+
     //TODO move ce qu'on a vraiment besoin dans des classes 
     // Car là le projet est brodélique lol des classes partout 
 
@@ -27,13 +34,14 @@ namespace Armageddon
         public:
             VulkanRenderer(){};
             ~VulkanRenderer(){Cleanup();};
-            bool Init(VkInstance instance); 
+            bool Init(VkInstance instance,VkSurfaceKHR* surface); 
             bool CreateVkInstance();
             bool pickPhysicalDevice();
             bool isDeviceSuitable(VkPhysicalDevice device);
             bool checkDeviceExtensionSupport(VkPhysicalDevice device);  
             bool createLogicalDevice();
             bool InitVkSwapChain();
+            SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device); //Some info for our window 
             void Cleanup();
 
             //! Utilities
@@ -47,6 +55,7 @@ namespace Armageddon
             const std::vector<const char*> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
         private:  
         	VkInstance instance;
+            VkSurfaceKHR* window_surface;
             VkPhysicalDevice physicalDevice;
             VkDevice logical_device;
 
